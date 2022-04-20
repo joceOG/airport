@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Packages;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class PackageController extends Controller
 {
@@ -13,7 +15,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        //
+        return Packages::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -34,7 +36,17 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newItem = new Packages();
+        $newItem->package_id = UuidV4::uuid4();
+        $newItem->item = $request->ad['item'];
+        $newItem->category = $request->ad['category'];
+        $newItem->length = $request->ad['length'];
+        $newItem->width = $request->ad['width'];
+        $newItem->sender_id = $request->ad['sender_id'];
+        $newItem->courier_id = $request->ad['courier_id'];
+        $newItem->save();
+
+        return $newItem;
     }
 
     /**
@@ -68,7 +80,20 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $existingAd = Packages::find($id);
+
+        if ($existingAd) {
+            $existingAd->item = $request->ad['item'];
+            $existingAd->category = $request->ad['category'];
+            $existingAd->length = $request->ad['length'];
+            $existingAd->width = $request->ad['width'];
+            $existingAd->weight = $request->ad['weight'];
+            $existingAd->save();
+
+            return $existingAd;
+        } else {
+            return "Order not found";
+        }
     }
 
     /**

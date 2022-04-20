@@ -15,7 +15,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        return Ads::orderBy('ad_created_at', 'DESC')->get();
+        return Ads::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -111,9 +111,9 @@ class AdController extends Controller
 
         if ($existingItem ) {
             $existingItem ->delete();
-            return "Item successfully deleted";
+            return "Ad successfully deleted";
         } else {
-            return "Item not found";
+            return "Ad not found";
         }
 
     }

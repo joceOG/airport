@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Deliveries;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class DeliveryController extends Controller
 {
@@ -13,7 +15,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        //
+        return Deliveries::orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -34,7 +36,17 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newItem = new Deliveries();
+        $newItem->delivery_id = UuidV4::uuid4();
+        $newItem->sender_email = $request->ad['sender_email'];
+        $newItem->courier_email = $request->ad['courier_email'];
+        $newItem->package = $request->ad['package'];
+        $newItem->status = $request->ad['status'];
+        $newItem->sender_id = $request->ad['sender_id'];
+        $newItem->courier_id = $request->ad['courier_id'];
+        $newItem->save();
+
+        return $newItem;
     }
 
     /**
@@ -68,7 +80,16 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $existingAd = Deliveries::find($id);
+
+        if ($existingAd) {
+            $existingAd->status = $request->ad['status'];
+            $existingAd->save();
+
+            return $existingAd;
+        } else {
+            return "Delivery not found";
+        }
     }
 
     /**
@@ -79,6 +100,13 @@ class DeliveryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $existingItem = Deliveries::find($id);
+
+        if ($existingItem ) {
+            $existingItem ->delete();
+            return "Deliveries successfully deleted";
+        } else {
+            return "Deliveries not found";
+        }
     }
 }

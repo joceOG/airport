@@ -38,76 +38,53 @@
     </v-app-bar>  -->
 
     <v-app-bar app height="90" color="white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-container class="py-0 fill-height">
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-container class="py-0 fill-height">
+            <v-img
+                max-height="78"
+                max-width="78"
+                src="./assets/logo.png"
+            ></v-img>
 
-          <v-img
-            max-height="78"
-            max-width="78"
-            src="./assets/logo.png"
-          ></v-img>
+            <v-spacer></v-spacer>
 
-        <v-spacer></v-spacer>
+            <v-responsive max-width="600">
+                <v-btn
+                v-show="e==0"
+                class="ma-2 bt1"
+                outlined
+                rounded
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="$router.push('SignIn')"
+                >
+                <h5 class="hbt">SE CONNECTER</h5>
+                </v-btn>
 
-    <v-responsive max-width="600">
-       <v-btn
-       v-show="e==0"
-      class="ma-2 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-    >
-    <h5 class="hbt"> SE CONNECTER</h5>
-    </v-btn>
-
-    <v-btn
-      v-show="e==0"
-      class="ma-2 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-    >
-      <h5 class="hbt">S'INSCRIRE</h5>
-    </v-btn>
-        <v-btn
-        v-show="e==0"
-      class="ma-2 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-      @click="goTo('/DashBoard')"
-    >
-      <h5 class="hbt">SE DECONNECTER</h5>
-    </v-btn>
-    </v-btn>
-        <v-btn
-        v-show="e==0"
-      class="ma-2 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-      @click="goTo('/DashBoard')"
-    >
-      <h5 class="hbt">SE DECONNECTER</h5>
-    </v-btn>
-    </v-btn>
-        <v-btn
-        v-show="e==0"
-      class="ma-2 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-      @click="goTo('/DashBoard')"
-    >
-      <h5 class="hbt">SE DECONNECTER</h5>
-    </v-btn>
-        </v-responsive>
-      </v-container>
+                <v-btn
+                v-show="e==0"
+                class="ma-2 bt1"
+                outlined
+                rounded
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="$router.push('SignUp')"
+                >
+                <h5 class="hbt">S'INSCRIRE</h5>
+                </v-btn>
+                    <v-btn
+                    v-show="e==0"
+                class="ma-2 bt1"
+                outlined
+                rounded
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="goTo('/DashBoard')"
+                >
+                <h5 class="hbt">SE DECONNECTER</h5>
+                </v-btn>
+            </v-responsive>
+        </v-container>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -166,7 +143,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Settings from '@/settings'
-import { EventBus } from "@/event_bus";
+import { EventBus } from '@/event_bus'
 import { Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 
@@ -180,23 +157,23 @@ export default class layout extends Vue {
     links = [
         'Sign In',
         'Sign Up',
-        'Next',
-      ]
+        'Next'
+    ]
 
-      items = [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ]
+    items = [
+        { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+        { title: 'Photos', icon: 'mdi-image' },
+        { title: 'About', icon: 'mdi-help-box' }
+    ]
 
     mounted () {
         this.route = this.$route.name
-        EventBus.$on("edash" , this.edash) ;
+        EventBus.$on('edash', this.edash)
     }
 
-    edash(){
-      console.log('Change e')
-      this.e = 1
+    edash () {
+        console.log('Change e')
+        this.e = 1
     }
 
     logout () {
@@ -210,7 +187,7 @@ export default class layout extends Vue {
     }
 
     @Watch('$route')
-    onRoute(to: Route) {
+    onRoute (to: Route) {
         this.route = to.name
     }
 }

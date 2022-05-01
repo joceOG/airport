@@ -2480,14 +2480,14 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
     _this = _super.call.apply(_super, [this].concat(args));
 
     _defineProperty(_assertThisInitialized(_this), "tabs", [{
-      title: "Credit Application",
-      subtitle: "Process applicants faster"
+      title: "My Details",
+      subtitle: "My Details"
     }, {
-      title: "Decision Assistant",
-      subtitle: "Approve more applicants"
+      title: "Shopping Cart",
+      subtitle: "Shopping Cart"
     }, {
-      title: "Lifetime Monitoring",
-      subtitle: "Stay up-to-date with customers"
+      title: "My Tours",
+      subtitle: "My Tours"
     }]);
 
     _defineProperty(_assertThisInitialized(_this), "selectedTab", "Credit Application");

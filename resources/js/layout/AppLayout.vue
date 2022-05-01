@@ -38,123 +38,53 @@
     </v-app-bar>  -->
 
     <v-app-bar app height="90" color="white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-container class="py-0 fill-height">
+        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-container class="py-0 fill-height">
+            <v-img
+                max-height="78"
+                max-width="78"
+                src="./assets/logo.png"
+            ></v-img>
 
-          <v-img
-            max-height="78"
-            max-width="78"
-            src="./assets/logo.png"
-          ></v-img>
+            <v-spacer></v-spacer>
 
-        <v-spacer></v-spacer>
-
-    <v-responsive max-width="1000" >
-    <v-row justify ="end" height="" style="margin-right:10px;">
-       <v-btn
-       v-show="e==0"
-      class="ma-3 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-    
-    >
-    <h5 class="hbt"> SE CONNECTER</h5>
-    </v-btn> 
-
-    <v-btn
-      v-show="e==0"
-      class="ma-3 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-    >
-      <h5 class="hbt">S'INSCRIRE</h5>
-    </v-btn>
-
-        <v-btn
-        v-show="e==0"
-      class="ma-3 bt1"
-      outlined
-      rounded
-      x-small
-      color=" rgb(0, 0, 51);"
-      @click="goTo('/DashBoard')"
-    >
-      <h5 class="hbt">SE DECONNECTER</h5>
-    </v-btn>  
-
- 
- 
-          <v-btn
-              icon
-              class="ma-3"
-              color="green"
-              v-show="e == 1"  
-            >
-              <v-icon  >mdi-cached</v-icon>
-            </v-btn>
-
-      <v-menu
-        bottom
-       
-        min-width="200px"
-        rounded
-        offset-y
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn
-            icon
-             class="ma-3"
-            x-large
-            v-on="on"
-            v-show="e == 1"
-          >
-            <v-avatar
-              color="brown"
-              size="30"
-            >
-              <span class="white--text text-h6">{{ user.initials }}</span>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-list-item-content class="justify-center">
-            <div class="mx-auto text-center">
-              <v-avatar
-                color="brown"
-              >
-                <span class="white--text text-h5">{{ user.initials }}</span>
-              </v-avatar>
-              <h3>{{ user.fullName }}</h3>
-              <p class="text-caption mt-1">
-                {{ user.email }}
-              </p>
-              <v-divider class="my-3"></v-divider>
-              <v-btn
-                depressed
+            <v-responsive max-width="600">
+                <v-btn
+                v-show="e==0"
+                class="ma-2 bt1"
+                outlined
                 rounded
-                text
-              >
-                Edit Account
-              </v-btn>
-              <v-divider class="my-3"></v-divider>
-              <v-btn
-                depressed
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="$router.push('SignIn')"
+                >
+                <h5 class="hbt">SE CONNECTER</h5>
+                </v-btn>
+
+                <v-btn
+                v-show="e==0"
+                class="ma-2 bt1"
+                outlined
                 rounded
-                text
-              >
-                Disconnect
-              </v-btn>
-            </div>
-          </v-list-item-content>
-        </v-card>
-      </v-menu>
-</v-row>
-        </v-responsive>
-      </v-container>
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="$router.push('SignUp')"
+                >
+                <h5 class="hbt">S'INSCRIRE</h5>
+                </v-btn>
+                    <v-btn
+                    v-show="e==0"
+                class="ma-2 bt1"
+                outlined
+                rounded
+                x-small
+                color=" rgb(0, 0, 51);"
+                @click="goTo('/DashBoard')"
+                >
+                <h5 class="hbt">SE DECONNECTER</h5>
+                </v-btn>
+            </v-responsive>
+        </v-container>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -185,7 +115,7 @@
     </v-navigation-drawer>
 
     <v-container
-              class="fill-height" 
+              class="fill-height"
               style="width:100px; padding:0px;"
               fluid
             >
@@ -213,7 +143,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Settings from '@/settings'
-import { EventBus } from "@/event_bus";
+import { EventBus } from '@/event_bus'
 import { Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 
@@ -227,35 +157,23 @@ export default class layout extends Vue {
     links = [
         'Sign In',
         'Sign Up',
-        'Next',
-      ]
+        'Next'
+    ]
 
-      items = [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ]
-
-      user = {
-        initials: 'JD',
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
-      }
+    items = [
+        { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+        { title: 'Photos', icon: 'mdi-image' },
+        { title: 'About', icon: 'mdi-help-box' }
+    ]
 
     mounted () {
         this.route = this.$route.name
-        EventBus.$on("edash" , this.edash) ;
-        EventBus.$on("efirst" , this.efirst) ;
+        EventBus.$on('edash', this.edash)
     }
 
-    edash(){
-      console.log('Change e')
-      this.e = 1 
-    }
-
-     efirst(){
-      console.log('Change e')
-      this.e = 0 
+    edash () {
+        console.log('Change e')
+        this.e = 1
     }
 
     logout () {
@@ -269,7 +187,7 @@ export default class layout extends Vue {
     }
 
     @Watch('$route')
-    onRoute(to: Route) {
+    onRoute (to: Route) {
         this.route = to.name
     }
 }

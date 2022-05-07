@@ -6,6 +6,7 @@ use App\Http\Controllers\AdController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DeliveryController;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,4 +49,18 @@ Route::prefix('/delivery')->group(function() {
     Route::post('/store', [DeliveryController::class, 'store']);
     Route::put('/{id}', [DeliveryController::class, 'update']);
     Route::delete('/{id}', [DeliveryController::class, 'destroy']);
+});
+
+
+Route::get('/posts', function() {
+
+   return Post::all();
+
+});
+
+Route::post('/posts' , function () {
+    return Post::create([
+        'title' => request('title'),
+        'content' => request('content'),
+    ]);
 });

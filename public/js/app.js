@@ -2919,7 +2919,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bt1:hover {\r\n  background: rgb(0, 0, 51);\r\n  color: rgb(255, 255, 255);\n}\n.hbt:hover{\r\n  color: rgb(255, 255, 255);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bt1:hover {\n  background: rgb(0, 0, 51);\n  color: rgb(255, 255, 255);\n}\n.hbt:hover{\n  color: rgb(255, 255, 255);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2967,7 +2967,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centrer {\r\n  position: relative;\r\n  left: 50%;\r\n  transform: translateX(-50%);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centrer {\n  position: relative;\n  left: 50%;\n  transform: translateX(-50%);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6587,7 +6587,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticStyle: { "margin-top": "15px" } }, [
                         _vm._v(
-                          "\r\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                "
+                          "\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                "
                         )
                       ])
                     ],
@@ -6620,7 +6620,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticStyle: { "margin-top": "15px" } }, [
                         _vm._v(
-                          "\r\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                "
+                          "\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                "
                         )
                       ])
                     ],
@@ -6653,7 +6653,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("p", { staticStyle: { "margin-top": "15px" } }, [
                         _vm._v(
-                          "\r\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                "
+                          "\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                "
                         )
                       ])
                     ],

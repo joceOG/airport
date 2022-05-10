@@ -1,10 +1,37 @@
 <template>
   <v-app id="inspire">
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
 
+      <v-list dense width="500">
+        <v-list-item link @click="goTo('/')">
+          <v-list-item-action>
+            <v-icon>mdi-view-list</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Accueil <v-icon v-if="route == 'FirsPage'" color="primary">mdi-circle-small</v-icon></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link @click="goTo('/AxiosTest')">
+          <v-list-item-action>
+            <v-icon>mdi-view-list</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Test Axios <v-icon v-if="route == 'AxiosTest'" color="primary">mdi-circle-small</v-icon></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-    <v-app-bar app height="90" color="white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-container class="py-0 fill-height">
+    <v-app-bar
+      app
+      height="90"
+      color="white"
+    >
+           <v-app-bar-nav-icon @click="drawer = !drawer" color="black"></v-app-bar-nav-icon>
+      <v-container class="py-0 fill-height">
 
           <v-img
             max-height="78"
@@ -14,142 +41,116 @@
 
         <v-spacer></v-spacer>
 
-      <v-responsive max-width="1000" >
-              <v-row justify ="end" height="" style="margin-right:10px;">
-                <v-btn
-                v-show="e==0"
-                class="ma-3 bt1"
-                outlined
-                rounded
-                x-small
-                color=" rgb(0, 0, 51);"
-                @click="opensignin"
-              >
-              <h5 class="hbt"> SE CONNECTER</h5>
-              </v-btn> 
+                  <v-responsive max-width="1000" >
+                          <v-row justify ="end" height="" style="margin-right:10px;">
+                            <v-btn
+                            v-show="e==0"
+                            class="ma-3 bt1"
+                            outlined
+                            rounded
+                            x-small
+                            color=" rgb(0, 0, 51);"
+                            @click="opensignin"
+                          >
+                          <h5 class="hbt"> SE CONNECTER</h5>
+                          </v-btn> 
 
-              <v-btn
-                v-show="e==0"
-                class="ma-3 bt1"
-                outlined
-                rounded
-                x-small
-                color=" rgb(0, 0, 51);"
-                @click="opensignup"
-              >
-                <h5 class="hbt">S'INSCRIRE</h5>
-              </v-btn>
+                          <v-btn
+                            v-show="e==0"
+                            class="ma-3 bt1"
+                            outlined
+                            rounded
+                            x-small
+                            color=" rgb(0, 0, 51);"
+                            @click="opensignup"
+                          >
+                            <h5 class="hbt">S'INSCRIRE</h5>
+                          </v-btn>
 
-                  <v-btn
-                  v-show="e==0"
-                class="ma-3 bt1"
-                outlined
-                rounded
-                x-small
-                color=" rgb(0, 0, 51);"
-                @click="goTo('/DashBoard')"
-              >
-                <h5 class="hbt">SE DECONNECTER</h5>
-              </v-btn>  
+                              <v-btn
+                              v-show="e==0"
+                            class="ma-3 bt1"
+                            outlined
+                            rounded
+                            x-small
+                            color=" rgb(0, 0, 51);"
+                            @click="goTo('/DashBoard')"
+                          >
+                            <h5 class="hbt">SE DECONNECTER</h5>
+                          </v-btn>  
 
-          
-          
-                    <v-btn
-                        icon
-                        class="ma-3"
-                        color="green"
-                        v-show="e == 1"  
-                      >
-                        <v-icon  >mdi-cached</v-icon>
-                      </v-btn>
+                      
+                      
+                                <v-btn
+                                    icon
+                                    class="ma-3"
+                                    color="green"
+                                    v-show="e == 1"  
+                                  >
+                                    <v-icon  >mdi-cached</v-icon>
+                                  </v-btn>
 
-                <v-menu
-                  bottom
-                
-                  min-width="200px"
-                  rounded
-                  offset-y
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      class="ma-3"
-                      x-large
-                      v-on="on"
-                      v-show="e == 1"
-                    >
-                      <v-avatar
-                        color="brown"
-                        size="30"
-                      >
-                        <span class="white--text text-h6">{{ user.initials }}</span>
-                      </v-avatar>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-list-item-content class="justify-center">
-                      <div class="mx-auto text-center">
-                        <v-avatar
-                          color="brown"
-                        >
-                          <span class="white--text text-h5">{{ user.initials }}</span>
-                        </v-avatar>
-                        <h3>{{ user.fullName }}</h3>
-                        <p class="text-caption mt-1">
-                          {{ user.email }}
-                        </p>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                        >
-                          Edit Account
-                        </v-btn>
-                        <v-divider class="my-3"></v-divider>
-                        <v-btn
-                          depressed
-                          rounded
-                          text
-                        >
-                          Disconnect
-                        </v-btn>
-                      </div>
-                    </v-list-item-content>
-                  </v-card>
-                </v-menu>
-          </v-row>
-          </v-responsive>
+                            <v-menu
+                              bottom
+                            
+                              min-width="200px"
+                              rounded
+                              offset-y
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-btn
+                                  icon
+                                  class="ma-3"
+                                  x-large
+                                  v-on="on"
+                                  v-show="e == 1"
+                                >
+                                  <v-avatar
+                                    color="brown"
+                                    size="30"
+                                  >
+                                    <span class="white--text text-h6">{{ user.initials }}</span>
+                                  </v-avatar>
+                                </v-btn>
+                              </template>
+                              <v-card>
+                                <v-list-item-content class="justify-center">
+                                  <div class="mx-auto text-center">
+                                    <v-avatar
+                                      color="brown"
+                                    >
+                                      <span class="white--text text-h5">{{ user.initials }}</span>
+                                    </v-avatar>
+                                    <h3>{{ user.fullName }}</h3>
+                                    <p class="text-caption mt-1">
+                                      {{ user.email }}
+                                    </p>
+                                    <v-divider class="my-3"></v-divider>
+                                    <v-btn
+                                      depressed
+                                      rounded
+                                      text
+                                    >
+                                      Edit Account
+                                    </v-btn>
+                                    <v-divider class="my-3"></v-divider>
+                                    <v-btn
+                                      depressed
+                                      rounded
+                                      text
+                                    >
+                                      Disconnect
+                                    </v-btn>
+                                  </div>
+                                </v-list-item-content>
+                              </v-card>
+                            </v-menu>
+                      </v-row>
+                      </v-responsive>
       </v-container>
-
+       
+      <v-spacer />
     </v-app-bar>
-
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      temporary
-    >
-      <!--  -->
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-    </v-navigation-drawer>
 
     <v-container
               class="fill-height" 
@@ -158,7 +159,6 @@
             >
                 <router-view/>
     </v-container>
-
     <v-footer
       color="primary darken-2"
       app
@@ -166,7 +166,7 @@
       <v-container class="pa-0" fluid>
         <v-row dense>
           <v-col class="pa-0">
-          <span class="white--text text-caption">&copy; Koli And Co</span>
+          <span class="white--text text-caption">&copy; Uniskip</span>
           </v-col>
           <v-col class="pa-0">
             <span class="white--text text-caption d-flex flex-row-reverse" stye="position:absolute; right:20px">v{{version}}</span>
@@ -181,11 +181,14 @@
 import Vue from 'vue'
 import Settings from '@/settings'
 import { EventBus } from "@/event_bus";
+import axios, { AxiosInstance } from "axios";
 import { Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 
+
+@Component
 export default class layout extends Vue {
-    drawer = null
+  drawer = false ;
     version = Settings.version
     route:string|null|undefined = null
      e = 0
@@ -216,7 +219,7 @@ export default class layout extends Vue {
     }
 
     edash(){
-      console.log('Change e')
+      console.log('Change e dash ')
       this.e = 1 
     }
 
@@ -247,6 +250,20 @@ export default class layout extends Vue {
     onRoute(to: Route) {
         this.route = to.name
     }
+
+      async test() { 
+        let res = {}
+        console.log("Test Requete")
+            try {
+          const result = await axios.get("http://127.0.0.1:8000/api/users");
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+          }
+        } catch (err) {
+          console.log(err);
+        }   
+      }
 }
 </script>
 

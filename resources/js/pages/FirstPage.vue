@@ -1,5 +1,5 @@
 <template>
-<v-container fluid class="fapp" style="padding:0px;"
+ <v-container fluid class="fapp" style="padding:0px;"
   >  
     <v-img
      style="width:100%;"
@@ -18,8 +18,7 @@
     </div>
     </v-img>
 
-
-         <v-img
+             <v-img
                 style="width:100%; 
                         padding:0px; 
                       height:350;"
@@ -75,147 +74,189 @@
                </v-row>
           </v-img>
 
-          
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+           <v-dialog v-model="dialog" width="500">
+               <v-card>
+                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
+                     <v-img style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
+                       <h3 style="text-align: center">Sign In <br/></h3> 
+                  <v-form style="padding: 32; width=300px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
+                          <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense><span style="font-size: 10px">{{ notif }}</span>
+                        </v-alert>
+                            <v-text-field
+                            placeholder="Email"
+                              v-model="email"
+                              outlined
+                              :rules="emailRules"
+                              label="Email"
+                              required
+                          ></v-text-field>
+                          <v-text-field
+                            placeholder="Email"
+                              type="password"
+                              v-model="password"
+                              outlined
+                              :rules="passwordRules"
+                              label="Password"
+                              required
+                          ></v-text-field>
+                     </v-form>
 
-      <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          Privacy Policy
-        </v-card-title>
+                        <v-btn
+                          class="ma-2 centrer"
+                          color="primary"
+                          @click="signin"
+                        >
+                        Sign In
+                        </v-btn>
 
-        <v-card-text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </v-card-text>
+                    <center><p class="">  Don't have an account? <a>Sign Up</a></p></center>  <v-divider></v-divider>
 
-        <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="dialog2 = false"
+                      >
+                        I accept
+                      </v-btn>
+                    </v-card-actions>
+              </v-card>
+          </v-dialog>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="dialog = false"
-          >
-            I accept
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+    
+           <v-dialog
+              v-model="dialog2"
+              width="500"
+            >
+
+            <v-card>
+                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
+
+                    <v-img
+                                                        style="display:inline-block;"
+                                                        class="centrer"
+                                                        width="100"
+                                                        height="100"
+                                                        src="./assets/logo.png"
+                                                    ></v-img>
+                  <h3 style="text-align: center">Sign Up <br/></h3>
+
+                    <v-form
+                        style="padding: 32; width=300px;"
+                        justify-content="center"
+                        ref="form2"
+                        v-model="validsu"
+                        lazy-validation
+                      >
+
+                        <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
+                          ><span style="font-size: 10px">{{ notif }}</span>
+                        </v-alert>
+
+                      <v-text-field
+                        placeholder="Email"
+                          v-model="emailsu"
+                          outlined
+                          :rules="emailsuRules"
+                          label="Email"
+                          required
+                      ></v-text-field>
+
+                      
+                      <v-text-field
+                        placeholder="Email"
+                          type="password"
+                          v-model="passwordsu"
+                          outlined
+                          :rules="passwordsuRules"
+                          label="Password"
+                          required
+                      ></v-text-field>
+                  
+                        <v-text-field
+                          v-model="confirmsu"
+                          outlined
+                          :rules="confirmsuRules"
+                          type="password"
+                          label="Confirm Password"
+                          required
+                        ></v-text-field>
+                      </v-form>
+
+                      <center>
+                  <span style="font-size:13px ;" >By signing up, I agree to the Privacy Policy
+            </span>
+            <span style="font-size:13px ;">and the Terms of Services .
+                  </span>
+                  </center>
+                        <v-btn class="ma-2 centrer" color="primary" @click="signup"></v-btn>
+                        Sign Up
+                        </v-btn>
+                        <center><p class="">  Already have an account? <a>Login</a></p></center> 
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="primary" text @click="dialog2 = false">
+                        I accept
+                      </v-btn>
+                    </v-card-actions>
+              </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="dialog2"
-      width="500"
-    >
-      <v-card>
-      <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
-
-        <v-img
-                                            style="display:inline-block;"
-                                            class="centrer"
-                                            width="100"
-                                            height="100"
-                                            src="./assets/logo.png"
-                                        ></v-img>
-       <h3 style="text-align: center">Sign Up <br/></h3>
-
-         <v-form
-            style="padding: 32; width=300px;"
-            justify-content="center"
-            ref="form"
-            v-model="valid"
-            lazy-validation
-          >
-
-            <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
-              ><span style="font-size: 10px">Succes</span>
-            </v-alert>
-
-          <v-text-field
-            placeholder="Email"
-              v-model="email"
-              outlined
-              :rules="emailRules"
-              label="Email"
-              required
-          ></v-text-field>
-
-           
-          <v-text-field
-            placeholder="Email"
-               type="password"
-              v-model="password"
-              outlined
-              :rules="passwordRules"
-              label="Password"
-              required
-          ></v-text-field>
-      
-            <v-text-field
-              v-model="confirm"
-              outlined
-              :rules="confirmRules"
-               type="password"
-              label="PConfirm Password"
-              required
-            ></v-text-field>
-          </v-form>
-
-          
-        
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="dialog2 = false"
-          >
-            I accept
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
 
 
-
-  </v-container>
- 
+    </v-container>
 </template>
 
 <script lang='ts'>
 import Vue from 'vue'
-import { Component, Ref } from "vue-property-decorator";
-import { EventBus } from "@/event_bus";import { VForm } from "@/VForm";
+import { Component, Ref } from 'vue-property-decorator'
+import { EventBus } from "@/event_bus";
+import { VForm } from "@/VForm";
+import axios from "axios";
 
 
+@Component
 export default class FirstPage extends Vue {
 
-  @Ref("form") readonly form!: VForm;
-  dialog = false;
-  dialog2 = false;
-  valid = true;
+   @Ref("form") readonly form!: VForm;
+   @Ref("form2") readonly form2!: VForm;
+
+  dialog = false
+  dialog2 = false
+  valid = true
+  validsu = true
   email = "";
   password = "";
-  confirm = "";
   emailRules = [
     (v: any) => !!v || "E-mail is required",
     (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
   ];
   passwordRules = [(v: string) => !!v || "Password is required"];
   confirmRules = [(v: string) => !!v || "Confirmation is required"];
+  emailsu = "";
+  passwordsu = "";
+  confirmsu = "";
+  emailsuRules = [
+    (v: any) => !!v || "E-mail is required",
+    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+  ];
+  passwordsuRules = [(v: string) => !!v || "Password is required"];
+  confirmsuRules = [(v: string) => !!v || "Confirmation is required"];
   showalert = false;
   typealert = "success";
+  notif = ""
 
-  mounted(){
+    mounted(){
     console.log("Mounted First Page");
     EventBus.$emit("efirst") ;
     EventBus.$on("signin" , this.opsignin) ;
     EventBus.$on("signup" , this.opsignup) ;
+   
   }
+
+
   
    opsignin(){
       this.dialog = true
@@ -225,12 +266,80 @@ export default class FirstPage extends Vue {
       this.dialog2 = true
    }
 
+   async signup(){
+      this.form2.validate();
+      const data = {
+                  "user":{
+                  "first_name": this.emailsu,
+                  "email": this.emailsu,
+                  "password": this.passwordsu,
+                  }
+                 };
+
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+            this.message(res , 1)
+          }
+        } catch (err) {
+          console.log(err);
+        }   
+   }
+
+  async signin(){
+      this.form.validate();
+      const data = {
+                  "user":{
+                  "first_name": this.email,
+                  "email": this.email,
+                  "password": this.password,
+                  }
+                 };
+
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/user/check" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.message(res , 2)
+          }
+        } catch (err) {
+          console.log(err);
+        }   
+   }
+    goTo (path: string) {
+        this.$router.push(path)
+    }
+   message(payload:any , x:any){
+ 
+      if( x = 1 )
+      {      if (payload.status = true) {
+                this.notif = "Inscription Reussie"; this.typealert = "success" ; this.showalert = true;                               
+                setTimeout(() => { this.showalert = false; this.dialog = false;  this.goTo('/Dashboard'); }, 1500);     
+                                                            
+              }else{
+                this.notif = "Inscription Echouée"; this.typealert = "error"; this.showalert = true;  
+                setTimeout(() => { this.showalert = false; this.dialog = false; }, 1500);
+              }
+      }
+
+      if( x = 2 )
+      {         
+              if (payload.status = true) {
+                this.notif = "Connection Reussie"; this.typealert = "success";
+                this.showalert = true; setTimeout(() => { this.showalert = false; this.dialog2 = false;  this.goTo('/Dashboard');}, 1500);   
+              }else{
+                this.notif = payload.message;  this.typealert = "error"; this.showalert = true;  
+                setTimeout(() => { this.showalert = false; this.dialog2 = false; }, 1500);  }
+      }
+
+     }
 }
 </script>
+
 <style>
-
-
-
 .centrer{  
   position: relative;
   left: 50%;

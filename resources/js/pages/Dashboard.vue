@@ -20,8 +20,8 @@
           </div>
       </div>
       <div class="col-md-9">
-        <template v-if="selectedTab == 'Credit Application'">
-          <h3 class="tab-content__header">Process applicants faster</h3>
+        <template v-if="selectedTab == 'My Details'">
+          <h3 class="tab-content__header">My Details</h3>
           <p class="tab-content__text">Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds.</p>
           <a href="" class="tab-content__btn">Learn about the online credit application</a>
           <p class="tab-content__testimonial">
@@ -32,8 +32,8 @@
           </p>
           <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
         </template>
-        <template v-if="selectedTab == 'Decision Assistant'">
-          <h3 class="tab-content__header">Approve more applicants</h3>
+        <template v-if="selectedTab == 'Shopping Cart'">
+          <h3 class="tab-content__header">Shopping Cart</h3>
           <p class="tab-content__text">Process more applications by automatically filtering which applicants are easy approvals and which need more attention.</p>
           <a href="" class="tab-content__btn">Learn about the Decision Assistant</a>
           <p class="tab-content__testimonial">
@@ -44,8 +44,8 @@
           </p>
           <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
         </template>
-        <template v-if="selectedTab == 'Lifetime Monitoring'">
-          <h3 class="tab-content__header">Stay up-to-date with customers</h3>
+        <template v-if="selectedTab == 'My Tours'">
+          <h3 class="tab-content__header">My Tours</h3>
           <p class="tab-content__text">Process more applications by automatically filtering which applicants are easy approvals and which need more attention.</p>
           <a href="" class="tab-content__btn">Learn about Lifetime Monitoring</a>
           <p class="tab-content__testimonial">
@@ -147,19 +147,19 @@ export default class Dashboard extends Vue {
   
 tabs= [
       {
-        title: "Credit Application",
+        title: "My Details",
         subtitle: "Process applicants faster"
       },
       {
-        title: "Decision Assistant",
+        title: "Shopping Cart",
         subtitle: "Approve more applicants"
       },
       {
-        title: "Lifetime Monitoring",
+        title: "My Tours",
         subtitle: "Stay up-to-date with customers"
       }
     ] ; 
-    selectedTab="Credit Application"
+    selectedTab="My Details"
 
 
   mounted(){

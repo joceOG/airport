@@ -12,7 +12,7 @@ class CreateDeliveriesTable extends Migration
      * @return void
      */
     public function up()
-    {
+    { 
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->uuid('delivery_id');

@@ -38,6 +38,7 @@ class AdController extends Controller
     {
         $newItem = new Ads();
         $newItem->ad_id = UuidV4::uuid4();
+        $newItem->user_id = $request->ad['user_id'];
         $newItem->departure = $request->ad['departure'];
         $newItem->destination = $request->ad['destination'];
         $newItem->departure_date = $request->ad['departure_date'];

@@ -43,7 +43,6 @@ class PackageController extends Controller
         $newItem->length = $request->ad['length'];
         $newItem->width = $request->ad['width'];
         $newItem->sender_id = $request->ad['sender_id'];
-        $newItem->courier_id = $request->ad['courier_id'];
         $newItem->save();
 
         return $newItem;

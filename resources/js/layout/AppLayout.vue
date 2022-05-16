@@ -53,7 +53,7 @@
                             @click="opensignin"
                           >
                           <h5 class="hbt"> SE CONNECTER</h5>
-                          </v-btn> 
+                          </v-btn>
 
                           <v-btn
                             v-show="e==0"
@@ -77,22 +77,18 @@
                             @click="goTo('/DashBoard')"
                           >
                             <h5 class="hbt">SE DECONNECTER</h5>
-                          </v-btn>  
-
-                      
-                      
+                          </v-btn>
                                 <v-btn
                                     icon
                                     class="ma-3"
                                     color="green"
-                                    v-show="e == 1"  
-                                  >
+                                    v-show="e == 1"
+                                >
                                     <v-icon  >mdi-cached</v-icon>
                                   </v-btn>
 
                             <v-menu
                               bottom
-                            
                               min-width="200px"
                               rounded
                               offset-y
@@ -147,13 +143,12 @@
                             </v-menu>
                       </v-row>
                       </v-responsive>
-      </v-container>
-       
+        </v-container>
       <v-spacer />
     </v-app-bar>
 
     <v-container
-              class="fill-height" 
+              class="fill-height"
               style="width:100px; padding:0px;"
               fluid
             >
@@ -180,11 +175,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import Settings from '@/settings'
-import { EventBus } from "@/event_bus";
-import axios, { AxiosInstance } from "axios";
+import { EventBus } from '@/event_bus'
+import axios, { AxiosInstance } from 'axios'
 import { Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
-
 
 @Component
 export default class layout extends Vue {
@@ -197,73 +191,74 @@ export default class layout extends Vue {
     links = [
         'Sign In',
         'Sign Up',
-        'Next',
-      ]
+        'Next'
+    ]
 
       items = [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' },
           { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ]
+          { title: 'About', icon: 'mdi-help-box' }
+      ]
 
       user = {
-        initials: 'JD',
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
+          initials: 'JD',
+          fullName: 'John Doe',
+          email: 'john.doe@doe.com'
       }
 
-    mounted () {
-        this.route = this.$route.name
-        EventBus.$on("edash" , this.edash) ;
-        EventBus.$on("efirst" , this.efirst) ;
-    }
+      mounted () {
+          this.route = this.$route.name
+          EventBus.$on('edash', this.edash)
+          EventBus.$on('efirst', this.efirst)
+      }
 
-    edash(){
-      console.log('Change e dash ')
-      this.e = 1 
-    }
+      edash () {
+          console.log('Change e dash ')
+          this.e = 1
+      }
 
-     efirst(){
-      console.log('Change e')
-      this.e = 0 
-    }
-    
-    opensignin() {
-          EventBus.$emit("signin") ;
-    }
+      efirst () {
+          console.log('Change e')
+          this.e = 0
+      }
 
-    opensignup(){
-          EventBus.$emit("signup") ;
-    }
+      opensignin () {
+          EventBus.$emit('signin')
+      }
 
-    logout () {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        this.$router.go(0)
-    }
+      opensignup () {
+          EventBus.$emit('signup')
+      }
 
-    goTo (path: string) {
-        this.$router.push(path)
-    }
+      logout () {
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          this.$router.go(0)
+      }
+
+      goTo (path: string) {
+          this.$router.push(path)
+      }
 
     @Watch('$route')
-    onRoute(to: Route) {
-        this.route = to.name
-    }
-
-      async test() { 
-        let res = {}
-        console.log("Test Requete")
-            try {
-          const result = await axios.get("http://127.0.0.1:8000/api/users");
-          const res = result.data
-          console.log('res', res)
-          if (res) {
-          }
-        } catch (err) {
-          console.log(err);
-        }   
+      onRoute (to: Route) {
+          this.route = to.name
       }
+
+    async test () {
+        const res = {}
+        console.log('Test Requete')
+        try {
+            const result = await axios.get('http://127.0.0.1:8000/api/users')
+            const res = result.data
+            console.log('res', res)
+            if (res) {
+                //
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 </script>
 

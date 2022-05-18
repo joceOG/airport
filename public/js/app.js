@@ -2185,22 +2185,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/settings */ "./resources/js/settings.ts");
-/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/event_bus */ "./resources/js/event_bus.ts");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/index.js");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/settings */ "./resources/js/settings.ts");
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/event_bus */ "./resources/js/event_bus.ts");
+/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2230,7 +2220,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var layout = /*#__PURE__*/function (_Vue) {
   _inherits(layout, _Vue);
 
@@ -2249,7 +2238,7 @@ var layout = /*#__PURE__*/function (_Vue) {
 
     _defineProperty(_assertThisInitialized(_this), "drawer", false);
 
-    _defineProperty(_assertThisInitialized(_this), "version", _settings__WEBPACK_IMPORTED_MODULE_1__["default"].version);
+    _defineProperty(_assertThisInitialized(_this), "version", _settings__WEBPACK_IMPORTED_MODULE_0__["default"].version);
 
     _defineProperty(_assertThisInitialized(_this), "route", null);
 
@@ -2283,8 +2272,8 @@ var layout = /*#__PURE__*/function (_Vue) {
     key: "mounted",
     value: function mounted() {
       this.route = this.$route.name;
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$on("edash", this.edash);
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$on("efirst", this.efirst);
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$on("edash", this.edash);
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$on("efirst", this.efirst);
     }
   }, {
     key: "edash",
@@ -2301,12 +2290,12 @@ var layout = /*#__PURE__*/function (_Vue) {
   }, {
     key: "opensignin",
     value: function opensignin() {
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$emit("signin");
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit("signin");
     }
   }, {
     key: "opensignup",
     value: function opensignup() {
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$emit("signup");
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit("signup");
     }
   }, {
     key: "logout",
@@ -2325,59 +2314,14 @@ var layout = /*#__PURE__*/function (_Vue) {
     value: function onRoute(to) {
       this.route = to.name;
     }
-  }, {
-    key: "test",
-    value: function () {
-      var _test = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res, result, _res;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                res = {};
-                console.log("Test Requete");
-                _context.prev = 2;
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/api/users");
-
-              case 5:
-                result = _context.sent;
-                _res = result.data;
-                console.log('res', _res);
-
-                if (_res) {}
-
-                _context.next = 14;
-                break;
-
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0);
-
-              case 14:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[2, 11]]);
-      }));
-
-      function test() {
-        return _test.apply(this, arguments);
-      }
-
-      return test;
-    }()
   }]);
 
   return layout;
-}(vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
+}(vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
-(0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([(0,vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__.Watch)('$route')], layout.prototype, "onRoute", null);
+(0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([(0,vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__.Watch)('$route')], layout.prototype, "onRoute", null);
 
-layout = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__.Component], layout);
+layout = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__.Component], layout);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (layout);
 
 /***/ }),
@@ -2566,15 +2510,34 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
 
     _this = _super.call.apply(_super, [this].concat(args));
 
+    _defineProperty(_assertThisInitialized(_this), "valid", true);
+
+    _defineProperty(_assertThisInitialized(_this), "categorie", "");
+
+    _defineProperty(_assertThisInitialized(_this), "billet", "");
+
+    _defineProperty(_assertThisInitialized(_this), "emailRules", [function (v) {
+      return !!v || "E-mail is required";
+    }, function (v) {
+      return /.+@.+\..+/.test(v) || "E-mail must be valid";
+    }]);
+
+    _defineProperty(_assertThisInitialized(_this), "passwordRules", [function (v) {
+      return !!v || "Password is required";
+    }]);
+
+    _defineProperty(_assertThisInitialized(_this), "date", new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10));
+
+    _defineProperty(_assertThisInitialized(_this), "menu2", false);
+
     _defineProperty(_assertThisInitialized(_this), "tabs", [{
-      title: "My Details",
-      subtitle: "Process applicants faster"
+      title: "My Details"
     }, {
-      title: "Shopping Cart",
-      subtitle: "Approve more applicants"
+      title: "Shopping Cart"
     }, {
-      title: "My Tours",
-      subtitle: "Stay up-to-date with customers"
+      title: "My Tours"
+    }, {
+      title: "Poster une annonce"
     }]);
 
     _defineProperty(_assertThisInitialized(_this), "selectedTab", "My Details");
@@ -3174,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \r\n    width: 100%;\r\n    left: 0px;\r\n    position: absolute;\r\n    box-sizing: border-box;\r\n    z-index: 3;\r\n    top: 35px;\r\n    background-repeat: no-repeat;\r\n    background-size: cover;\r\n    border-radius: 0px;\n}\n.centrer{  \r\n  position: relative;\r\n  left: 50%;\r\n  transform: translateX(-50%);\n}\n.pen-heading {\r\n  font-weight: bold;\r\n  font-size: 2em;\r\n  text-align: center;\r\n  margin-bottom: 40px;\r\n  color: ##333;\n}\n.tab-item {\r\n  background: white;\r\n  border: 1px #D5DADF solid;\r\n  border-left: 5px solid #D5DADF;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  padding: 10px;\r\n  border-radius: 3px;\r\n  cursor: pointer;\r\n  transition: all .2s ease;\r\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\r\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\r\n  color: #314f8d;\r\n  margin: 0px;\n}\n.tab-item__subheading {\r\n  font-size: 18px;\r\n  color: #333;\r\n  margin: 0px;\n}\n.tab-content__header {\r\n  color: #314f8d;\r\n  font-weight: bold;\r\n   margin: 0px 0px 30px;\r\n  font-size: 36px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.25em;\n}\n.tab-content__btn {\r\n  display: inline-block;\r\n  margin-bottom: 30px;\r\n  padding: 16px 50px;\r\n  cursor: pointer;\r\n  text-decoration: none;\r\n  font-size: 14px;\r\n  text-transform: uppercase;\r\n  font-weight: 900;\r\n  position: relative;\r\n  transition: all .3s ease;\r\n  text-align: center;\r\n  line-height: 1;\r\n  border: 2px solid;\r\n  border-radius: 3px;\r\n  background-color: transparent;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  color: #24a926;\r\n  fill: #24a926;\r\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\r\n  color: #24a926;\r\n  text-decoration: none;\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\r\n  margin-bottom: 15px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-style: italic;\n}\n.tab-content__testimonial-author {\r\n  margin-bottom: 5px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-weight: bold;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \r\n    width: 100%;\r\n    left: 0px;\r\n    position: absolute;\r\n    box-sizing: border-box;\r\n    z-index: 3;\r\n    top: 35px;\r\n    background-repeat: no-repeat;\r\n    background-size: cover;\r\n    border-radius: 0px;\n}\n.centrer{  \r\n  position: relative;\r\n  left: 50%;\r\n  transform: translateX(-50%);\n}\n.pen-heading {\r\n  font-weight: bold;\r\n  font-size: 2em;\r\n  text-align: center;\r\n  margin-bottom: 40px;\r\n  color: ##333;\n}\n.tab-item {\r\n  background: white;\r\n  border: 1px #D5DADF solid;\r\n  border-left: 5px solid #D5DADF;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  padding: 10px;\r\n  border-radius: 3px;\r\n  cursor: pointer;\r\n  transition: all .2s ease;\r\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\r\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\r\n  color: #314f8d;\r\n  margin: 0px;\n}\n.tab-item__subheading {\r\n  font-size: 18px;\r\n  color: #333;\r\n  margin: 0px;\n}\n.tab-content__header {\r\n  color: #314f8d;\r\n  font-weight: bold;\r\n   margin: 0px 0px 30px;\r\n  font-size: 36px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.25em;\n}\n.tab-content__text2 {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.05em;\n}\n.tab-content__btn {\r\n  display: inline-block;\r\n  margin-bottom: 30px;\r\n  padding: 16px 50px;\r\n  cursor: pointer;\r\n  text-decoration: none;\r\n  font-size: 14px;\r\n  text-transform: uppercase;\r\n  font-weight: 900;\r\n  position: relative;\r\n  transition: all .3s ease;\r\n  text-align: center;\r\n  line-height: 1;\r\n  border: 2px solid;\r\n  border-radius: 3px;\r\n  background-color: transparent;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  color: #24a926;\r\n  fill: #24a926;\r\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\r\n  color: #24a926;\r\n  text-decoration: none;\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\r\n  margin-bottom: 15px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-style: italic;\n}\n.tab-content__testimonial-author {\r\n  margin-bottom: 5px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-weight: bold;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6414,9 +6377,17 @@ var render = function() {
                           }
                         },
                         [
-                          _c("h3", { staticClass: "tab-item__heading" }, [
-                            _vm._v(_vm._s(tab.title))
-                          ])
+                          _c(
+                            "h3",
+                            { staticClass: "tab-item__heading" },
+                            [
+                              _c("v-icon", { staticStyle: { padding: "10" } }, [
+                                _vm._v("mdi-school")
+                              ]),
+                              _vm._v(" " + _vm._s(tab.title))
+                            ],
+                            1
+                          )
                         ]
                       )
                     })
@@ -6434,48 +6405,64 @@ var render = function() {
                             _vm._v("My Details")
                           ]),
                           _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds."
-                            )
+                          _c("p", { staticClass: "tab-content__text" }),
+                          _c("h3", [
+                            _c("b", [_vm._v("Personnal Information")])
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [
-                              _vm._v(
-                                "Learn about the online credit application"
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\r\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\r\n          '
-                            )
-                          ]),
+                          _c("v-divider", {
+                            staticStyle: { border: "solid 5px" },
+                            attrs: { height: "5" }
+                          }),
+                          _c("p"),
                           _vm._v(" "),
                           _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
+                            "v-row",
                             [
-                              _vm._v(
-                                "\r\n            Penny Everest, Valiant Products Corporation\r\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _c("p", { staticClass: "tab-content__text2" }, [
+                                  _vm._v(
+                                    "Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds."
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _c(
+                                  "p",
+                                  { staticClass: "tab-content__text" },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        placeholder: "FirstName",
+                                        outlined: "",
+                                        rules: _vm.firstName,
+                                        label: "Email",
+                                        required: ""
+                                      },
+                                      model: {
+                                        value: _vm.firstName,
+                                        callback: function($$v) {
+                                          _vm.firstName = $$v
+                                        },
+                                        expression: "firstName"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _c("p", { staticClass: "tab-content__text" }, [
+                                  _vm._v(
+                                    "Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds."
+                                  )
+                                ])
+                              ])
+                            ],
+                            1
+                          )
                         ]
                       : _vm._e(),
                     _vm._v(" "),
@@ -6573,50 +6560,324 @@ var render = function() {
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.selectedTab == "Data Reporting"
+                    _vm.selectedTab == "Poster une annonce"
                       ? [
                           _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Get customers to pay on time")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Process more applications by automatically filtering which applicants are easy approvals and which need more attention."
-                            )
+                            _vm._v("Poster une annonce")
                           ]),
                           _vm._v(" "),
                           _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [_vm._v("Learn about Data Reporting")]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\r\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\r\n          '
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
+                            "v-card",
                             [
-                              _vm._v(
-                                "\r\n            Penny Everest, Valiant Products Corporation\r\n          "
+                              _c(
+                                "v-tabs",
+                                {
+                                  attrs: {
+                                    color: "deep-purple accent-4",
+                                    right: ""
+                                  }
+                                },
+                                [
+                                  _c("v-tab", [_vm._v("Je fais un envoi")]),
+                                  _vm._v(" "),
+                                  _c("v-tab", [_vm._v("J'ai des Kilos")]),
+                                  _vm._v(" "),
+                                  _vm._l(2, function(n) {
+                                    return _c(
+                                      "v-tab-item",
+                                      { key: n },
+                                      [
+                                        _c(
+                                          "v-container",
+                                          { attrs: { fluid: "" } },
+                                          [
+                                            _c(
+                                              "v-row",
+                                              [
+                                                _c(
+                                                  "centrer",
+                                                  [
+                                                    _c(
+                                                      "v-card",
+                                                      [
+                                                        _c(
+                                                          "h3",
+                                                          {
+                                                            staticStyle: {
+                                                              "text-align":
+                                                                "center"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "J'AI DES KILOS "
+                                                            ),
+                                                            _c("br")
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("v-img", {
+                                                          staticClass:
+                                                            "centrer",
+                                                          staticStyle: {
+                                                            display:
+                                                              "inline-block"
+                                                          },
+                                                          attrs: {
+                                                            width: "100",
+                                                            height: "100",
+                                                            src:
+                                                              "./assets/logo.png"
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "v-form",
+                                                          {
+                                                            ref: "form2",
+                                                            refInFor: true,
+                                                            staticStyle: {
+                                                              padding: "32"
+                                                            },
+                                                            attrs: {
+                                                              "justify-content":
+                                                                "center",
+                                                              "lazy-validation":
+                                                                ""
+                                                            },
+                                                            model: {
+                                                              value: _vm.valid,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.valid = $$v
+                                                              },
+                                                              expression:
+                                                                "valid"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-alert",
+                                                              {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "show",
+                                                                    rawName:
+                                                                      "v-show",
+                                                                    value:
+                                                                      _vm.showalert ==
+                                                                      true,
+                                                                    expression:
+                                                                      "showalert == true"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "ma-2",
+                                                                attrs: {
+                                                                  type:
+                                                                    _vm.typealert,
+                                                                  dense: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "font-size":
+                                                                        "10px"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        _vm.notif
+                                                                      )
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c("v-text-field", {
+                                                              attrs: {
+                                                                placeholder:
+                                                                  "Billet",
+                                                                outlined: "",
+                                                                rules:
+                                                                  _vm.billetRules,
+                                                                label: "billet",
+                                                                required: ""
+                                                              },
+                                                              model: {
+                                                                value:
+                                                                  _vm.billet,
+                                                                callback: function(
+                                                                  $$v
+                                                                ) {
+                                                                  _vm.billet = $$v
+                                                                },
+                                                                expression:
+                                                                  "billet"
+                                                              }
+                                                            }),
+                                                            _vm._v(" "),
+                                                            _c("v-text-field", {
+                                                              attrs: {
+                                                                placeholder:
+                                                                  "Categorie",
+                                                                outlined: "",
+                                                                rules:
+                                                                  _vm.categorieRules,
+                                                                label:
+                                                                  "categorie",
+                                                                required: ""
+                                                              },
+                                                              model: {
+                                                                value:
+                                                                  _vm.categorie,
+                                                                callback: function(
+                                                                  $$v
+                                                                ) {
+                                                                  _vm.categorie = $$v
+                                                                },
+                                                                expression:
+                                                                  "categorie"
+                                                              }
+                                                            }),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-menu",
+                                                              {
+                                                                attrs: {
+                                                                  "close-on-content-click": false,
+                                                                  "nudge-right": 40,
+                                                                  transition:
+                                                                    "scale-transition",
+                                                                  "offset-y":
+                                                                    "",
+                                                                  "min-width":
+                                                                    "auto"
+                                                                },
+                                                                scopedSlots: _vm._u(
+                                                                  [
+                                                                    {
+                                                                      key:
+                                                                        "activator",
+                                                                      fn: function(
+                                                                        ref
+                                                                      ) {
+                                                                        var on =
+                                                                          ref.on
+                                                                        var attrs =
+                                                                          ref.attrs
+                                                                        return [
+                                                                          _c(
+                                                                            "v-text-field",
+                                                                            _vm._g(
+                                                                              _vm._b(
+                                                                                {
+                                                                                  attrs: {
+                                                                                    label:
+                                                                                      "Picker without buttons",
+                                                                                    "prepend-icon":
+                                                                                      "mdi-calendar",
+                                                                                    readonly:
+                                                                                      ""
+                                                                                  },
+                                                                                  model: {
+                                                                                    value:
+                                                                                      _vm.date,
+                                                                                    callback: function(
+                                                                                      $$v
+                                                                                    ) {
+                                                                                      _vm.date = $$v
+                                                                                    },
+                                                                                    expression:
+                                                                                      "date"
+                                                                                  }
+                                                                                },
+                                                                                "v-text-field",
+                                                                                attrs,
+                                                                                false
+                                                                              ),
+                                                                              on
+                                                                            )
+                                                                          )
+                                                                        ]
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  null,
+                                                                  true
+                                                                ),
+                                                                model: {
+                                                                  value:
+                                                                    _vm.menu2,
+                                                                  callback: function(
+                                                                    $$v
+                                                                  ) {
+                                                                    _vm.menu2 = $$v
+                                                                  },
+                                                                  expression:
+                                                                    "menu2"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-date-picker",
+                                                                  {
+                                                                    on: {
+                                                                      input: function(
+                                                                        $event
+                                                                      ) {
+                                                                        _vm.menu2 = false
+                                                                      }
+                                                                    },
+                                                                    model: {
+                                                                      value:
+                                                                        _vm.date,
+                                                                      callback: function(
+                                                                        $$v
+                                                                      ) {
+                                                                        _vm.date = $$v
+                                                                      },
+                                                                      expression:
+                                                                        "date"
+                                                                    }
+                                                                  }
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  })
+                                ],
+                                2
                               )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
+                            ],
+                            1
+                          )
                         ]
                       : _vm._e()
                   ],
@@ -6641,111 +6902,117 @@ var render = function() {
         },
         [
           _c(
-            "v-row",
-            { staticStyle: { "margin-left": "100px" } },
+            "v-form",
             [
-              _c("v-col"),
-              _vm._v(" "),
               _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
+                "v-row",
+                { staticStyle: { "margin-left": "100px" } },
                 [
+                  _c("v-col"),
+                  _vm._v(" "),
                   _c(
-                    "center",
+                    "v-col",
+                    { staticStyle: { color: "white" } },
                     [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
-                        )
-                      ])
+                      _c(
+                        "center",
+                        [
+                          _c("v-img", {
+                            staticStyle: { "margin-top": "45px" },
+                            attrs: {
+                              src:
+                                "https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg",
+                              height: "50",
+                              width: "50"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("h4", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v("Easy Way To Search Tickets")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v(
+                              "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
-                [
+                  ),
+                  _vm._v(" "),
                   _c(
-                    "center",
+                    "v-col",
+                    { staticStyle: { color: "white" } },
                     [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
-                        )
-                      ])
+                      _c(
+                        "center",
+                        [
+                          _c("v-img", {
+                            staticStyle: { "margin-top": "45px" },
+                            attrs: {
+                              src:
+                                "https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg",
+                              height: "50",
+                              width: "50"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("h4", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v("Easy Way To Seach Tickets")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v(
+                              "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
-                [
+                  ),
+                  _vm._v(" "),
                   _c(
-                    "center",
+                    "v-col",
+                    { staticStyle: { color: "white" } },
                     [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
-                        )
-                      ])
+                      _c(
+                        "center",
+                        [
+                          _c("v-img", {
+                            staticStyle: { "margin-top": "45px" },
+                            attrs: {
+                              src:
+                                "https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg",
+                              height: "50",
+                              width: "50"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("h4", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v("Easy Way To Seach Tickets")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticStyle: { "margin-top": "15px" } }, [
+                            _vm._v(
+                              "\r\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\r\n                      "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("v-col")
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c("v-col")
+              )
             ],
             1
           )

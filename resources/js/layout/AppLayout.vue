@@ -251,19 +251,6 @@ export default class layout extends Vue {
         this.route = to.name
     }
 
-      async test() { 
-        let res = {}
-        console.log("Test Requete")
-            try {
-          const result = await axios.get("http://127.0.0.1:8000/api/users");
-          const res = result.data
-          console.log('res', res)
-          if (res) {
-          }
-        } catch (err) {
-          console.log(err);
-        }   
-      }
 }
 </script>
 

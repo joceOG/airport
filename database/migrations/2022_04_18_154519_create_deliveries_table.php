@@ -12,7 +12,7 @@ class CreateDeliveriesTable extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->uuid('delivery_id');
@@ -20,8 +20,8 @@ class CreateDeliveriesTable extends Migration
             $table->string('courier_email');
             $table->json('package');
             $table->string('status');
-            $table->string('sender_id');
-            $table->string('courier_id');
+            $table->uuid('sender_id');
+            $table->uuid('courier_id');
             $table->timestamps();
         });
     }

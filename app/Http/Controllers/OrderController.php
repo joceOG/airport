@@ -38,12 +38,12 @@ class OrderController extends Controller
     {
         $newItem = new Orders();
         $newItem->order_id = UuidV4::uuid4();
-        $newItem->sender_email = $request->ad['sender_email'];
-        $newItem->courier_email = $request->ad['courier_email'];
-        $newItem->package = $request->ad['package'];
-        $newItem->status = $request->ad['status'];
-        $newItem->sender_id = $request->ad['sender_id'];
-        $newItem->courier_id = $request->ad['courier_id'];
+        $newItem->sender_email = $request->order['sender_email'];
+        $newItem->courier_email = $request->order['courier_email'];
+        $newItem->package = $request->order['package'];
+        $newItem->status = $request->order['status'];
+        $newItem->sender_id = $request->order['sender_id'];
+        $newItem->courier_id = $request->order['courier_id'];
         $newItem->save();
 
         return $newItem;
@@ -83,7 +83,7 @@ class OrderController extends Controller
         $existingAd = Orders::find($id);
 
         if ($existingAd) {
-            $existingAd->status = $request->ad['status'];
+            $existingAd->status = $request->order['status'];
             $existingAd->save();
 
             return $existingAd;
@@ -104,9 +104,9 @@ class OrderController extends Controller
 
         if ($existingItem ) {
             $existingItem ->delete();
-            return "Deliveries successfully deleted";
+            return "Order successfully deleted";
         } else {
-            return "Deliveries not found";
+            return "Order not found";
         }
     }
 }

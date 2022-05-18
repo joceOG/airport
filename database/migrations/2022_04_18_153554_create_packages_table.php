@@ -17,11 +17,12 @@ class CreatePackagesTable extends Migration
             $table->id();
             $table->uuid('package_id');
             $table->string('item');
-            $table->string('category');
-            $table->integer('length');
-            $table->integer('width');
-            $table->integer('weight');
-            $table->string('sender_id');
+            $table->json('categories');
+            $table->float('weight');
+            $table->string('departure');
+            $table->string('destination');
+            $table->date('departure_date');
+            $table->uuid('sender_id');
             $table->timestamps();
         });
     }

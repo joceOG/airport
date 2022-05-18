@@ -39,13 +39,13 @@ class AdController extends Controller
         $newItem = new Ads();
         $newItem->ad_id = UuidV4::uuid4();
         $newItem->user_id = $request->ad['user_id'];
+        $newItem->ticket_number = $request->ad['ticket_number'];
         $newItem->departure = $request->ad['departure'];
         $newItem->destination = $request->ad['destination'];
         $newItem->departure_date = $request->ad['departure_date'];
         $newItem->arrival_date = $request->ad['arrival_date'];
         $newItem->space = $request->ad['space'];
-        $newItem->packages_accepted = $request->ad['packages_accepted'];
-        $newItem->clicks = $request->ad['clicks'];
+        $newItem->categories_accepted = json_encode($request->ad['categories_accepted']);
         $newItem->save();
 
         return $newItem;
@@ -85,12 +85,13 @@ class AdController extends Controller
         $existingAd = Ads::find($id);
 
         if ($existingAd) {
+            $existingAd->ticket_number = $request->ad['ticket_number'];
             $existingAd->departure = $request->ad['departure'];
             $existingAd->destination = $request->ad['destination'];
             $existingAd->departure_date = $request->ad['departure_date'];
             $existingAd->arrival_date = $request->ad['arrival_date'];
             $existingAd->space = $request->ad['space'];
-            $existingAd->packages_accepted = $request->ad['packages_accepted'];
+            $existingAd->categories_accepted = json_encode($request->ad['categories_accepted']);
             $existingAd->save();
 
             return $existingAd;
@@ -98,6 +99,29 @@ class AdController extends Controller
             return "Ad not found";
         }
 
+    }
+
+    /**
+     * Return ads matching some characteristics of the package
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function search(Request $request)
+    {
+        $package = $request->package;
+        $upper_bound = strtotime('+3 day', strtotime($package['departure_date']));
+        $lower_bound = strtotime('-3 day', strtotime($package['departure_date']));
+        $matchingAds = Ads::get()->filter(function ($value, $key) use($package, $upper_bound, $lower_bound){
+            $ad_departure_date = strtotime($value['departure_date']);
+            return $value['space'] >= $package['weight']
+            && $value['departure'] == $package['departure']
+            && $value['destination'] == $package['destination']
+            && ($ad_departure_date > $lower_bound && $ad_departure_date < $upper_bound);
+        });
+
+        return $matchingAds;
     }
 
     /**

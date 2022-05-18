@@ -17,13 +17,13 @@ class CreateAdsTable extends Migration
             $table->id();
             $table->uuid('ad_id');
             $table->uuid('user_id');
+            $table->string('ticket_number');
             $table->string('departure');
             $table->string('destination');
             $table->date('departure_date');
             $table->date('arrival_date');
-            $table->string('space');
-            $table->string('packages_accepted');
-            $table->integer('clicks');
+            $table->float('space');
+            $table->json('categories_accepted');
             $table->timestamps();
         });
     }

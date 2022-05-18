@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
             $table->string('sender_email');
             $table->json('package');
             $table->string('status');
-            $table->string('courier_id');
-            $table->string('sender_id');
+            $table->uuid('courier_id');
+            $table->uuid('sender_id');
             $table->timestamps();
         });
     }

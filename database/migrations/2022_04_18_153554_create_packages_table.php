@@ -17,7 +17,7 @@ class CreatePackagesTable extends Migration
             $table->id();
             $table->uuid('package_id');
             $table->string('item');
-            $table->json('categories');
+            $table->string('category');
             $table->float('weight');
             $table->string('departure');
             $table->string('destination');

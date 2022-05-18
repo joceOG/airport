@@ -121,6 +121,15 @@ class AdController extends Controller
             && ($ad_departure_date > $lower_bound && $ad_departure_date < $upper_bound);
         });
 
+        $matchingAds = $matchingAds->filter(function ($value, $key) use($package){
+            foreach(json_decode($value['categories_accepted']) as $category) {
+                if($category === $package['category'])
+                    return true;
+                else
+                    return false;
+            }
+        });
+
         return $matchingAds;
     }
 

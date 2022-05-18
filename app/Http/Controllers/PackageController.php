@@ -39,7 +39,7 @@ class PackageController extends Controller
         $newItem = new Packages();
         $newItem->package_id = UuidV4::uuid4();
         $newItem->item = $request->package['item'];
-        $newItem->categories = json_encode($request->package['categories']);
+        $newItem->category = $request->package['category'];
         $newItem->weight = $request->package['weight'];
         $newItem->departure = $request->package['departure'];
         $newItem->destination = $request->package['destination'];
@@ -85,7 +85,7 @@ class PackageController extends Controller
 
         if ($existingItem) {
             $existingItem->item = $request->package['item'];
-            $existingItem->categories = json_encode($request->package['categories']);
+            $existingItem->category = $request->package['category'];
             $existingItem->weight = $request->package['weight'];
             $existingItem->departure = $request->package['departure'];
             $existingItem->destination = $request->package['destination'];

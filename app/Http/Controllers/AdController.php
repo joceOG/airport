@@ -122,7 +122,8 @@ class AdController extends Controller
         });
 
         $matchingAds = $matchingAds->filter(function ($value, $key) use($package){
-            foreach(json_decode($value['categories_accepted']) as $category) {
+            $categoriesAccepted = json_decode($value['categories_accepted']);
+            foreach($categoriesAccepted as $category) {
                 if($category === $package['category'])
                     return true;
                 else

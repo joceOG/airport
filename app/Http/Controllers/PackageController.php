@@ -8,8 +8,6 @@ use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class PackageController extends Controller
 {
-    private const PRIX_DU_KILO = 5000;
-
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +45,7 @@ class PackageController extends Controller
         $newItem->destination = $request->package['destination'];
         $newItem->departure_date = $request->package['departure_date'];
         $newItem->sender_id = $request->package['sender_id'];
-        $newItem->price = $newItem->weight * self::PRIX_DU_KILO;
+        $newItem->price = $newItem->price;
         $newItem->save();
 
         return $newItem;
@@ -93,7 +91,7 @@ class PackageController extends Controller
             $existingItem->departure = $request->package['departure'];
             $existingItem->destination = $request->package['destination'];
             $existingItem->departure_date = $request->package['departure_date'];
-            $existingItem->price = $existingItem->weight * self::PRIX_DU_KILO;
+            $existingItem->price = $existingItem->price;
             $existingItem->save();
 
             return $existingItem;

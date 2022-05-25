@@ -17,7 +17,8 @@ class CreateAdsTable extends Migration
             $table->id();
             $table->uuid('ad_id');
             $table->uuid('user_id');
-            $table->string('ticket_number');
+            $table->string('ticket_number')->unique();
+            $table->string('travel_company');
             $table->string('departure');
             $table->string('destination');
             $table->date('departure_date');

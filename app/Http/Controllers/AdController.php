@@ -40,6 +40,7 @@ class AdController extends Controller
         $newItem->ad_id = UuidV4::uuid4();
         $newItem->user_id = $request->ad['user_id'];
         $newItem->ticket_number = $request->ad['ticket_number'];
+        $newItem->ticket_number = $request->ad['travel_company'];
         $newItem->departure = $request->ad['departure'];
         $newItem->destination = $request->ad['destination'];
         $newItem->departure_date = $request->ad['departure_date'];
@@ -86,6 +87,7 @@ class AdController extends Controller
 
         if ($existingAd) {
             $existingAd->ticket_number = $request->ad['ticket_number'];
+            $existingAd->ticket_number = $request->ad['travel_company'];
             $existingAd->departure = $request->ad['departure'];
             $existingAd->destination = $request->ad['destination'];
             $existingAd->departure_date = $request->ad['departure_date'];

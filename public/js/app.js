@@ -2185,22 +2185,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/settings */ "./resources/js/settings.ts");
-/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/event_bus */ "./resources/js/event_bus.ts");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/index.js");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/settings */ "./resources/js/settings.ts");
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/event_bus */ "./resources/js/event_bus.ts");
+/* harmony import */ var vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2230,7 +2220,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var layout = /*#__PURE__*/function (_Vue) {
   _inherits(layout, _Vue);
 
@@ -2249,7 +2238,7 @@ var layout = /*#__PURE__*/function (_Vue) {
 
     _defineProperty(_assertThisInitialized(_this), "drawer", false);
 
-    _defineProperty(_assertThisInitialized(_this), "version", _settings__WEBPACK_IMPORTED_MODULE_1__["default"].version);
+    _defineProperty(_assertThisInitialized(_this), "version", _settings__WEBPACK_IMPORTED_MODULE_0__["default"].version);
 
     _defineProperty(_assertThisInitialized(_this), "route", null);
 
@@ -2283,8 +2272,8 @@ var layout = /*#__PURE__*/function (_Vue) {
     key: "mounted",
     value: function mounted() {
       this.route = this.$route.name;
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$on('edash', this.edash);
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$on('efirst', this.efirst);
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$on("edash", this.edash);
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$on("efirst", this.efirst);
     }
   }, {
     key: "edash",
@@ -2301,12 +2290,12 @@ var layout = /*#__PURE__*/function (_Vue) {
   }, {
     key: "opensignin",
     value: function opensignin() {
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$emit('signin');
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit("signin");
     }
   }, {
     key: "opensignup",
     value: function opensignup() {
-      _event_bus__WEBPACK_IMPORTED_MODULE_2__.EventBus.$emit('signup');
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit("signup");
     }
   }, {
     key: "logout",
@@ -2325,60 +2314,14 @@ var layout = /*#__PURE__*/function (_Vue) {
     value: function onRoute(to) {
       this.route = to.name;
     }
-  }, {
-    key: "test",
-    value: function () {
-      var _test = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res, result, _res;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                res = {};
-                console.log('Test Requete');
-                _context.prev = 2;
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default().get('http://127.0.0.1:8000/api/users');
-
-              case 5:
-                result = _context.sent;
-                _res = result.data;
-                console.log('res', _res);
-
-                if (_res) {//
-                }
-
-                _context.next = 14;
-                break;
-
-              case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](2);
-                console.log(_context.t0);
-
-              case 14:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[2, 11]]);
-      }));
-
-      function test() {
-        return _test.apply(this, arguments);
-      }
-
-      return test;
-    }()
   }]);
 
   return layout;
-}(vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
+}(vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
-(0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([(0,vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__.Watch)('$route')], layout.prototype, "onRoute", null);
+(0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([(0,vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__.Watch)('$route')], layout.prototype, "onRoute", null);
 
-layout = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([vue_property_decorator__WEBPACK_IMPORTED_MODULE_4__.Component], layout);
+layout = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([vue_property_decorator__WEBPACK_IMPORTED_MODULE_2__.Component], layout);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (layout);
 
 /***/ }),
@@ -2567,15 +2510,34 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
 
     _this = _super.call.apply(_super, [this].concat(args));
 
+    _defineProperty(_assertThisInitialized(_this), "valid", true);
+
+    _defineProperty(_assertThisInitialized(_this), "categorie", "");
+
+    _defineProperty(_assertThisInitialized(_this), "billet", "");
+
+    _defineProperty(_assertThisInitialized(_this), "emailRules", [function (v) {
+      return !!v || "E-mail is required";
+    }, function (v) {
+      return /.+@.+\..+/.test(v) || "E-mail must be valid";
+    }]);
+
+    _defineProperty(_assertThisInitialized(_this), "passwordRules", [function (v) {
+      return !!v || "Password is required";
+    }]);
+
+    _defineProperty(_assertThisInitialized(_this), "date", new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10));
+
+    _defineProperty(_assertThisInitialized(_this), "menu2", false);
+
     _defineProperty(_assertThisInitialized(_this), "tabs", [{
-      title: "My Details",
-      subtitle: "Process applicants faster"
+      title: "My Details"
     }, {
-      title: "Shopping Cart",
-      subtitle: "Approve more applicants"
+      title: "Shopping Cart"
     }, {
-      title: "My Tours",
-      subtitle: "Stay up-to-date with customers"
+      title: "My Tours"
+    }, {
+      title: "Poster une annonce"
     }]);
 
     _defineProperty(_assertThisInitialized(_this), "selectedTab", "My Details");
@@ -3175,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \n    width: 100%;\n    left: 0px;\n    position: absolute;\n    box-sizing: border-box;\n    z-index: 3;\n    top: 35px;\n    background-repeat: no-repeat;\n    background-size: cover;\n    border-radius: 0px;\n}\n.centrer{  \n  position: relative;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.pen-heading {\n  font-weight: bold;\n  font-size: 2em;\n  text-align: center;\n  margin-bottom: 40px;\n  color: ##333;\n}\n.tab-item {\n  background: white;\n  border: 1px #D5DADF solid;\n  border-left: 5px solid #D5DADF;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  padding: 10px;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all .2s ease;\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\n  font-weight: bold;\n  font-size: 16px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n  color: #314f8d;\n  margin: 0px;\n}\n.tab-item__subheading {\n  font-size: 18px;\n  color: #333;\n  margin: 0px;\n}\n.tab-content__header {\n  color: #314f8d;\n  font-weight: bold;\n   margin: 0px 0px 30px;\n  font-size: 36px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\n  margin: 0px 0px 30px;\n  font-size: 1.25em;\n}\n.tab-content__btn {\n  display: inline-block;\n  margin-bottom: 30px;\n  padding: 16px 50px;\n  cursor: pointer;\n  text-decoration: none;\n  font-size: 14px;\n  text-transform: uppercase;\n  font-weight: 900;\n  position: relative;\n  transition: all .3s ease;\n  text-align: center;\n  line-height: 1;\n  border: 2px solid;\n  border-radius: 3px;\n  background-color: transparent;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  color: #24a926;\n  fill: #24a926;\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\n  color: #24a926;\n  text-decoration: none;\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\n  margin-bottom: 15px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-style: italic;\n}\n.tab-content__testimonial-author {\n  margin-bottom: 5px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-weight: bold;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \n    width: 100%;\n    left: 0px;\n    position: absolute;\n    box-sizing: border-box;\n    z-index: 3;\n    top: 35px;\n    background-repeat: no-repeat;\n    background-size: cover;\n    border-radius: 0px;\n}\n.centrer{  \n  position: relative;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.pen-heading {\n  font-weight: bold;\n  font-size: 2em;\n  text-align: center;\n  margin-bottom: 40px;\n  color: ##333;\n}\n.tab-item {\n  background: white;\n  border: 1px #D5DADF solid;\n  border-left: 5px solid #D5DADF;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  padding: 10px;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all .2s ease;\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\n  font-weight: bold;\n  font-size: 16px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n  color: #314f8d;\n  margin: 0px;\n}\n.tab-item__subheading {\n  font-size: 18px;\n  color: #333;\n  margin: 0px;\n}\n.tab-content__header {\n  color: #314f8d;\n  font-weight: bold;\n   margin: 0px 0px 30px;\n  font-size: 36px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\n  margin: 0px 0px 30px;\n  font-size: 1.25em;\n}\n.tab-content__text2 {\n  margin: 0px 0px 30px;\n  font-size: 1.05em;\n}\n.tab-content__btn {\n  display: inline-block;\n  margin-bottom: 30px;\n  padding: 16px 50px;\n  cursor: pointer;\n  text-decoration: none;\n  font-size: 14px;\n  text-transform: uppercase;\n  font-weight: 900;\n  position: relative;\n  transition: all .3s ease;\n  text-align: center;\n  line-height: 1;\n  border: 2px solid;\n  border-radius: 3px;\n  background-color: transparent;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  color: #24a926;\n  fill: #24a926;\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\n  color: #24a926;\n  text-decoration: none;\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\n  margin-bottom: 15px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-style: italic;\n}\n.tab-content__testimonial-author {\n  margin-bottom: 5px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-weight: bold;\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6371,394 +6333,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-container",
-    {
-      staticClass: "fapp",
-      staticStyle: { padding: "0px" },
-      attrs: { fluid: "" }
-    },
-    [
-      _c(
-        "v-img",
-        {
-          staticStyle: { width: "100%" },
-          attrs: { height: "1000", src: "./assets/blank.jpg" }
-        },
-        [
-          _c("p", { staticStyle: { "margin-top": "140px" } }),
-          _c("div", { attrs: { id: "v-tabs" } }, [
-            _c("div", { staticClass: "container" }, [
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-md-3" },
-                  [
-                    _c("h4", { staticClass: "pen-heading" }, [
-                      _vm._v("My Account")
-                    ]),
-                    _vm._v(" "),
-                    _vm._l(_vm.tabs, function(tab) {
-                      return _c(
-                        "div",
-                        {
-                          staticClass: "tab-item",
-                          class: { active: _vm.selectedTab == tab.title },
-                          on: {
-                            click: function($event) {
-                              _vm.selectedTab = tab.title
-                            }
-                          }
-                        },
-                        [
-                          _c("h3", { staticClass: "tab-item__heading" }, [
-                            _vm._v(_vm._s(tab.title))
-                          ])
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-md-9" },
-                  [
-                    _vm.selectedTab == "My Details"
-                      ? [
-                          _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("My Details")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds."
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [
-                              _vm._v(
-                                "Learn about the online credit application"
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\n          '
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
-                            [
-                              _vm._v(
-                                "\n            Penny Everest, Valiant Products Corporation\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
-                        ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.selectedTab == "Shopping Cart"
-                      ? [
-                          _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Shopping Cart")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Process more applications by automatically filtering which applicants are easy approvals and which need more attention."
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [_vm._v("Learn about the Decision Assistant")]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\n          '
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
-                            [
-                              _vm._v(
-                                "\n            Penny Everest, Valiant Products Corporation\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
-                        ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.selectedTab == "My Tours"
-                      ? [
-                          _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("My Tours")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Process more applications by automatically filtering which applicants are easy approvals and which need more attention."
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [_vm._v("Learn about Lifetime Monitoring")]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\n          '
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
-                            [
-                              _vm._v(
-                                "\n            Penny Everest, Valiant Products Corporation\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
-                        ]
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.selectedTab == "Data Reporting"
-                      ? [
-                          _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Get customers to pay on time")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__text" }, [
-                            _vm._v(
-                              "Process more applications by automatically filtering which applicants are easy approvals and which need more attention."
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "tab-content__btn",
-                              attrs: { href: "" }
-                            },
-                            [_vm._v("Learn about Data Reporting")]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tab-content__testimonial" }, [
-                            _vm._v(
-                              '\n            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"\n          '
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            { staticClass: "tab-content__testimonial-author" },
-                            [
-                              _vm._v(
-                                "\n            Penny Everest, Valiant Products Corporation\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "tab-content__testimonial-img",
-                            attrs: {
-                              src:
-                                "http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png"
-                            }
-                          })
-                        ]
-                      : _vm._e()
-                  ],
-                  2
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("p")
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "v-img",
-        {
-          staticStyle: { width: "100%", padding: "0px", height: "350" },
-          attrs: {
-            src:
-              "https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
-          }
-        },
-        [
-          _c(
-            "v-row",
-            { staticStyle: { "margin-left": "100px" } },
-            [
-              _c("v-col"),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
-                [
-                  _c(
-                    "center",
-                    [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                      "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
-                [
-                  _c(
-                    "center",
-                    [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                      "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticStyle: { color: "white" } },
-                [
-                  _c(
-                    "center",
-                    [
-                      _c("v-img", {
-                        staticStyle: { "margin-top": "45px" },
-                        attrs: {
-                          src:
-                            "https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg",
-                          height: "50",
-                          width: "50"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h4", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v("Easy Way To Seach Tickets")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticStyle: { "margin-top": "15px" } }, [
-                        _vm._v(
-                          "\n                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco\n                      "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-col")
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
 
 
 

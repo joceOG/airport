@@ -16,21 +16,34 @@
       <div class="col-md-3">
           <h4 class="pen-heading">My Account</h4>
           <div v-for="tab in tabs" @click="selectedTab = tab.title" :class="{ active : selectedTab == tab.title }" class="tab-item">
-            <h3 class="tab-item__heading">{{ tab.title }}</h3>
+            <h3 class="tab-item__heading"> <v-icon style="padding:10">mdi-school</v-icon> {{ tab.title }}</h3>
           </div>
       </div>
       <div class="col-md-9">
         <template v-if="selectedTab == 'My Details'">
           <h3 class="tab-content__header">My Details</h3>
-          <p class="tab-content__text">Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds.</p>
-          <a href="" class="tab-content__btn">Learn about the online credit application</a>
-          <p class="tab-content__testimonial">
-            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"
-          </p>
-          <p class="tab-content__testimonial-author">
-            Penny Everest, Valiant Products Corporation
-          </p>
-          <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
+          <p class="tab-content__text"> <h3><b>Personnal Information</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+          <v-row>
+          <v-col cols="4">
+                    <p class="tab-content__text2">Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds.</p>
+          </v-col>
+          <v-col cols="4">
+                    <p class="tab-content__text">
+                      <v-text-field
+                        placeholder="FirstName"
+                          v-model="firstName"
+                          outlined
+                          :rules="firstName"
+                          label="Email"
+                          required
+                      ></v-text-field>
+
+                    </p>
+          </v-col>
+          <v-col cols="4">
+                    <p class="tab-content__text">Eliminate paper shuffling and data entry by sending applicants to a branded online credit application in seconds.</p>
+          </v-col>
+          </v-row>
         </template>
         <template v-if="selectedTab == 'Shopping Cart'">
           <h3 class="tab-content__header">Shopping Cart</h3>
@@ -56,17 +69,99 @@
           </p>
           <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
         </template>
-        <template v-if="selectedTab == 'Data Reporting'">
-          <h3 class="tab-content__header">Get customers to pay on time</h3>
-          <p class="tab-content__text">Process more applications by automatically filtering which applicants are easy approvals and which need more attention.</p>
-          <a href="" class="tab-content__btn">Learn about Data Reporting</a>
-          <p class="tab-content__testimonial">
-            "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"
-          </p>
-          <p class="tab-content__testimonial-author">
-            Penny Everest, Valiant Products Corporation
-          </p>
-          <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
+        <template v-if="selectedTab == 'Poster une annonce'">
+          <h3 class="tab-content__header">Poster une annonce</h3>
+ <v-card>
+    <v-tabs
+      color="deep-purple accent-4"
+      right
+    >
+      <v-tab>Je fais un envoi</v-tab>
+      <v-tab>J'ai des Kilos</v-tab>
+
+      <v-tab-item
+        v-for="n in 2"
+        :key="n"
+      >
+         <center>
+          <v-row>
+      
+            <v-card>
+                  <h3 style="text-align: center">J'AI DES KILOS <br/></h3>
+
+                    <v-img
+                                                        style="display:inline-block;"
+                                                        class="centrer"
+                                                        width="100"
+                                                        height="100"
+                                                        src="./assets/logo.png"
+                                                    ></v-img>
+              
+
+                    <v-form
+                        style="padding: 32; width=600px;"
+                        justify-content="center"
+                        ref="form2"
+                        v-model="valid"
+                        lazy-validation
+                      >
+
+                        <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
+                          ><span style="font-size: 10px">{{ notif }}</span>
+                        </v-alert>
+
+                                <v-text-field
+                                  placeholder="Billet"
+                                    v-model="billet"
+                                    outlined
+                                    :rules="billetRules"
+                                    label="billet"
+                                    required
+                                ></v-text-field>
+
+                              <v-text-field
+                                placeholder="Categorie"
+                                  v-model="categorie"
+                                  outlined
+                                  :rules="categorieRules"
+                                  label="categorie"
+                                  required
+                              ></v-text-field>
+
+                      
+                              <v-menu
+                                v-model="menu2"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="auto"
+                              >
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-text-field
+                                    v-model="date"
+                                    label="Picker without buttons"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker
+                                  v-model="date"
+                                  @input="menu2 = false"
+                                ></v-date-picker>
+                              </v-menu>
+                      </v-form>
+
+
+              </v-card>
+              </centrer>
+         
+          </v-row>
+      </v-tab-item>
+    </v-tabs>
+  </v-card>
         </template>
       </div>
     </div>
@@ -81,6 +176,8 @@
                       height:350;"
                 src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"      
                  >
+                 <v-form>
+                 
                  <v-row style="margin-left:100px;">
                     <v-col >
                     </v-col>
@@ -93,7 +190,7 @@
                       width="50"
                       ></v-img>
 
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
+                      <h4 style="margin-top:15px;">Easy Way To Search Tickets</h4>
                       <p style="margin-top:15px;">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                       </p></center>
@@ -129,6 +226,7 @@
                     <v-col >
                     </v-col>
                </v-row>
+               </v-form>
           </v-img>
 
 
@@ -144,19 +242,31 @@ import { EventBus } from "@/event_bus";
 
 @Component
 export default class Dashboard extends Vue {
+
+    valid = true
+  categorie = "";
+  billet = "";
+  emailRules = [
+    (v: any) => !!v || "E-mail is required",
+    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+  ];
+  passwordRules = [(v: string) => !!v || "Password is required"];
+
+        date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+      menu2 = false;
   
 tabs= [
       {
         title: "My Details",
-        subtitle: "Process applicants faster"
       },
       {
         title: "Shopping Cart",
-        subtitle: "Approve more applicants"
       },
       {
         title: "My Tours",
-        subtitle: "Stay up-to-date with customers"
+      },
+      {
+        title: "Poster une annonce",
       }
     ] ; 
     selectedTab="My Details"
@@ -246,6 +356,11 @@ tabs= [
 .tab-content__text {
   margin: 0px 0px 30px;
   font-size: 1.25em;
+}
+
+.tab-content__text2 {
+  margin: 0px 0px 30px;
+  font-size: 1.05em;
 }
 
 .tab-content__btn {

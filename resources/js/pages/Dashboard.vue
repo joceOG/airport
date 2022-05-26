@@ -1,16 +1,16 @@
 <template>
 <v-container fluid class="fapp" style="padding:0px;"
-  >  
+  >
     <v-img
      style="width:100%;"
      height="1000"
       src="./assets/blank.jpg"
     >
- 
+
  <p style="margin-top:140px;">
 
    <div id="v-tabs">
- 
+
   <div class="container">
     <div class="row">
       <div class="col-md-3">
@@ -85,7 +85,7 @@
       >
          <center>
           <v-row>
-      
+
             <v-card>
                   <h3 style="text-align: center">J'AI DES KILOS <br/></h3>
 
@@ -96,7 +96,6 @@
                                                         height="100"
                                                         src="./assets/logo.png"
                                                     ></v-img>
-              
 
                     <v-form
                         style="padding: 32; width=600px;"
@@ -128,7 +127,6 @@
                                   required
                               ></v-text-field>
 
-                      
                               <v-menu
                                 v-model="menu2"
                                 :close-on-content-click="false"
@@ -154,10 +152,9 @@
                               </v-menu>
                       </v-form>
 
-
               </v-card>
               </centrer>
-         
+
           </v-row>
       </v-tab-item>
     </v-tabs>
@@ -171,20 +168,20 @@
     </v-img>
 
          <v-img
-                style="width:100%; 
-                        padding:0px; 
+                style="width:100%;
+                        padding:0px;
                       height:350;"
-                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"      
+                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
                  >
                  <v-form>
-                 
+
                  <v-row style="margin-left:100px;">
                     <v-col >
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg"
                       height="50"
                       width="50"
@@ -196,9 +193,9 @@
                       </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg"
                       height="50"
                       width="50"
@@ -210,9 +207,9 @@
                       </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg"
                       height="50"
                       width="50"
@@ -229,63 +226,60 @@
                </v-form>
           </v-img>
 
-
-
   </v-container>
-          
+
 </template>
 
 <script lang='ts'>
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
-import { EventBus } from "@/event_bus";
+import { EventBus } from '@/event_bus'
 
 @Component
 export default class Dashboard extends Vue {
-
     valid = true
-  categorie = "";
-  billet = "";
+  categorie = '';
+  billet = '';
   emailRules = [
-    (v: any) => !!v || "E-mail is required",
-    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      (v: any) => !!v || 'E-mail is required',
+      (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
   ];
-  passwordRules = [(v: string) => !!v || "Password is required"];
+
+  passwordRules = [(v: string) => !!v || 'Password is required'];
 
         date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
       menu2 = false;
-  
+
 tabs= [
-      {
-        title: "My Details",
-      },
-      {
-        title: "Shopping Cart",
-      },
-      {
-        title: "My Tours",
-      },
-      {
-        title: "Poster une annonce",
-      }
-    ] ; 
-    selectedTab="My Details"
+    {
+        title: 'My Details'
+    },
+    {
+        title: 'Shopping Cart'
+    },
+    {
+        title: 'My Tours'
+    },
+    {
+        title: 'Poster une annonce'
+    }
+] ;
 
+    selectedTab='My Details'
 
-  mounted(){
-    console.log("Mounted Dash");
-    EventBus.$emit("edash") ;
-  }
-
-   selectTab(x : any) {
-      this.selectedTab = this.tabs[x].title;
+    mounted () {
+        console.log('Mounted Dash')
+        EventBus.$emit('edash')
     }
 
+    selectTab (x : any) {
+        this.selectedTab = this.tabs[x].title
+    }
 }
 </script>
 <style>
 
-.fapp{    
+.fapp{
     width: 100%;
     left: 0px;
     position: absolute;
@@ -294,15 +288,14 @@ tabs= [
     top: 35px;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 0px;   
+    border-radius: 0px;
 }
 
-.centrer{  
+.centrer{
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
-
 
 .pen-heading {
   font-weight: bold;
@@ -405,6 +398,4 @@ tabs= [
   font-weight: bold;
 }
 
-
 </style>
-

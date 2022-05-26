@@ -2512,18 +2512,18 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
 
     _defineProperty(_assertThisInitialized(_this), "valid", true);
 
-    _defineProperty(_assertThisInitialized(_this), "categorie", "");
+    _defineProperty(_assertThisInitialized(_this), "categorie", '');
 
-    _defineProperty(_assertThisInitialized(_this), "billet", "");
+    _defineProperty(_assertThisInitialized(_this), "billet", '');
 
     _defineProperty(_assertThisInitialized(_this), "emailRules", [function (v) {
-      return !!v || "E-mail is required";
+      return !!v || 'E-mail is required';
     }, function (v) {
-      return /.+@.+\..+/.test(v) || "E-mail must be valid";
+      return /.+@.+\..+/.test(v) || 'E-mail must be valid';
     }]);
 
     _defineProperty(_assertThisInitialized(_this), "passwordRules", [function (v) {
-      return !!v || "Password is required";
+      return !!v || 'Password is required';
     }]);
 
     _defineProperty(_assertThisInitialized(_this), "date", new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10));
@@ -2531,16 +2531,16 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
     _defineProperty(_assertThisInitialized(_this), "menu2", false);
 
     _defineProperty(_assertThisInitialized(_this), "tabs", [{
-      title: "My Details"
+      title: 'My Details'
     }, {
-      title: "Shopping Cart"
+      title: 'Shopping Cart'
     }, {
-      title: "My Tours"
+      title: 'My Tours'
     }, {
-      title: "Poster une annonce"
+      title: 'Poster une annonce'
     }]);
 
-    _defineProperty(_assertThisInitialized(_this), "selectedTab", "My Details");
+    _defineProperty(_assertThisInitialized(_this), "selectedTab", 'My Details');
 
     return _this;
   }
@@ -2548,8 +2548,8 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
   _createClass(Dashboard, [{
     key: "mounted",
     value: function mounted() {
-      console.log("Mounted Dash");
-      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit("edash");
+      console.log('Mounted Dash');
+      _event_bus__WEBPACK_IMPORTED_MODULE_1__.EventBus.$emit('edash');
     }
   }, {
     key: "selectTab",
@@ -3137,7 +3137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \n    width: 100%;\n    left: 0px;\n    position: absolute;\n    box-sizing: border-box;\n    z-index: 3;\n    top: 35px;\n    background-repeat: no-repeat;\n    background-size: cover;\n    border-radius: 0px;\n}\n.centrer{  \n  position: relative;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.pen-heading {\n  font-weight: bold;\n  font-size: 2em;\n  text-align: center;\n  margin-bottom: 40px;\n  color: ##333;\n}\n.tab-item {\n  background: white;\n  border: 1px #D5DADF solid;\n  border-left: 5px solid #D5DADF;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  padding: 10px;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all .2s ease;\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\n  font-weight: bold;\n  font-size: 16px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n  color: #314f8d;\n  margin: 0px;\n}\n.tab-item__subheading {\n  font-size: 18px;\n  color: #333;\n  margin: 0px;\n}\n.tab-content__header {\n  color: #314f8d;\n  font-weight: bold;\n   margin: 0px 0px 30px;\n  font-size: 36px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\n  margin: 0px 0px 30px;\n  font-size: 1.25em;\n}\n.tab-content__text2 {\n  margin: 0px 0px 30px;\n  font-size: 1.05em;\n}\n.tab-content__btn {\n  display: inline-block;\n  margin-bottom: 30px;\n  padding: 16px 50px;\n  cursor: pointer;\n  text-decoration: none;\n  font-size: 14px;\n  text-transform: uppercase;\n  font-weight: 900;\n  position: relative;\n  transition: all .3s ease;\n  text-align: center;\n  line-height: 1;\n  border: 2px solid;\n  border-radius: 3px;\n  background-color: transparent;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  color: #24a926;\n  fill: #24a926;\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\n  color: #24a926;\n  text-decoration: none;\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\n  margin-bottom: 15px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-style: italic;\n}\n.tab-content__testimonial-author {\n  margin-bottom: 5px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-weight: bold;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{\n    width: 100%;\n    left: 0px;\n    position: absolute;\n    box-sizing: border-box;\n    z-index: 3;\n    top: 35px;\n    background-repeat: no-repeat;\n    background-size: cover;\n    border-radius: 0px;\n}\n.centrer{\n  position: relative;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.pen-heading {\n  font-weight: bold;\n  font-size: 2em;\n  text-align: center;\n  margin-bottom: 40px;\n  color: ##333;\n}\n.tab-item {\n  background: white;\n  border: 1px #D5DADF solid;\n  border-left: 5px solid #D5DADF;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  padding: 10px;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all .2s ease;\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\n  font-weight: bold;\n  font-size: 16px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n  color: #314f8d;\n  margin: 0px;\n}\n.tab-item__subheading {\n  font-size: 18px;\n  color: #333;\n  margin: 0px;\n}\n.tab-content__header {\n  color: #314f8d;\n  font-weight: bold;\n   margin: 0px 0px 30px;\n  font-size: 36px;\n  line-height: 1.3em;\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\n  margin: 0px 0px 30px;\n  font-size: 1.25em;\n}\n.tab-content__text2 {\n  margin: 0px 0px 30px;\n  font-size: 1.05em;\n}\n.tab-content__btn {\n  display: inline-block;\n  margin-bottom: 30px;\n  padding: 16px 50px;\n  cursor: pointer;\n  text-decoration: none;\n  font-size: 14px;\n  text-transform: uppercase;\n  font-weight: 900;\n  position: relative;\n  transition: all .3s ease;\n  text-align: center;\n  line-height: 1;\n  border: 2px solid;\n  border-radius: 3px;\n  background-color: transparent;\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\n  color: #24a926;\n  fill: #24a926;\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\n  color: #24a926;\n  text-decoration: none;\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\n  margin-bottom: 15px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-style: italic;\n}\n.tab-content__testimonial-author {\n  margin-bottom: 5px;\n  font-size: 1em;\n  color: rgba(0,0,0,.75);\n  font-weight: bold;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

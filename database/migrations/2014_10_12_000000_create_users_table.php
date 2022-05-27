@@ -19,13 +19,16 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('whatsapp');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('phone')->unique();
+            $table->boolean('whatsapp');
+            $table->string('admin_key')->nullable();
+            $table->boolean('verified')->default(false);
             $table->binary('id_picture_front');
             $table->binary('id_picture_back');
-            $table->binary('passport');
+            $table->binary('passport')->nullable();
             $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

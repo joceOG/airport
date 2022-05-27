@@ -15,10 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->uuid('order_id');
+            $table->uuid('order_id')->unique();
             $table->string('courier_email');
             $table->string('sender_email');
-            $table->json('package');
+            $table->uuid('package_id');
             $table->string('status');
             $table->uuid('courier_id');
             $table->uuid('sender_id');

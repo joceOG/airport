@@ -15,7 +15,7 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->uuid('package_id');
+            $table->uuid('package_id')->unique();
             $table->string('item');
             $table->string('category');
             $table->float('weight');

@@ -15,10 +15,10 @@ class CreateDeliveriesTable extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->uuid('delivery_id');
+            $table->uuid('delivery_id')->unique();
             $table->string('sender_email');
             $table->string('courier_email');
-            $table->json('package');
+            $table->uuid('package_id');
             $table->string('status');
             $table->uuid('sender_id');
             $table->uuid('courier_id');

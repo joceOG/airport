@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use App\Models\Deliveries;
+use App\Models\Packages;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -15,7 +18,8 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        return Deliveries::orderBy('created_at', 'DESC')->get();
+        $deliveries = Deliveries::all();
+        return response()->json($deliveries , 200);
     }
 
     /**
@@ -36,17 +40,43 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        $newItem = new Deliveries();
-        $newItem->delivery_id = UuidV4::uuid4();
-        $newItem->sender_email = $request->delivery['sender_email'];
-        $newItem->courier_email = $request->delivery['courier_email'];
-        $newItem->package = $request->delivery['package'];
-        $newItem->status = $request->delivery['status'];
-        $newItem->sender_id = $request->delivery['sender_id'];
-        $newItem->courier_id = $request->delivery['courier_id'];
-        $newItem->save();
+        $package = Packages::firstWhere('package_id', $request->session()->get('package_id'));
+        // if($package->sender_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
 
-        return $newItem;
+        $newDelivery = new Deliveries();
+        $newDelivery->delivery_id = UuidV4::uuid4();
+
+        $validator = Validator::make($request->all(), [
+            'ad.user_id' => 'required|uuid'
+        ], [
+            'ad.user_id.required' => 'User ID requis'
+        ]);
+
+        if(!$validator->fails()) {
+            // $sender = User::firstWhere('user_id', $request->session()->get('user_id'));
+            $sender = User::first();
+            // $courier = User::firstWhere('user_id', $request->ad['user_id']);
+            $courier = User::first();
+
+            // $newDelivery->sender_email = DeliveryController::mysql_escape_mimic($sender->email);
+            // $newDelivery->courier_email = DeliveryController::mysql_escape_mimic($courier->email);
+            $newDelivery->sender_email = 'cmguinan@yahoo.fr';
+            $newDelivery->courier_email = 'lasourcebeats@gmail.com';
+            // $newDelivery->package_id = $request->session()->get('package_id');
+            $newDelivery->package_id = UuidV4::uuid4();
+            $newDelivery->status = 'en attente';
+            // $newDelivery->sender_id = DeliveryController::mysql_escape_mimic($sender->user_id);
+            // $newDelivery->courier_id = DeliveryController::mysql_escape_mimic($courier->user_id);
+            $newDelivery->sender_id = UuidV4::uuid4();
+            $newDelivery->courier_id = UuidV4::uuid4();
+            $newDelivery->save();
+
+            return response()->json(['data' => $newDelivery, 'message' => ''], 201);
+        } else {
+            return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+        }
     }
 
     /**
@@ -80,15 +110,31 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $existingAd = Deliveries::find($id);
+        $existingDelivery = Deliveries::find($id);
 
-        if ($existingAd) {
-            $existingAd->status = $request->delivery['status'];
-            $existingAd->save();
+        if ($existingDelivery) {
 
-            return $existingAd;
+        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+            $validator = Validator::make($request->all(), [
+                'delivery.status' => 'required|string|alpha|in:acceptée,rejetée,livrée'
+            ], [
+                'delivery.status.required' => 'Nouveau status requis',
+                'delivery.status.in' => 'Cette livraison doit être acceptée, rejetée ou confirmée comme livrée'
+            ]);
+
+            if(!$validator->fails()) {
+                $existingDelivery->status = DeliveryController::mysql_escape_mimic($request->delivery['status']);
+                $existingDelivery->save();
+
+                return response()->json(['data' => $existingDelivery, 'message' => ''], 200);
+            } else {
+                return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+            }
         } else {
-            return "Delivery not found";
+            return response()->json(['data' => '', 'message' => 'Cette livraison n\'existe pas'], 404);
         }
     }
 
@@ -100,13 +146,18 @@ class DeliveryController extends Controller
      */
     public function destroy($id)
     {
-        $existingItem = Deliveries::find($id);
+        $existingDelivery = Deliveries::find($id);
 
-        if ($existingItem ) {
-            $existingItem ->delete();
-            return "Delivery successfully deleted";
+        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+        if($existingDelivery) {
+            $existingDelivery ->delete();
+
+            return response()->json(['data' => '', 'message' => 'Livraison rejetée'], 200);
         } else {
-            return "Delivery not found";
+            return response()->json(['data' => '', 'message' => 'Cette livraison n\'existe pas'], 404);
         }
     }
 }

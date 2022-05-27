@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class OrderController extends Controller
@@ -15,7 +18,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Orders::orderBy('created_at', 'DESC')->get();
+        $orders = Orders::all();
+        return response()->json($orders , 200);
     }
 
     /**
@@ -36,17 +40,47 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $newItem = new Orders();
-        $newItem->order_id = UuidV4::uuid4();
-        $newItem->sender_email = $request->order['sender_email'];
-        $newItem->courier_email = $request->order['courier_email'];
-        $newItem->package = $request->order['package'];
-        $newItem->status = $request->order['status'];
-        $newItem->sender_id = $request->order['sender_id'];
-        $newItem->courier_id = $request->order['courier_id'];
-        $newItem->save();
+        // if($request->delivery['courier_id'] !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
 
-        return $newItem;
+        $newOrder = new Orders();
+        $newOrder->order_id = UuidV4::uuid4();
+
+        $validator = Validator::make($request->all(), [
+            'delivery.sender_id' => 'required|uuid',
+            'delivery.package_id' => 'required|uuid',
+            'delivery.status' => 'required|string|alpha|in:acceptée,rejetée'
+        ], [
+            'delivery.sender_id.required' => 'Sender ID requis',
+            'delivery.package_id.required' => 'Package ID requis',
+            'delivery.status.required' => 'Status de la livraison requis',
+            'delivery.status.in' => 'Cette livraison doit être acceptée ou rejetée'
+        ]);
+
+        if(!$validator->fails()) {
+            // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
+            $sender = User::first();
+            // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
+            $courier = User::first();
+
+            // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
+            // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
+            $newOrder->sender_email = 'cmguinan@yahoo.fr';
+            $newOrder->courier_email = 'lasourcebeats@gmail.com';
+            // $newOrder->package_id = $request->delivery['package_id'];
+            $newOrder->package_id = UuidV4::uuid4();
+            $newOrder->status = $request->delivery['status'];
+            // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
+            // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
+            $newOrder->sender_id = UuidV4::uuid4();
+            $newOrder->courier_id = UuidV4::uuid4();
+            $newOrder->save();
+
+            return response()->json(['data' => $newOrder, 'message' => ''], 201);
+        } else {
+            return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+        }
     }
 
     /**
@@ -80,15 +114,30 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $existingAd = Orders::find($id);
+        $existingOrder = Orders::find($id);
 
-        if ($existingAd) {
-            $existingAd->status = $request->order['status'];
-            $existingAd->save();
+        if ($existingOrder) {
+            // if($existingOrder->courier_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
 
-            return $existingAd;
+            $validator = Validator::make($request->all(), [
+                'order.status' => 'required|string|alpha|in:annulée,livrée'
+            ], [
+                'order.status.required' => 'Nouveau status requis',
+                'order.status.in' => 'Cette commande doit être annulée ou confirmée comme livrée'
+            ]);
+
+            if(!$validator->fails()) {
+                $existingOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
+                $existingOrder->save();
+
+                return response()->json(['data' => $existingOrder, 'message' => ''], 200);
+            } else {
+                return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+            }
         } else {
-            return "Order not found";
+            return response()->json(['data' => '', 'message' => 'Cette commande n\'existe pas'], 404);
         }
     }
 
@@ -100,13 +149,25 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $existingItem = Orders::find($id);
+        $existingOrder = Orders::find($id);
 
-        if ($existingItem ) {
-            $existingItem ->delete();
+        if ($existingOrder ) {
+            $existingOrder ->delete();
             return "Order successfully deleted";
         } else {
             return "Order not found";
         }
+
+        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+            if($existingOrder) {
+                $existingOrder ->delete();
+
+                return response()->json(['data' => '', 'message' => 'Commande annulée'], 200);
+            } else {
+                return response()->json(['data' => '', 'message' => 'Cette commande n\'existe pas'], 404);
+            }
     }
 }

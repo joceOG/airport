@@ -15,7 +15,7 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
-            $table->uuid('ad_id');
+            $table->uuid('ad_id')->unique();
             $table->uuid('user_id');
             $table->string('ticket_number')->unique();
             $table->string('travel_company');

@@ -176,8 +176,8 @@ class PackageController extends Controller
     {
         $existingItem = Packages::find($id);
 
-        if ($existingItem ) {
-            // if($existingItem->sender_id !== session('user_id)) {
+        if ($existingItem) {
+            // if($existingItem->sender_id !== session('user_id')) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 

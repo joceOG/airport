@@ -64,9 +64,10 @@ class AdController extends Controller
         ]);
 
         if(!$validator->fails()) {
-            $newAd->user_id = AdController::mysql_escape_mimic($request->session()->get('user_id'));
+            // $newAd->user_id = AdController::mysql_escape_mimic($request->session()->get('user_id'));
+            $newAd->user_id = UuidV4::uuid4();
             $newAd->ticket_number = AdController::mysql_escape_mimic($request->ad['ticket_number']);
-            $newAd->ticket_number = AdController::mysql_escape_mimic($request->ad['travel_company']);
+            $newAd->travel_company = AdController::mysql_escape_mimic($request->ad['travel_company']);
             $newAd->departure = AdController::mysql_escape_mimic($request->ad['departure']);
             $newAd->destination = AdController::mysql_escape_mimic($request->ad['destination']);
             $newAd->departure_date = AdController::mysql_escape_mimic($request->ad['departure_date']);
@@ -156,7 +157,7 @@ class AdController extends Controller
                 return response()->json(['data' => '', 'message' => $validator->errors()], 400);
             }
         } else {
-            return response()->json(['data' => '', 'message' => 'Cette annonce n\'existe pas']);
+            return response()->json(['data' => '', 'message' => 'Cette annonce n\'existe pas'], 404);
         }
     }
 
@@ -187,7 +188,7 @@ class AdController extends Controller
             });
 
             $matchingAds = $matchingAds->filter(function ($value, $key) use($package){
-                $categoriesAccepted = json_decode($value['categories_accepted']);
+                $categoriesAccepted = $value['categories_accepted'];
                 foreach($categoriesAccepted as $category) {
                     if($category === $package['category'])
                         return true;
@@ -225,7 +226,7 @@ class AdController extends Controller
             $existingAd ->delete();
             return response()->json(['data' => '', 'message' => 'Annonce supprimée'], 200);
         } else {
-            return response()->json(['data' => '', 'message' => 'Cette annonce n\'existe pas'], 400);
+            return response()->json(['data' => '', 'message' => 'Cette annonce n\'existe pas'], 404);
         }
     }
 }

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ads;
+use App\Models\Deliveries;
+use App\Models\Orders;
+use App\Models\Packages;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -132,11 +136,12 @@ class UserController extends Controller
         //
     }
 
-    public function validation(Request $request, $id)
+    public function validation($request, $id)
     {
         $user = User::find($id);
+        $admin = User::firstWhere('user_id', $request->session()->get('user_id'));
 
-        if($user && $user->admin_key === env('ADMIN_KEY')) {
+        if($user && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
             $user->verified = true;
             $user->save();
         }
@@ -151,7 +156,49 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $existingUser = User::find($id);
 
+        if($existingUser) {
+
+            $validator = Validator::make($request->all(), [
+                'user.first_name' => 'required|string|alphanum',
+                'user.last_name' => 'required|string|min:2|max:255',
+                'user.email' => 'required|string|email|unique:App\Models\User,email',
+                'user.password' => [
+                    'required',
+                    Password::min(8)
+                        ->letters()
+                        ->numbers()
+                        ->symbols(),
+                    'confirmed'
+                ],
+                'user.phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
+                'user.whatsapp' => 'required|boolean',
+            ], [
+                'user.first_name.required' => 'Prénom requis',
+                'user.last_name.required' => 'Nom de famille requis',
+                'user.password.required' => 'Mot de passe requisrequis',
+                'user.phone.required' => 'Numero de téléphone requis',
+                'user.whatsapp.required' => 'Whatsapp requis',
+            ]);
+
+            if(!$validator->fails()) {
+                $existingUser->first_name = UserController::mysql_escape_mimic($request->user['first_name']);
+                $existingUser->last_name = UserController::mysql_escape_mimic($request->user['last_name']);
+                $existingUser->email = UserController::mysql_escape_mimic($request->user['email']);
+                $existingUser->password = bcrypt($request->user['password']);
+                $existingUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
+                $existingUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
+                $existingUser->admin_key = bcrypt($request->user['admin_key']) ?? null;
+                $existingUser->save();
+
+                return response()->json(['data' => '', 'message' => 'Utilisateur modifié avec success'], 201);
+            } else {
+                return response()->json(['data' => '', 'message' => $validator->errors()], 400);
+            }
+        } else {
+            return response()->json(['data' => '', 'message' => 'Cette utilisateur n\'existe pas'], 404);
+        }
     }
 
     /**
@@ -162,6 +209,22 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $existingUser = User::find($id);
+        $admin = User::firstWhere('user_id', session()->get('user_id'));
 
+        if($existingUser && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            $existingAds = Ads::where('user_id', $existingUser->user_id)->delete();
+            if(!empty($existingAds)) $existingAds->delete();
+            $existingUserPackages = Packages::where('sender_id', $existingUser->user_id);
+            if(!empty($existingUserPackages)) $existingUserPackages->delete();
+            $existingUserDeliveries = Deliveries::where('courier_id', $existingUser->user_id);
+            if(!empty($existingUserDeliveries)) $existingUserDeliveries->delete();
+            $existingUserOrders = Orders::where('sender_id', $existingUser->user_id);
+            if(!empty($existingUserOrders)) $existingUserOrders->delete();
+            $existingUser->delete();
+            return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
+        } else {
+            return response()->json(['data' => '', 'message' => 'Cette utilisateur n\'existe pas'], 404);
+        }
     }
 }

@@ -151,18 +151,10 @@ class OrderController extends Controller
     {
         $existingOrder = Orders::find($id);
 
-        if ($existingOrder ) {
-            $existingOrder ->delete();
-            return "Order successfully deleted";
-        } else {
-            return "Order not found";
-        }
-
-        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-            // }
-
             if($existingOrder) {
+                if($existingOrder->courier_id !== session()->get('user_id')) {
+                return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+                }
                 $existingOrder ->delete();
 
                 return response()->json(['data' => '', 'message' => 'Commande annulée'], 200);

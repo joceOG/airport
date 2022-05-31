@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Deliveries;
 use App\Models\Packages;
 use App\Models\User;
+use App\Models\Ads;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -19,7 +20,7 @@ class DeliveryController extends Controller
     public function index()
     {
         $deliveries = Deliveries::all();
-        return response()->json($deliveries , 200);
+        return response()->json($deliveries, 200);
     }
 
     /**
@@ -40,7 +41,6 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        $package = Packages::firstWhere('package_id', $request->session()->get('package_id'));
         // if($package->sender_id !== $request->session()->get('user_id')) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
@@ -56,9 +56,7 @@ class DeliveryController extends Controller
 
         if(!$validator->fails()) {
             // $sender = User::firstWhere('user_id', $request->session()->get('user_id'));
-            $sender = User::first();
             // $courier = User::firstWhere('user_id', $request->ad['user_id']);
-            $courier = User::first();
 
             // $newDelivery->sender_email = DeliveryController::mysql_escape_mimic($sender->email);
             // $newDelivery->courier_email = DeliveryController::mysql_escape_mimic($courier->email);
@@ -129,6 +127,16 @@ class DeliveryController extends Controller
                 $existingDelivery->status = DeliveryController::mysql_escape_mimic($request->delivery['status']);
                 $existingDelivery->save();
 
+                $associatedAd = Ads::firstWhere('sender_id', $existingDelivery->sender_id);
+                $associatedPackage = Packages::firstWhere('package_id', $existingDelivery->package_id);
+
+                if($existingDelivery->status === 'accepted') {
+                    $associatedAd->space = $associatedAd->space > $associatedPackage->weight ? $associatedAd->space - $associatedPackage->weight : 0;
+                } elseif($existingDelivery->status === 'rejected') {
+                    $associatedPackage->delete();
+                    $existingDelivery->delete();
+                }
+
                 return response()->json(['data' => $existingDelivery, 'message' => ''], 200);
             } else {
                 return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
@@ -148,9 +156,9 @@ class DeliveryController extends Controller
     {
         $existingDelivery = Deliveries::find($id);
 
-        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-            // }
+        // if($existingDelivery->courier_id !== session()->get('user_id')) {
+        //         return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // }
 
         if($existingDelivery) {
             $existingDelivery ->delete();

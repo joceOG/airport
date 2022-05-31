@@ -40,9 +40,11 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // if($request->delivery['courier_id'] !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-            // }
+        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+
+        // if(!$user) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // }
 
         $newOrder = new Orders();
         $newOrder->order_id = UuidV4::uuid4();
@@ -122,15 +124,32 @@ class OrderController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'order.status' => 'required|string|alpha|in:annulée,livrée'
+                'order.status' => 'required|string|alpha|in:annulée,livrée,non-livrée'
             ], [
                 'order.status.required' => 'Nouveau status requis',
-                'order.status.in' => 'Cette commande doit être annulée ou confirmée comme livrée'
+                'order.status.in' => 'Cette commande doit être confirmée comme livrée ou non-livrée'
             ]);
 
             if(!$validator->fails()) {
                 $existingOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
                 $existingOrder->save();
+
+                if($existingOrder->status === 'livrée') {
+                    // Release payment to the courier
+
+
+                } elseif($existingOrder->status === 'non-livrée') {
+                    // ???
+
+
+                } else {
+                    // Send an email to the sender
+                    // to confirm cancellation and refund
+
+
+                    // Refund sender
+
+                }
 
                 return response()->json(['data' => $existingOrder, 'message' => ''], 200);
             } else {

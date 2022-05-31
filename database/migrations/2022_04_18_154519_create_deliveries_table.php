@@ -19,6 +19,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('sender_email');
             $table->string('courier_email');
             $table->uuid('package_id');
+            $table->uuid('ad_id');
             $table->string('status');
             $table->uuid('sender_id');
             $table->uuid('courier_id');

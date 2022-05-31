@@ -7,6 +7,7 @@ use App\Models\Deliveries;
 use App\Models\Packages;
 use App\Models\User;
 use App\Models\Ads;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -41,16 +42,20 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        // if($package->sender_id !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-            // }
+        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+
+        // if(!$user) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // }
 
         $newDelivery = new Deliveries();
         $newDelivery->delivery_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'ad.user_id' => 'required|uuid'
+            'ad.ad_id' => 'required|uuid',
+            'ad.user_id' => 'required|uuid',
         ], [
+            'ad.ad_id.required' => 'Ad ID requis',
             'ad.user_id.required' => 'User ID requis'
         ]);
 
@@ -64,6 +69,8 @@ class DeliveryController extends Controller
             $newDelivery->courier_email = 'lasourcebeats@gmail.com';
             // $newDelivery->package_id = $request->session()->get('package_id');
             $newDelivery->package_id = UuidV4::uuid4();
+            // $newDelivery->ad_id = $request->ad['ad_id'];
+            $newDelivery->ad_id = UuidV4::uuid4();
             $newDelivery->status = 'en attente';
             // $newDelivery->sender_id = DeliveryController::mysql_escape_mimic($sender->user_id);
             // $newDelivery->courier_id = DeliveryController::mysql_escape_mimic($courier->user_id);
@@ -71,7 +78,7 @@ class DeliveryController extends Controller
             $newDelivery->courier_id = UuidV4::uuid4();
             $newDelivery->save();
 
-            return response()->json(['data' => $newDelivery, 'message' => ''], 201);
+            return response()->json(['data' => $newDelivery, 'message' => 'Nouvelle commande crée'], 201);
         } else {
             return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
         }
@@ -111,13 +118,14 @@ class DeliveryController extends Controller
         $existingDelivery = Deliveries::find($id);
 
         if ($existingDelivery) {
+            $user = User::firstWhere('user_id', $request->session()->get('user_id'));
 
-        // if($existingDelivery->courier_id !== $request->session()->get('user_id')) {
+        // if($existingDelivery->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
             $validator = Validator::make($request->all(), [
-                'delivery.status' => 'required|string|alpha|in:acceptée,rejetée,livrée'
+                'delivery.status' => 'required|string|alpha|in:acceptée,rejetée,livrée,annulée'
             ], [
                 'delivery.status.required' => 'Nouveau status requis',
                 'delivery.status.in' => 'Cette livraison doit être acceptée, rejetée ou confirmée comme livrée'
@@ -127,17 +135,54 @@ class DeliveryController extends Controller
                 $existingDelivery->status = DeliveryController::mysql_escape_mimic($request->delivery['status']);
                 $existingDelivery->save();
 
-                $associatedAd = Ads::firstWhere('sender_id', $existingDelivery->sender_id);
+                $associatedAd = Ads::firstWhere('ad_id', $existingDelivery->ad_id);
                 $associatedPackage = Packages::firstWhere('package_id', $existingDelivery->package_id);
 
-                if($existingDelivery->status === 'accepted') {
+                if($existingDelivery->status === 'acceptée') {
                     $associatedAd->space = $associatedAd->space > $associatedPackage->weight ? $associatedAd->space - $associatedPackage->weight : 0;
-                } elseif($existingDelivery->status === 'rejected') {
+
+                    $newOrder = new Orders();
+                    $newOrder->order_id = UuidV4::uuid4();
+                    $newOrder->sender_email = $existingDelivery->sender_email;
+                    $newOrder->courier_email = $existingDelivery->courier_email;
+                    $newOrder->package_id = $existingDelivery->package_id;
+                    $newOrder->ad_id = $existingDelivery->ad_id;
+                    $newOrder->status = $existingDelivery->status;
+                    $newOrder->sender_id = $existingDelivery->sender_id;
+                    $newOrder->courier_id = $existingDelivery->courier_id;
+                    $newOrder->save();
+
+                    // Send an email to the sender to confirm acceptance
+
+
+                    // Charge the sender
+
+
+                } elseif($existingDelivery->status === 'rejetée') {
+                    // Send an email to the sender to confirm rejection
+
+
+                    $associatedPackage->delete();
+                    $existingDelivery->delete();
+                } elseif($existingDelivery->status === 'livrėe') {
+                    // Email sender to inform them that
+                    // the package was delivered
+                    // and ask them to confirm in 'My Orders'
+
+
+                } else {
+                    // Send an email to the sender
+                    // to confirm cancellation and refund
+
+
+                    // Refund sender
+
+
                     $associatedPackage->delete();
                     $existingDelivery->delete();
                 }
 
-                return response()->json(['data' => $existingDelivery, 'message' => ''], 200);
+                return response()->json(['data' => $existingDelivery, 'message' => 'Livraison modifiée'], 200);
             } else {
                 return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
             }

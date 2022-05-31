@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Packages;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -39,6 +40,12 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
+        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+
+        // if(!$user) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // }
+
         $newItem = new Packages();
         $newItem->package_id = UuidV4::uuid4();
 
@@ -62,7 +69,7 @@ class PackageController extends Controller
             'package.price.required' => 'Prix requis',
         ]);
 
-        if(!($validator->fails())) {
+        if(!$validator->fails()) {
             $newItem->item = PackageController::mysql_escape_mimic($request->package['item']);
             $newItem->category = PackageController::mysql_escape_mimic($request->package['category']);
             $newItem->weight = PackageController::mysql_escape_mimic($request->package['weight']);
@@ -81,7 +88,7 @@ class PackageController extends Controller
             //     $request->session()->put('package_id', $newItem->package_id);
             // }
 
-            return response()->json(['data' => $newItem, 'message' => ''], 201);
+            return response()->json(['data' => $newItem, 'message' => 'Envoi crée'], 201);
         } else {
             return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
         }
@@ -127,23 +134,21 @@ class PackageController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'ticket_number' => 'required|string|alphanum',
-                'travel_company' => 'required|string|max:255',
-                'departure' => 'required|string|max:255',
-                'destination' => 'required|string|max:255',
-                'departure_date' => 'required|date',
-                'arrival_date' => 'required|date|after:departure_date',
-                'space' => 'required|numeric|min:0|max:100',
-                'categories_accepted' => 'required|array'
+                'package.item' => 'required|string|max:255',
+                'package.category' => 'required|string|max:255',
+                'package.weight' => 'required|numeric|min:0|max:100',
+                'package.departure' => 'required|string|max:255',
+                'package.destination' => 'required|string|max:255',
+                'package.departure_date' => 'required|date',
+                'package.price' => 'required|numeric|min:0'
             ], [
-                'ticket_number.required' => 'Numéro du billet requis',
-                'travel_company.required' => 'Nom de la compagnie de voyage requis',
-                'departure.required' => 'Lieu de départ requis',
-                'destination.required' => 'Destination requise',
-                'departure_date.required' => 'Date de départ requise',
-                'arrival_date.required' => 'Date d\'arrivée requise',
-                'space.required' => 'Espace disponible requis',
-                'categories_accepted.required' => 'Catégories acceptées requises',
+                'package.item.required' => 'Article à envoyer requis',
+                'package.category.required' => 'Categorie requise',
+                'package.weight.required' => 'Poids de l\'article requis',
+                'package.departure.required' => 'Lieu de départ requis',
+                'package.destination.required' => 'Destination requise',
+                'package.departure_date.required' => 'Date de départ requise',
+                'package.price.required' => 'Prix requis',
             ]);
 
             if(!$validator->fails()) {
@@ -153,16 +158,15 @@ class PackageController extends Controller
                 $existingItem->departure = PackageController::mysql_escape_mimic($request->package['departure']);
                 $existingItem->destination = PackageController::mysql_escape_mimic($request->package['destination']);
                 $existingItem->departure_date = PackageController::mysql_escape_mimic($request->package['departure_date']);
-                $existingItem->sender_id = PackageController::mysql_escape_mimic($request->session()->get('user_id'));
                 $existingItem->price = PackageController::mysql_escape_mimic($request->package['price']);
                 $existingItem->save();
 
-                return response()->json(['data' => $existingItem, 'message' => ''], 200);
+                return response()->json(['data' => $existingItem, 'message' => 'Envoi modifié'], 200);
             } else {
                 return response()->json(['data' => '', 'message' => $validator->errors()], 400);
             }
         } else {
-            return response()->json(['data' => '', 'message' => 'Cette annonce n\'existe pas']);
+            return response()->json(['data' => '', 'message' => 'Cet envoi n\'existe pas']);
         }
     }
 
@@ -184,7 +188,7 @@ class PackageController extends Controller
             $existingItem ->delete();
             return response()->json(['data' => '', 'message' => 'Envoi supprimée'], 200);
         } else {
-            return response()->json(['data' => '', 'message' => 'Cet envoi n\'existe pas'], 400);
+            return response()->json(['data' => '', 'message' => 'Cet envoi n\'existe pas'], 404);
         }
     }
 }

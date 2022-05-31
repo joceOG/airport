@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Ads;
+use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -38,11 +40,16 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
+        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+
+        // if(!$user) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // }
+
         $newAd = new Ads();
         $newAd->ad_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'ad.user_id' => 'required|uuid',
             'ad.ticket_number' => 'required|string|alphanum',
             'ad.travel_company' => 'required|string|max:255',
             'ad.departure' => 'required|string|max:255',
@@ -52,7 +59,6 @@ class AdController extends Controller
             'ad.space' => 'required|numeric|min:0|max:100',
             'ad.categories_accepted' => 'required|array'
         ], [
-            'ad.user_id.required' => 'User ID requis',
             'ad.ticket_number.required' => 'Numéro du billet requis',
             'ad.travel_company.required' => 'Nom de la compagnie de voyage requis',
             'ad.departure.required' => 'Lieu de départ requis',
@@ -76,7 +82,7 @@ class AdController extends Controller
             $newAd->categories_accepted = $request->ad['categories_accepted'];
             $newAd->save();
 
-            return response()->json(['data' => $newAd, 'message' => ''], 201);
+            return response()->json(['data' => $newAd, 'message' => 'Annonce crée'], 201);
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);
         }
@@ -116,9 +122,15 @@ class AdController extends Controller
         $existingAd = Ads::find($id);
 
         if ($existingAd) {
+            // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
 
-            // if($existingAd->user_id !== $request->session()->get('user_id')) {
+            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+            // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
+            // if(!empty($associatedOrders) || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être modifiée car elle est associé à une commande en cours'], 403);
             // }
 
             $validator = Validator::make($request->all(), [
@@ -143,16 +155,16 @@ class AdController extends Controller
 
             if(!$validator->fails()) {
                 $existingAd->ticket_number = AdController::mysql_escape_mimic($request->ad['ticket_number']);
-                $existingAd->ticket_number = AdController::mysql_escape_mimic($request->ad['travel_company']);
+                $existingAd->travel_company = AdController::mysql_escape_mimic($request->ad['travel_company']);
                 $existingAd->departure = AdController::mysql_escape_mimic($request->ad['departure']);
                 $existingAd->destination = AdController::mysql_escape_mimic($request->ad['destination']);
                 $existingAd->departure_date = AdController::mysql_escape_mimic($request->ad['departure_date']);
                 $existingAd->arrival_date = AdController::mysql_escape_mimic($request->ad['arrival_date']);
                 $existingAd->space = AdController::mysql_escape_mimic($request->ad['space']);
-                $existingAd->categories_accepted = json_encode($request->ad['categories_accepted']);
+                $existingAd->categories_accepted = $request->ad['categories_accepted'];
                 $existingAd->save();
 
-                return response()->json(['data' => $existingAd, 'message' => ''], 200);
+                return response()->json(['data' => $existingAd, 'message' => 'Annonce modifiée'], 200);
             } else {
                 return response()->json(['data' => '', 'message' => $validator->errors()], 400);
             }
@@ -198,7 +210,7 @@ class AdController extends Controller
             });
 
             if(empty($matchingAds)) {
-                return response()->json(['data' => '', 'message' => 'Aucun résultat'], 404);
+                return response()->json(['data' => '', 'message' => 'Aucun résultat'], 200);
             } else {
                 return response()->json(['data' => $matchingAds, 'message' => count($matchingAds) . " résultat(s)"], 200);
             }
@@ -219,8 +231,15 @@ class AdController extends Controller
         $existingAd = Ads::find($id);
 
         if ($existingAd ) {
-            // if($existingItem->sender_id !== session('user_id)) {
+            // $user = User::firstWhere('user_id', session()->get('user_id'));
+
+            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+            // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
+            // if(!empty($associatedOrders) || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être supprimée car elle est associé à une commande en cours'], 403);
             // }
 
             $existingAd ->delete();

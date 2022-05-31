@@ -41,6 +41,6 @@ class RequestSent extends Mailable
             ->subject('Requête envoyée au vendeur')
             ->tag('request')
             ->metadata('package_id', $this->package->package_id)
-            ->view('emails.request.sent', [$this->package]);
+            ->view('emails.request.sent');
     }
 }

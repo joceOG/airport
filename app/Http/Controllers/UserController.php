@@ -24,8 +24,7 @@ class UserController extends Controller
         // Ajouter vérification usermin
 
         $users = User::all() ;
-       // return  User::orderBy('created_at', 'DESC')->get();
-         return response()->json( $users , 200);
+        return response()->json($users , 200);
     }
 
     /**
@@ -63,18 +62,18 @@ class UserController extends Controller
             ],
             'user.phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
             'user.whatsapp' => 'required|boolean',
-            // 'user.id_picture_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            // 'user.id_picture_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            // 'user.passport' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+            'user.id_picture_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'user.id_picture_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'user.passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
         ], [
             'user.first_name.required' => 'Prénom requis',
             'user.last_name.required' => 'Nom de famille requis',
             'user.password.required' => 'Mot de passe requisrequis',
             'user.phone.required' => 'Numero de téléphone requis',
             'user.whatsapp.required' => 'Whatsapp requis',
-            // 'user.id_picture_front.required' => 'Avant de la pièce d\'identité requis',
-            // 'user.id_picture_back.required' => 'Arrière de la pièce d\'identité requis',
-            // 'user.*.mimes' => ':file doit être une image ou un pdf',
+            'user.id_picture_front.required' => 'Avant de la pièce d\'identité requis',
+            'user.id_picture_back.required' => 'Arrière de la pièce d\'identité requis',
+            'user.*.mimes' => ':file doit être une image ou un pdf'
         ]);
 
         if(!$validator->fails()) {
@@ -85,15 +84,19 @@ class UserController extends Controller
             $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
             $newUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
             $newUser->admin_key = bcrypt($request->user['admin_key']) ?? null;
-            // $newUser->id_picture_front = $request->file('id_picture_front');
-            // $newUser->id_picture_back = $request->file('id_picture_back');
-            // $newUser->passport = $request->file('passport');
+            $newUser->id_picture_front = $request->file('id_picture_front');
+            $newUser->id_picture_back = $request->file('id_picture_back');
+            $newUser->passport = $request->file('passport');
             $newUser->save();
 
             return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);
         }
+
+        // Send an email to ask the user to validate their email
+
+        
     }
 
     public function check(Request $request)
@@ -101,6 +104,10 @@ class UserController extends Controller
         $user = User::where('email','=', $request->user['email'])->first();
 
         if($user && $user->verified) {
+            // if($user->user_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
             if($user->password === bcrypt($request->user['password'])) {
                 $request->session()->put('user_id', $user->user_id);
                 return response()->json(['status'=>'true','message'=>'Authentification Reussie']);
@@ -138,12 +145,19 @@ class UserController extends Controller
 
     public function validation($request, $id)
     {
-        $user = User::find($id);
+        $newUser = User::find($id);
         $admin = User::firstWhere('user_id', $request->session()->get('user_id'));
 
-        if($user && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
-            $user->verified = true;
-            $user->save();
+        if($newUser) {
+            if($admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+                $newUser->verified = true;
+                $newUser->save();
+                return response()->json(['message' => 'Utilisateur validé'], 200);
+            } else {
+                return response()->json(['message' => 'Action interdite'], 403);
+            }
+        } else {
+            return response()->json(['message' => 'Cet utilisateur n\'existe pas'], 404);
         }
     }
 
@@ -159,6 +173,9 @@ class UserController extends Controller
         $existingUser = User::find($id);
 
         if($existingUser) {
+            // if($existingUser->user_id !== $request->session()->get('user_id')) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
 
             $validator = Validator::make($request->all(), [
                 'user.first_name' => 'required|string|alphanum',
@@ -189,7 +206,6 @@ class UserController extends Controller
                 $existingUser->password = bcrypt($request->user['password']);
                 $existingUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
                 $existingUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
-                $existingUser->admin_key = bcrypt($request->user['admin_key']) ?? null;
                 $existingUser->save();
 
                 return response()->json(['data' => '', 'message' => 'Utilisateur modifié avec success'], 201);
@@ -212,17 +228,21 @@ class UserController extends Controller
         $existingUser = User::find($id);
         $admin = User::firstWhere('user_id', session()->get('user_id'));
 
-        if($existingUser && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
-            $existingAds = Ads::where('user_id', $existingUser->user_id)->delete();
-            if(!empty($existingAds)) $existingAds->delete();
-            $existingUserPackages = Packages::where('sender_id', $existingUser->user_id);
-            if(!empty($existingUserPackages)) $existingUserPackages->delete();
-            $existingUserDeliveries = Deliveries::where('courier_id', $existingUser->user_id);
-            if(!empty($existingUserDeliveries)) $existingUserDeliveries->delete();
-            $existingUserOrders = Orders::where('sender_id', $existingUser->user_id);
-            if(!empty($existingUserOrders)) $existingUserOrders->delete();
-            $existingUser->delete();
-            return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
+        if($existingUser) {
+            if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+                $existingAds = Ads::where('user_id', $existingUser->user_id)->delete();
+                if(!empty($existingAds)) $existingAds->delete();
+                $existingUserPackages = Packages::where('sender_id', $existingUser->user_id);
+                if(!empty($existingUserPackages)) $existingUserPackages->delete();
+                $existingUserDeliveries = Deliveries::where('courier_id', $existingUser->user_id);
+                if(!empty($existingUserDeliveries)) $existingUserDeliveries->delete();
+                $existingUserOrders = Orders::where('sender_id', $existingUser->user_id);
+                if(!empty($existingUserOrders)) $existingUserOrders->delete();
+                $existingUser->delete();
+                return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
+            } else {
+                return response()->json(['data' => '', 'message' => 'Action interdite'], 403);
+            }
         } else {
             return response()->json(['data' => '', 'message' => 'Cette utilisateur n\'existe pas'], 404);
         }

@@ -20,8 +20,13 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $deliveries = Deliveries::all();
-        return response()->json($deliveries, 200);
+        $admin = User::firstWhere('user_id', session()->get('user_id'));
+        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            $deliveries = Deliveries::all();
+            return response()->json($deliveries, 200);
+        } else {
+            return response()->json('Accès interdit' , 403);
+        }
     }
 
     /**
@@ -78,7 +83,7 @@ class DeliveryController extends Controller
             $newDelivery->courier_id = UuidV4::uuid4();
             $newDelivery->save();
 
-            return response()->json(['data' => $newDelivery, 'message' => 'Nouvelle commande crée'], 201);
+            return response()->json(['data' => $newDelivery, 'message' => 'Nouvelle livraison crée'], 201);
         } else {
             return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
         }
@@ -201,11 +206,11 @@ class DeliveryController extends Controller
     {
         $existingDelivery = Deliveries::find($id);
 
-        // if($existingDelivery->courier_id !== session()->get('user_id')) {
-        //         return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-        // }
-
         if($existingDelivery) {
+            // if($existingDelivery->courier_id !== session()->get('user_id')) {
+            //         return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
             $existingDelivery ->delete();
 
             return response()->json(['data' => '', 'message' => 'Livraison rejetée'], 200);

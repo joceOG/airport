@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user_id');
+            $table->uuid('user_id')->unique();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -24,9 +24,10 @@ class CreateUsersTable extends Migration
             $table->boolean('whatsapp');
             $table->string('admin_key')->nullable();
             $table->boolean('verified')->default(false);
-            $table->binary('id_picture_front');
-            $table->binary('id_picture_back');
-            $table->binary('passport')->nullable();
+            $table->string('id_front');
+            $table->string('id_back');
+            $table->string('passport')->nullable();
+            $table->string('dir');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

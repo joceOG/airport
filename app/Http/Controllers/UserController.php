@@ -9,6 +9,7 @@ use App\Models\Packages;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -21,10 +22,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Ajouter vérification usermin
-
-        $users = User::all() ;
-        return response()->json($users , 200);
+        $admin = User::firstWhere('user_id', session()->get('user_id'));
+        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            $users = User::all() ;
+            return response()->json($users , 200);
+        } else {
+            return response()->json('Accès interdit' , 403);
+        }
     }
 
     /**
@@ -49,8 +53,8 @@ class UserController extends Controller
         $newUser->user_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'user.first_name' => 'required|string|alphanum',
-            'user.last_name' => 'required|string|min:2|max:255',
+            'user.first_name' => 'required|string|alpha_dash|min:2|max:255',
+            'user.last_name' => 'required|string|alpha_dash|min:2|max:255',
             'user.email' => 'required|string|email|unique:App\Models\User,email',
             'user.password' => [
                 'required',
@@ -62,12 +66,13 @@ class UserController extends Controller
             ],
             'user.phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
             'user.whatsapp' => 'required|boolean',
-            'user.id_picture_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            'user.id_picture_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'user.id_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'user.id_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
             'user.passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
         ], [
             'user.first_name.required' => 'Prénom requis',
             'user.last_name.required' => 'Nom de famille requis',
+            'user.email.required' => 'Adresse email requise',
             'user.password.required' => 'Mot de passe requisrequis',
             'user.phone.required' => 'Numero de téléphone requis',
             'user.whatsapp.required' => 'Whatsapp requis',
@@ -83,10 +88,30 @@ class UserController extends Controller
             $newUser->password = bcrypt($request->user['password']);
             $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
             $newUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
-            $newUser->admin_key = bcrypt($request->user['admin_key']) ?? null;
-            $newUser->id_picture_front = $request->file('id_picture_front');
-            $newUser->id_picture_back = $request->file('id_picture_back');
-            $newUser->passport = $request->file('passport');
+            $admin_key = $request->user['admin_key'] ?? null;
+            $newUser->admin_key = bcrypt($admin_key);
+
+            $directory = Storage::makeDirectory($newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
+            $newUser->dir = $directory;
+
+            $id_front = $request->file('id_picture_front');
+            $id_front_extension = $id_front->extension();
+            $id_front_filename = time() . '_' . $newUser->user_id . '_id_front_' . $id_front_extension;
+            $id_front_path = $id_front->storeAs('users' . $directory, $id_front_filename);
+            $newUser->id_front = $id_front_path;
+
+            $id_back = $request->file('id_picture_front');
+            $id_back_extension = $id_back->extension();
+            $id_back_filename = time() . '_' . $newUser->user_id . '_id_front_' . $id_back_extension;
+            $id_back_path = $id_back->storeAs('users' . $directory, $id_back_filename);
+            $newUser->id_back = $id_back_path;
+
+            $passport = $request->file('id_picture_front') ?? null;
+            $passport_extension = $passport->extension();
+            $passport_filename = time() . '_' . $newUser->user_id . '_id_front_' . $passport_extension;
+            $passport_path = $passport !== null ? $passport->storeAs('users' . $directory, $passport_filename) : null;
+            $newUser->passport = $passport_path;
+
             $newUser->save();
 
             return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);
@@ -96,12 +121,12 @@ class UserController extends Controller
 
         // Send an email to ask the user to validate their email
 
-        
+
     }
 
     public function check(Request $request)
     {
-        $user = User::where('email','=', $request->user['email'])->first();
+        $user = User::firstWhere('email', $request->user['email']);
 
         if($user && $user->verified) {
             // if($user->user_id !== $request->session()->get('user_id')) {
@@ -118,8 +143,6 @@ class UserController extends Controller
             return response()->json(['status'=>'false', 'message'=>'Email Incorrect']);
         }
     }
-
-
 
     /**
      * Display the specified resource.
@@ -178,9 +201,8 @@ class UserController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'user.first_name' => 'required|string|alphanum',
-                'user.last_name' => 'required|string|min:2|max:255',
-                'user.email' => 'required|string|email|unique:App\Models\User,email',
+                'user.first_name' => 'required|string|alpha_dash|min:2|max:255',
+                'user.last_name' => 'required|string|alpha_dash|min:2|max:255',
                 'user.password' => [
                     'required',
                     Password::min(8)
@@ -230,15 +252,12 @@ class UserController extends Controller
 
         if($existingUser) {
             if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
-                $existingAds = Ads::where('user_id', $existingUser->user_id)->delete();
-                if(!empty($existingAds)) $existingAds->delete();
-                $existingUserPackages = Packages::where('sender_id', $existingUser->user_id);
-                if(!empty($existingUserPackages)) $existingUserPackages->delete();
-                $existingUserDeliveries = Deliveries::where('courier_id', $existingUser->user_id);
-                if(!empty($existingUserDeliveries)) $existingUserDeliveries->delete();
-                $existingUserOrders = Orders::where('sender_id', $existingUser->user_id);
-                if(!empty($existingUserOrders)) $existingUserOrders->delete();
+                Ads::where('user_id', $existingUser->user_id)->delete();
+                Packages::where('sender_id', $existingUser->user_id)->delete();
+                // Deliveries::where('courier_id', $existingUser->user_id)->delete();;
+                // Orders::where('sender_id', $existingUser->user_id)->delete();
                 $existingUser->delete();
+
                 return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
             } else {
                 return response()->json(['data' => '', 'message' => 'Action interdite'], 403);

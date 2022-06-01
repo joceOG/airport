@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Ads;
 use App\Models\Orders;
+use App\Models\Packages;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Rfc4122\UuidV4;
@@ -18,8 +19,13 @@ class AdController extends Controller
      */
     public function index()
     {
-       $ads = Ads::all();
-        return response()->json($ads , 200);
+        $admin = User::firstWhere('user_id', session()->get('user_id'));
+        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            $ads = Ads::all();
+            return response()->json($ads , 200);
+        } else {
+            return response()->json('Accès interdit' , 403);
+        }
     }
 
     /**
@@ -52,9 +58,9 @@ class AdController extends Controller
         $validator = Validator::make($request->all(), [
             'ad.ticket_number' => 'required|string|alphanum',
             'ad.travel_company' => 'required|string|max:255',
-            'ad.departure' => 'required|string|max:255',
-            'ad.destination' => 'required|string|max:255',
-            'ad.departure_date' => 'required|date',
+            'ad.departure' => 'required|string|alpha_dash|min:2|max:255',
+            'ad.destination' => 'required|string||alpha_dash|min:2|max:255',
+            'ad.departure_date' => 'required|date|after:today',
             'ad.arrival_date' => 'required|date|after:departure_date',
             'ad.space' => 'required|numeric|min:0|max:100',
             'ad.categories_accepted' => 'required|array'
@@ -78,7 +84,7 @@ class AdController extends Controller
             $newAd->destination = AdController::mysql_escape_mimic($request->ad['destination']);
             $newAd->departure_date = AdController::mysql_escape_mimic($request->ad['departure_date']);
             $newAd->arrival_date = AdController::mysql_escape_mimic($request->ad['arrival_date']);
-            $newAd->space = AdController::mysql_escape_mimic($request->ad['space']);
+            $newAd->space = $request->ad['space'];
             $newAd->categories_accepted = $request->ad['categories_accepted'];
             $newAd->save();
 
@@ -134,14 +140,14 @@ class AdController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'ticket_number' => 'required|string|alphanum',
-                'travel_company' => 'required|string|max:255',
-                'departure' => 'required|string|max:255',
-                'destination' => 'required|string|max:255',
-                'departure_date' => 'required|date',
-                'arrival_date' => 'required|date|after:departure_date',
-                'space' => 'required|numeric|min:0|max:100',
-                'categories_accepted' => 'required|array'
+                'ad.ticket_number' => 'required|string|alphanum',
+                'ad.travel_company' => 'required|string|max:255',
+                'ad.departure' => 'required|string|alpha_dash|min:2|max:255',
+                'ad.destination' => 'required|string||alpha_dash|min:2|max:255',
+                'ad.departure_date' => 'required|date|after:today',
+                'ad.arrival_date' => 'required|date|after:departure_date',
+                'ad.space' => 'required|numeric|min:0|max:100',
+                'ad.categories_accepted' => 'required|array'
             ], [
                 'ticket_number.required' => 'Numéro du billet requis',
                 'travel_company.required' => 'Nom de la compagnie de voyage requis',
@@ -160,7 +166,7 @@ class AdController extends Controller
                 $existingAd->destination = AdController::mysql_escape_mimic($request->ad['destination']);
                 $existingAd->departure_date = AdController::mysql_escape_mimic($request->ad['departure_date']);
                 $existingAd->arrival_date = AdController::mysql_escape_mimic($request->ad['arrival_date']);
-                $existingAd->space = AdController::mysql_escape_mimic($request->ad['space']);
+                $existingAd->space = $request->ad['space'];
                 $existingAd->categories_accepted = $request->ad['categories_accepted'];
                 $existingAd->save();
 
@@ -210,8 +216,11 @@ class AdController extends Controller
             });
 
             if(empty($matchingAds)) {
+                Packages::firstWhere('package_id', $package->package_id)->delete();
+
                 return response()->json(['data' => '', 'message' => 'Aucun résultat'], 200);
             } else {
+
                 return response()->json(['data' => $matchingAds, 'message' => count($matchingAds) . " résultat(s)"], 200);
             }
         } else {

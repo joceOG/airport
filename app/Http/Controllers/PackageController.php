@@ -18,8 +18,13 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $packages = Packages::all();
-        return response()->json($packages , 200);
+        $admin = User::firstWhere('user_id', session()->get('user_id'));
+        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            $packages = Packages::all();
+            return response()->json($packages , 200);
+        } else {
+            return response()->json('Accès interdit' , 403);
+        }
     }
 
     /**
@@ -50,13 +55,12 @@ class PackageController extends Controller
         $newItem->package_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'package.item' => 'required|string|max:255',
-            'package.category' => 'required|string|max:255',
+            'package.item' => 'required|string|alpha_dash|min:2|max:255',
+            'package.category' => 'required|string|alpha_dash|min:2|max:255',
             'package.weight' => 'required|numeric|min:0|max:100',
-            'package.departure' => 'required|string|max:255',
-            'package.destination' => 'required|string|max:255',
-            'package.departure_date' => 'required|date',
-            'package.sender_id' => 'required|uuid',
+            'package.departure' => 'required|string|alpha_dash|min:2|max:255',
+            'package.destination' => 'required|string|alpha_dash|min:2|max:255',
+            'package.departure_date' => 'required|date|after:today',
             'package.price' => 'required|numeric|min:0'
         ], [
             'package.item.required' => 'Article à envoyer requis',
@@ -65,20 +69,19 @@ class PackageController extends Controller
             'package.departure.required' => 'Lieu de départ requis',
             'package.destination.required' => 'Destination requise',
             'package.departure_date.required' => 'Date de départ requise',
-            'package.sender_id.required' => 'User ID requis',
             'package.price.required' => 'Prix requis',
         ]);
 
         if(!$validator->fails()) {
             $newItem->item = PackageController::mysql_escape_mimic($request->package['item']);
             $newItem->category = PackageController::mysql_escape_mimic($request->package['category']);
-            $newItem->weight = PackageController::mysql_escape_mimic($request->package['weight']);
+            $newItem->weight = $request->package['weight'];
             $newItem->departure = PackageController::mysql_escape_mimic($request->package['departure']);
             $newItem->destination = PackageController::mysql_escape_mimic($request->package['destination']);
             $newItem->departure_date = PackageController::mysql_escape_mimic($request->package['departure_date']);
             // $newItem->sender_id = PackageController::mysql_escape_mimic($request->session()->get('user_id'));
             $newItem->sender_id = UuidV4::uuid4();
-            $newItem->price = PackageController::mysql_escape_mimic($request->package['price']);
+            $newItem->price = $request->package['price'];
             $newItem->save();
 
             // if($request->session()->missing('package_id')) {
@@ -134,12 +137,12 @@ class PackageController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'package.item' => 'required|string|max:255',
-                'package.category' => 'required|string|max:255',
+                'package.item' => 'required|string|alpha_dash|min:2|max:255',
+                'package.category' => 'required|string|alpha_dash|min:2|max:255',
                 'package.weight' => 'required|numeric|min:0|max:100',
-                'package.departure' => 'required|string|max:255',
-                'package.destination' => 'required|string|max:255',
-                'package.departure_date' => 'required|date',
+                'package.departure' => 'required|string|alpha_dash|min:2|max:255',
+                'package.destination' => 'required|string|alpha_dash|min:2|max:255',
+                'package.departure_date' => 'required|date|after:today',
                 'package.price' => 'required|numeric|min:0'
             ], [
                 'package.item.required' => 'Article à envoyer requis',
@@ -154,11 +157,11 @@ class PackageController extends Controller
             if(!$validator->fails()) {
                 $existingItem->item = PackageController::mysql_escape_mimic($request->package['item']);
                 $existingItem->category = PackageController::mysql_escape_mimic($request->package['category']);
-                $existingItem->weight = PackageController::mysql_escape_mimic($request->package['weight']);
+                $existingItem->weight = $request->package['weight'];
                 $existingItem->departure = PackageController::mysql_escape_mimic($request->package['departure']);
                 $existingItem->destination = PackageController::mysql_escape_mimic($request->package['destination']);
                 $existingItem->departure_date = PackageController::mysql_escape_mimic($request->package['departure_date']);
-                $existingItem->price = PackageController::mysql_escape_mimic($request->package['price']);
+                $existingItem->price = $request->package['price'];
                 $existingItem->save();
 
                 return response()->json(['data' => $existingItem, 'message' => 'Envoi modifié'], 200);

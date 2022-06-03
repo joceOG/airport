@@ -87,7 +87,7 @@ class UserController extends Controller
             $newUser->email = UserController::mysql_escape_mimic($request->user['email']);
             $newUser->password = bcrypt($request->user['password']);
             $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
-            $newUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
+            $newUser->whatsapp = $request->user['whatsapp'];
             $admin_key = $request->user['admin_key'] ?? null;
             $newUser->admin_key = $admin_key !== null ? bcrypt($admin_key) : '';
 

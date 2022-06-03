@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DeliveryConfirmation;
+use App\Models\Deliveries;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Orders;
 use App\Models\User;
@@ -75,6 +76,14 @@ class OrderController extends Controller
             // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
             $newOrder->sender_email = 'cmguinan@yahoo.fr';
             $newOrder->courier_email = 'lasourcebeats@gmail.com';
+            // $newOrder->sender_phone = OrderController::mysql_escape_mimic($sender->phone);
+            // $newOrder->courier_phone = OrderController::mysql_escape_mimic($courier->phone);
+            $newOrder->sender_phone = '0708778921';
+            $newOrder->courier_phone = '0896569104';
+            // $newOrder->sender_whatsapp = $sender->whatsapp;
+            // $newOrder->courier_whatsapp = $courier->whatsapp;
+            $newOrder->sender_whatsapp = true;
+            $newOrder->courier_whatsapp = true;
             // $newOrder->package_id = $request->delivery['package_id'];
             $newOrder->package_id = UuidV4::uuid4();
             // $newOrder->delivery_id = $request->delivery['delivery_id'];
@@ -144,10 +153,13 @@ class OrderController extends Controller
 
                 Mail::to($existingOrder->courier_email)->send(new DeliveryConfirmation($existingOrder, $existingOrder->status));
 
-                if($existingOrder->status === 'livrée') {
+                $associatedDelivery = Deliveries::firstWhere('delivery_id', $existingOrder->delivery_id);
+                if($associatedDelivery && $existingOrder->status === 'livrée') {
                     // Release payment to the courier
 
 
+                    $associatedDelivery->status = 'payée';
+                    $associatedDelivery->save();
                 } elseif($existingOrder->status === 'non-livrée') {
                     // ???
 

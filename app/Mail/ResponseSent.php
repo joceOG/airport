@@ -17,8 +17,8 @@ class ResponseSent extends Mailable
      *
      *
      */
-    public $order;
-    public $status;
+    protected $order;
+    protected $status;
 
     /**
      * Create a new message instance.
@@ -41,7 +41,12 @@ class ResponseSent extends Mailable
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Réponse du coursier')
             ->tag('response')
-            ->metadata('order_id', $this->order->order_id)
-            ->view('emails.response.sent');
+            ->view('emails.response.sent')
+            ->with([
+                'status' => $this->status,
+                'order_id' => $this->order->order_id,
+                'courier_email' => $this->order->courier_email,
+                'courier_phone' => $this->order->courier_phone
+            ]);
     }
 }

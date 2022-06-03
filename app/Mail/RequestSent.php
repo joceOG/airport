@@ -17,7 +17,7 @@ class RequestSent extends Mailable
      *
      *
      */
-    public $package;
+    protected $package;
 
     /**
      * Create a new message instance.
@@ -40,7 +40,14 @@ class RequestSent extends Mailable
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Requête envoyée au coursier')
             ->tag('request')
-            ->metadata('package_id', $this->package->package_id)
-            ->view('emails.request.sent');
+            ->view('emails.request.sent')
+            ->with([
+                'item' => $this->package->item,
+                'category' => $this->package->category,
+                'weight' => $this->package->weight,
+                'departure' => $this->package->departure,
+                'destination' => $this->package->destination,
+                'prix' => $this->package->prix,
+            ]);
     }
 }

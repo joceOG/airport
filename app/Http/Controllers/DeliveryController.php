@@ -159,6 +159,10 @@ class DeliveryController extends Controller
                     $newOrder->order_id = UuidV4::uuid4();
                     $newOrder->sender_email = $existingDelivery->sender_email;
                     $newOrder->courier_email = $existingDelivery->courier_email;
+                    $newOrder->sender_phone = $existingDelivery->sender_phone;
+                    $newOrder->courier_phone = $existingDelivery->courier_phone;
+                    $newOrder->sender_whatsapp = $existingDelivery->sender_whatsapp;
+                    $newOrder->courier_whatsapp = $existingDelivery->courier_whatsapp;
                     $newOrder->package_id = $existingDelivery->package_id;
                     $newOrder->ad_id = $existingDelivery->ad_id;
                     $newOrder->delivery_id = $existingDelivery->delivery_id;
@@ -193,7 +197,7 @@ class DeliveryController extends Controller
 
                     // Refund sender
 
-                    
+
                     $associatedOrder->delete();
                     $associatedPackage->delete();
                     $existingDelivery->delete();

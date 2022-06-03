@@ -8,6 +8,9 @@
 </head>
     <body>
         <main class="container">
+            <div>
+                <img src="/assets/logo.png" alt="logo" class="img-fluid">
+            </div>
             @yield('content')
         </main>
         <footer class="footer">Copyright &copy;Koli&co @php date('Y') @endphp</footer>

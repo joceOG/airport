@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('sender_email');
             $table->uuid('package_id');
             $table->uuid('ad_id');
+            $table->uuid('delivery_id');
             $table->string('status');
             $table->uuid('courier_id');
             $table->uuid('sender_id');

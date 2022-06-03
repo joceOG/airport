@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\Models\Packages;
+use App\Models\Orders;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RequestSent extends Mailable
+class DeliveryConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,17 +17,18 @@ class RequestSent extends Mailable
      *
      *
      */
-    public $package;
+    public $order;
+    public $status;
 
     /**
      * Create a new message instance.
      *
-     * @param \App\Models\Packages
      * @return void
      */
-    public function __construct(Packages $package)
+    public function __construct(Orders $order, String $status)
     {
-        $this->package = $package;
+        $this->order = $order;
+        $this->status = $status;
     }
 
     /**
@@ -38,9 +39,9 @@ class RequestSent extends Mailable
     public function build()
     {
         return $this->from('koliandco@gmail.com', 'Koli&co')
-            ->subject('Requête envoyée au coursier')
-            ->tag('request')
-            ->metadata('package_id', $this->package->package_id)
-            ->view('emails.request.sent');
+            ->subject('Confirmation de livraison')
+            ->tag('confirmation')
+            ->metadata('order_id', $this->order->order_id)
+            ->view('emails.delivery.confirmation');
     }
 }

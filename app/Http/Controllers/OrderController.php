@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DeliveryConfirmation;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
@@ -46,7 +48,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
-
         // if(!$user) {
         //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
         // }
@@ -57,10 +58,12 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
             'delivery.sender_id' => 'required|uuid',
             'delivery.package_id' => 'required|uuid',
+            'delivery.delivery_id' => 'required|uuid',
             'delivery.status' => 'required|string|alpha|in:acceptée,rejetée'
         ], [
             'delivery.sender_id.required' => 'Sender ID requis',
             'delivery.package_id.required' => 'Package ID requis',
+            'delivery.delivery_id.required' => 'Delivery ID requis',
             'delivery.status.required' => 'Status de la livraison requis',
             'delivery.status.in' => 'Cette livraison doit être acceptée ou rejetée'
         ]);
@@ -74,6 +77,8 @@ class OrderController extends Controller
             $newOrder->courier_email = 'lasourcebeats@gmail.com';
             // $newOrder->package_id = $request->delivery['package_id'];
             $newOrder->package_id = UuidV4::uuid4();
+            // $newOrder->delivery_id = $request->delivery['delivery_id'];
+            $newOrder->delivery_id = UuidV4::uuid4();
             $newOrder->status = $request->delivery['status'];
             // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
             // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
@@ -121,8 +126,8 @@ class OrderController extends Controller
         $existingOrder = Orders::find($id);
 
         if ($existingOrder) {
-            // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
-            // if($existingOrder->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            // $user = User::firstWhere('user_id', session()->get('user_id'));
+            // if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
@@ -136,6 +141,8 @@ class OrderController extends Controller
             if(!$validator->fails()) {
                 $existingOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
                 $existingOrder->save();
+
+                Mail::to($existingOrder->courier_email)->send(new DeliveryConfirmation($existingOrder, $existingOrder->status));
 
                 if($existingOrder->status === 'livrée') {
                     // Release payment to the courier
@@ -174,10 +181,10 @@ class OrderController extends Controller
         $existingOrder = Orders::find($id);
 
             if($existingOrder) {
-                $user = User::firstWhere('user_id', session()->get('user_id'));
-                if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
-                    return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-                }
+                // $user = User::firstWhere('user_id', session()->get('user_id'));
+                // if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
+                //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+                // }
 
                 $existingOrder ->delete();
 

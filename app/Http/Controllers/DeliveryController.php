@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RequestSent;
+use App\Mail\ResponseSent;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Deliveries;
 use App\Models\Packages;
@@ -9,6 +11,7 @@ use App\Models\User;
 use App\Models\Ads;
 use App\Models\Orders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class DeliveryController extends Controller
@@ -21,7 +24,7 @@ class DeliveryController extends Controller
     public function index()
     {
         $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
             $deliveries = Deliveries::all();
             return response()->json($deliveries, 200);
         } else {
@@ -82,6 +85,13 @@ class DeliveryController extends Controller
             $newDelivery->courier_id = UuidV4::uuid4();
             $newDelivery->save();
 
+            // Email the courier about delivery request
+            // $package = Packages::firstWhere('package_id', $newDelivery->package_id);
+
+            // test
+            $package = Packages::first();
+            Mail::to($newDelivery->courier_email)->send(new RequestSent($package));
+
             return response()->json(['data' => $newDelivery, 'message' => 'Nouvelle livraison crée'], 201);
         } else {
             return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
@@ -123,7 +133,7 @@ class DeliveryController extends Controller
 
         if ($existingDelivery) {
             // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
-            // if($existingDelivery->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            // if(!($user && $existingDelivery->courier_id !== $user->user_id) || !($user && $user->admin_key !== bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
@@ -140,6 +150,7 @@ class DeliveryController extends Controller
 
                 $associatedAd = Ads::firstWhere('ad_id', $existingDelivery->ad_id);
                 $associatedPackage = Packages::firstWhere('package_id', $existingDelivery->package_id);
+                $associatedOrder = Orders::firstWhere('delivery_id', $existingDelivery->delivery_id);
 
                 if($existingDelivery->status === 'acceptée') {
                     $associatedAd->space = $associatedAd->space > $associatedPackage->weight ? $associatedAd->space - $associatedPackage->weight : 0;
@@ -150,37 +161,40 @@ class DeliveryController extends Controller
                     $newOrder->courier_email = $existingDelivery->courier_email;
                     $newOrder->package_id = $existingDelivery->package_id;
                     $newOrder->ad_id = $existingDelivery->ad_id;
+                    $newOrder->delivery_id = $existingDelivery->delivery_id;
                     $newOrder->status = $existingDelivery->status;
                     $newOrder->sender_id = $existingDelivery->sender_id;
                     $newOrder->courier_id = $existingDelivery->courier_id;
                     $newOrder->save();
 
                     // Send an email to the sender to confirm acceptance
-
+                    Mail::to($newOrder->sender_email)->send(new ResponseSent($newOrder, $existingDelivery->status));
 
                     // Charge the sender
 
 
-                } elseif($existingDelivery->status === 'rejetée') {
+                } elseif($associatedOrder && $existingDelivery->status === 'rejetée') {
                     // Send an email to the sender to confirm rejection
-
+                    Mail::to($existingDelivery->sender_email)->send(new ResponseSent($associatedOrder, $existingDelivery->status));
 
                     $associatedPackage->delete();
                     $existingDelivery->delete();
-                } elseif($existingDelivery->status === 'livrėe') {
+
+                } elseif($associatedOrder && $existingDelivery->status === 'livrėe') {
                     // Email sender to inform them that
                     // the package was delivered
                     // and ask them to confirm in 'My Orders'
-
+                    Mail::to($existingDelivery->sender_email)->send(new ResponseSent($associatedOrder, $existingDelivery->status));
 
                 } else {
                     // Send an email to the sender
                     // to confirm cancellation and refund
-
+                    Mail::to($existingDelivery->sender_email)->send(new ResponseSent($associatedOrder, $existingDelivery->status));
 
                     // Refund sender
 
-
+                    
+                    $associatedOrder->delete();
                     $associatedPackage->delete();
                     $existingDelivery->delete();
                 }
@@ -206,7 +220,7 @@ class DeliveryController extends Controller
 
         if($existingDelivery) {
             // $user = User::firstWhere('user_id', session()->get('user_id'));
-            // if(!($user && $existingDelivery->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
+            // if(!($user && $existingDelivery->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Ads;
-use App\Models\Orders;
 use App\Models\Packages;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +19,7 @@ class AdController extends Controller
     public function index()
     {
         $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
             $ads = Ads::all();
             return response()->json($ads , 200);
         } else {
@@ -130,12 +129,12 @@ class AdController extends Controller
         if ($existingAd) {
             // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
 
-            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY')))) {
+            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
             // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
-            // if(!empty($associatedOrders) || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            // if(!empty($associatedOrders) || ($user && $user->admin_key !== bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être modifiée car elle est associé à une commande en cours'], 403);
             // }
 
@@ -243,12 +242,12 @@ class AdController extends Controller
         if ($existingAd ) {
             // $user = User::firstWhere('user_id', session()->get('user_id'));
 
-            // if(!($user && $existingAd->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
+            // if(!($user && $existingAd->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
             // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
-            // if(!empty($associatedOrders) || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            // if(!empty($associatedOrders) || ($user && $user->admin_key !== bcrypt(config('app.admin_key')))) {
             //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être supprimée car elle est associé à une commande en cours'], 403);
             // }
 

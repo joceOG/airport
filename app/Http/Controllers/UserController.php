@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
             $users = User::all() ;
             return response()->json($users , 200);
         } else {
@@ -89,7 +89,7 @@ class UserController extends Controller
             $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
             $newUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
             $admin_key = $request->user['admin_key'] ?? null;
-            $newUser->admin_key = bcrypt($admin_key);
+            $newUser->admin_key = $admin_key !== null ? bcrypt($admin_key) : '';
 
             $directory = Storage::makeDirectory($newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
             $newUser->dir = $directory;
@@ -172,7 +172,7 @@ class UserController extends Controller
         $admin = User::firstWhere('user_id', $request->session()->get('user_id'));
 
         if($newUser) {
-            if($admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            if($admin->admin_key === bcrypt(config('app.admin_key'))) {
                 $newUser->verified = true;
                 $newUser->save();
                 return response()->json(['message' => 'Utilisateur validé'], 200);
@@ -251,7 +251,7 @@ class UserController extends Controller
         $admin = User::firstWhere('user_id', session()->get('user_id'));
 
         if($existingUser) {
-            if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+            if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
                 Ads::where('user_id', $existingUser->user_id)->delete();
                 Packages::where('sender_id', $existingUser->user_id)->delete();
                 // Deliveries::where('courier_id', $existingUser->user_id)->delete();;

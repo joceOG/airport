@@ -67,7 +67,6 @@ class DeliveryController extends Controller
         if(!$validator->fails()) {
             // $sender = User::firstWhere('user_id', $request->session()->get('user_id'));
             // $courier = User::firstWhere('user_id', $request->ad['user_id']);
-
             // $newDelivery->sender_email = DeliveryController::mysql_escape_mimic($sender->email);
             // $newDelivery->courier_email = DeliveryController::mysql_escape_mimic($courier->email);
             $newDelivery->sender_email = 'cmguinan@yahoo.fr';
@@ -123,9 +122,8 @@ class DeliveryController extends Controller
         $existingDelivery = Deliveries::find($id);
 
         if ($existingDelivery) {
-            $user = User::firstWhere('user_id', $request->session()->get('user_id'));
-
-        // if($existingDelivery->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
+            // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+            // if($existingDelivery->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
@@ -207,8 +205,9 @@ class DeliveryController extends Controller
         $existingDelivery = Deliveries::find($id);
 
         if($existingDelivery) {
-            // if($existingDelivery->courier_id !== session()->get('user_id')) {
-            //         return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // $user = User::firstWhere('user_id', session()->get('user_id'));
+            // if(!($user && $existingDelivery->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
             $existingDelivery ->delete();

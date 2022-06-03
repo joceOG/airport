@@ -69,7 +69,7 @@ class PackageController extends Controller
             'package.departure.required' => 'Lieu de départ requis',
             'package.destination.required' => 'Destination requise',
             'package.departure_date.required' => 'Date de départ requise',
-            'package.price.required' => 'Prix requis',
+            'package.price.required' => 'Prix requis'
         ]);
 
         if(!$validator->fails()) {
@@ -151,7 +151,7 @@ class PackageController extends Controller
                 'package.departure.required' => 'Lieu de départ requis',
                 'package.destination.required' => 'Destination requise',
                 'package.departure_date.required' => 'Date de départ requise',
-                'package.price.required' => 'Prix requis',
+                'package.price.required' => 'Prix requis'
             ]);
 
             if(!$validator->fails()) {

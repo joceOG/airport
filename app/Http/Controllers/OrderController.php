@@ -67,10 +67,7 @@ class OrderController extends Controller
 
         if(!$validator->fails()) {
             // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
-            $sender = User::first();
             // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
-            $courier = User::first();
-
             // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
             // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
             $newOrder->sender_email = 'cmguinan@yahoo.fr';
@@ -84,7 +81,7 @@ class OrderController extends Controller
             $newOrder->courier_id = UuidV4::uuid4();
             $newOrder->save();
 
-            return response()->json(['data' => $newOrder, 'message' => ''], 201);
+            return response()->json(['data' => $newOrder, 'message' => 'Commande crée'], 201);
         } else {
             return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
         }
@@ -124,7 +121,8 @@ class OrderController extends Controller
         $existingOrder = Orders::find($id);
 
         if ($existingOrder) {
-            // if($existingOrder->courier_id !== $request->session()->get('user_id')) {
+            // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+            // if($existingOrder->courier_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY'))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 
@@ -156,7 +154,7 @@ class OrderController extends Controller
 
                 }
 
-                return response()->json(['data' => $existingOrder, 'message' => ''], 200);
+                return response()->json(['data' => $existingOrder, 'message' => 'Commande modifiée'], 200);
             } else {
                 return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
             }
@@ -176,9 +174,11 @@ class OrderController extends Controller
         $existingOrder = Orders::find($id);
 
             if($existingOrder) {
-                if($existingOrder->courier_id !== session()->get('user_id')) {
-                return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+                $user = User::firstWhere('user_id', session()->get('user_id'));
+                if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
+                    return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
                 }
+
                 $existingOrder ->delete();
 
                 return response()->json(['data' => '', 'message' => 'Commande annulée'], 200);

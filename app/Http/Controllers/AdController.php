@@ -220,6 +220,7 @@ class AdController extends Controller
 
                 return response()->json(['data' => '', 'message' => 'Aucun résultat'], 200);
             } else {
+                // Packages::create([$package]);
 
                 return response()->json(['data' => $matchingAds, 'message' => count($matchingAds) . " résultat(s)"], 200);
             }
@@ -242,7 +243,7 @@ class AdController extends Controller
         if ($existingAd ) {
             // $user = User::firstWhere('user_id', session()->get('user_id'));
 
-            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(env('ADMIN_KEY')))) {
+            // if(!($user && $existingAd->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(env('ADMIN_KEY')))) {
             //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
             // }
 

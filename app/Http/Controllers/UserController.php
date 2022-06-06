@@ -22,13 +22,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
-            $users = User::all() ;
-            return response()->json($users , 200);
-        } else {
-            return response()->json('Accès interdit' , 403);
-        }
+        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
+        //     $users = User::all() ;
+        //     return response()->json($users , 200);
+        // } else {
+        //     return response()->json('Accès interdit' , 403);
+        // }
+
+        $users = User::all() ;
+        return response()->json($users , 200);
     }
 
     /**
@@ -124,16 +127,13 @@ class UserController extends Controller
 
     }
 
-    public function check(Request $request)
+    public function login(Request $request)
     {
         $user = User::firstWhere('email', $request->user['email']);
 
         if($user && $user->verified) {
-            // if($user->user_id !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-            // }
-
             if($user->password === bcrypt($request->user['password'])) {
+                $request->session()->regenerate();
                 $request->session()->put('user_id', $user->user_id);
                 return response()->json(['status'=>'true','message'=>'Authentification Reussie']);
             } else{
@@ -142,6 +142,11 @@ class UserController extends Controller
         } else {
             return response()->json(['status'=>'false', 'message'=>'Email Incorrect']);
         }
+    }
+
+    public function logout(Request $request) {
+        $request->session()->flush();
+        return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
     /**
@@ -248,20 +253,21 @@ class UserController extends Controller
     public function destroy($id)
     {
         $existingUser = User::find($id);
-        $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // $admin = User::firstWhere('user_id', session()->get('user_id'));
 
         if($existingUser) {
-            if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
-                Ads::where('user_id', $existingUser->user_id)->delete();
-                Packages::where('sender_id', $existingUser->user_id)->delete();
-                // Deliveries::where('courier_id', $existingUser->user_id)->delete();;
-                // Orders::where('sender_id', $existingUser->user_id)->delete();
-                $existingUser->delete();
+            // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
+            //     Ads::where('user_id', $existingUser->user_id)->delete();
+            //     Packages::where('sender_id', $existingUser->user_id)->delete();
+            //     // Deliveries::where('courier_id', $existingUser->user_id)->delete();;
+            //     // Orders::where('sender_id', $existingUser->user_id)->delete();
+            //     $existingUser->delete();
 
-                return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
-            } else {
-                return response()->json(['data' => '', 'message' => 'Action interdite'], 403);
-            }
+            //     return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
+            // } else {
+            //     return response()->json(['data' => '', 'message' => 'Action interdite'], 403);
+            // }
+            return response()->json(['data' => '', 'message' => 'Utilisateur supprimé avec success'], 200);
         } else {
             return response()->json(['data' => '', 'message' => 'Cette utilisateur n\'existe pas'], 404);
         }

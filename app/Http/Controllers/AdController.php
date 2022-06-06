@@ -18,13 +18,16 @@ class AdController extends Controller
      */
     public function index()
     {
-        $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
-            $ads = Ads::all();
-            return response()->json($ads , 200);
-        } else {
-            return response()->json('Accès interdit' , 403);
-        }
+        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
+        //     $ads = Ads::all();
+        //     return response()->json($ads , 200);
+        // } else {
+        //     return response()->json('Accès interdit' , 403);
+        // }
+
+        $ads = Ads::all();
+        return response()->json($ads , 200);
     }
 
     /**
@@ -239,7 +242,7 @@ class AdController extends Controller
     {
         $existingAd = Ads::find($id);
 
-        if ($existingAd ) {
+        if ($existingAd) {
             // $user = User::firstWhere('user_id', session()->get('user_id'));
 
             // if(!($user && $existingAd->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {

@@ -21,13 +21,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
-            $orders = Orders::all();
+        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
+        //     $orders = Orders::all();
+        //     return response()->json($orders , 200);
+        // } else {
+        //     return response()->json('Accès interdit' , 403);
+        // }
+        $orders = Orders::all();
         return response()->json($orders , 200);
-        } else {
-            return response()->json('Accès interdit' , 403);
-        }
     }
 
     /**

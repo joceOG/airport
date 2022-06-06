@@ -38,12 +38,14 @@ class PackageController extends Controller
     {
         $newItem = new Packages();
         $newItem->package_id = UuidV4::uuid4();
-        $newItem->item = $request->ad['item'];
-        $newItem->category = $request->ad['category'];
-        $newItem->length = $request->ad['length'];
-        $newItem->width = $request->ad['width'];
-        $newItem->sender_id = $request->ad['sender_id'];
-        $newItem->courier_id = $request->ad['courier_id'];
+        $newItem->item = $request->package['item'];
+        $newItem->category = $request->package['category'];
+        $newItem->weight = $request->package['weight'];
+        $newItem->departure = $request->package['departure'];
+        $newItem->destination = $request->package['destination'];
+        $newItem->departure_date = $request->package['departure_date'];
+        $newItem->sender_id = UuidV4::uuid4();
+        $newItem->price = $request->package['price'];
         $newItem->save();
 
         return $newItem;
@@ -80,17 +82,19 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $existingAd = Packages::find($id);
+        $existingItem = Packages::find($id);
 
-        if ($existingAd) {
-            $existingAd->item = $request->ad['item'];
-            $existingAd->category = $request->ad['category'];
-            $existingAd->length = $request->ad['length'];
-            $existingAd->width = $request->ad['width'];
-            $existingAd->weight = $request->ad['weight'];
-            $existingAd->save();
+        if ($existingItem) {
+            $existingItem->item = $request->package['item'];
+            $existingItem->category = $request->package['category'];
+            $existingItem->weight = $request->package['weight'];
+            $existingItem->departure = $request->package['departure'];
+            $existingItem->destination = $request->package['destination'];
+            $existingItem->departure_date = $request->package['departure_date'];
+            $existingItem->price = $existingItem->price;
+            $existingItem->save();
 
-            return $existingAd;
+            return $existingItem;
         } else {
             return "Order not found";
         }
@@ -104,6 +108,13 @@ class PackageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $existingItem = Packages::find($id);
+
+        if ($existingItem ) {
+            $existingItem ->delete();
+            return "Package successfully deleted";
+        } else {
+            return "Package not found";
+        }
     }
 }

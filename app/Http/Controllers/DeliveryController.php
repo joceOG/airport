@@ -38,12 +38,12 @@ class DeliveryController extends Controller
     {
         $newItem = new Deliveries();
         $newItem->delivery_id = UuidV4::uuid4();
-        $newItem->sender_email = $request->ad['sender_email'];
-        $newItem->courier_email = $request->ad['courier_email'];
-        $newItem->package = $request->ad['package'];
-        $newItem->status = $request->ad['status'];
-        $newItem->sender_id = $request->ad['sender_id'];
-        $newItem->courier_id = $request->ad['courier_id'];
+        $newItem->sender_email = $request->delivery['sender_email'];
+        $newItem->courier_email = $request->delivery['courier_email'];
+        $newItem->package = $request->delivery['package'];
+        $newItem->status = $request->delivery['status'];
+        $newItem->sender_id = $request->delivery['sender_id'];
+        $newItem->courier_id = $request->delivery['courier_id'];
         $newItem->save();
 
         return $newItem;
@@ -83,7 +83,7 @@ class DeliveryController extends Controller
         $existingAd = Deliveries::find($id);
 
         if ($existingAd) {
-            $existingAd->status = $request->ad['status'];
+            $existingAd->status = $request->delivery['status'];
             $existingAd->save();
 
             return $existingAd;
@@ -104,9 +104,9 @@ class DeliveryController extends Controller
 
         if ($existingItem ) {
             $existingItem ->delete();
-            return "Deliveries successfully deleted";
+            return "Delivery successfully deleted";
         } else {
-            return "Deliveries not found";
+            return "Delivery not found";
         }
     }
 }

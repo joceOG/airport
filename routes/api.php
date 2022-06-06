@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/ads', [AdController::class, 'index']);
+Route::post('/ads/search',[AdController::class, 'search']);
 Route::prefix('/ad')->group(function() {
     Route::post('/store', [AdController::class, 'store']);
     Route::put('/{id}', [AdController::class, 'update']);

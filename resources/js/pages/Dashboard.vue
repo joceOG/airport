@@ -14,13 +14,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3">
-          <h4 class="pen-heading">My Account</h4>
+          <h4 class="pen-heading">Mes comptes</h4>
           <div v-for="tab in tabs" @click="selectedTab = tab.title" :class="{ active : selectedTab == tab.title }" class="tab-item">
             <h3 class="tab-item__heading"> <v-icon style="padding:10">mdi-school</v-icon> {{ tab.title }}</h3>
           </div>
       </div>
       <div class="col-md-9">
-        <template v-if="selectedTab == 'My Details'">
+        <template v-if="selectedTab == 'Mes Details'">
           <h3 class="tab-content__header">My Details</h3>
           <p class="tab-content__text"> <h3><b>Personnal Information</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
           <v-row>
@@ -34,10 +34,9 @@
                           v-model="firstName"
                           outlined
                           :rules="firstName"
-                          label="Email"
+                          label="First Name"
                           required
                       ></v-text-field>
-
                     </p>
           </v-col>
           <v-col cols="4">
@@ -45,8 +44,8 @@
           </v-col>
           </v-row>
         </template>
-        <template v-if="selectedTab == 'Shopping Cart'">
-          <h3 class="tab-content__header">Shopping Cart</h3>
+        <template v-if="selectedTab == 'Mes Livraisons'">
+          <h3 class="tab-content__header">Mes Livraisons</h3>
           <p class="tab-content__text">Process more applications by automatically filtering which applicants are easy approvals and which need more attention.</p>
           <a href="" class="tab-content__btn">Learn about the Decision Assistant</a>
           <p class="tab-content__testimonial">
@@ -57,10 +56,10 @@
           </p>
           <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
         </template>
-        <template v-if="selectedTab == 'My Tours'">
-          <h3 class="tab-content__header">My Tours</h3>
+        <template v-if="selectedTab == 'Mes Commandes'">
+          <h3 class="tab-content__header">Mes Commandes</h3>
           <p class="tab-content__text">Process more applications by automatically filtering which applicants are easy approvals and which need more attention.</p>
-          <a href="" class="tab-content__btn">Learn about Lifetime Monitoring</a>
+          <a href="" class="tab-content__btn">Learn about the Decision Assistant</a>
           <p class="tab-content__testimonial">
             "This service is incredible. The information is current and user-friendly. What a gem in the credit world!"
           </p>
@@ -69,99 +68,151 @@
           </p>
           <img class="tab-content__testimonial-img" src="http://18.216.223.98/wp-content/uploads/2017/12/Valiant-Products.png">
         </template>
-        <template v-if="selectedTab == 'Poster une annonce'">
-          <h3 class="tab-content__header">Poster une annonce</h3>
- <v-card>
-    <v-tabs
-      color="deep-purple accent-4"
-      right
-    >
-      <v-tab>Je fais un envoi</v-tab>
-      <v-tab>J'ai des Kilos</v-tab>
-
-      <v-tab-item
-        v-for="n in 2"
-        :key="n"
-      >
-         <center>
+        <template v-if="selectedTab == 'Je fais un envoi'">
+          <h3 class="tab-content__header">JE FAIS UN ENVOI</h3>
           <v-row>
-      
-            <v-card>
-                  <h3 style="text-align: center">J'AI DES KILOS <br/></h3>
+                    <v-col cols="2">                            
+                          <v-img
+                            style="display:inline-block;" 
+                            class="centrer"   
+                            width="100"
+                            height="100"
+                            src="./assets/logo.png"
+                          ></v-img>
+                    </v-col>
 
-                    <v-img
-                                                        style="display:inline-block;"
-                                                        class="centrer"
-                                                        width="100"
-                                                        height="100"
-                                                        src="./assets/logo.png"
-                                                    ></v-img>
-              
+                    <v-col cols="3">
+                              <h3 style="text-align: center; margin-top:10px;">JE FAIS UN ENVOI <br/></h3>
 
-                    <v-form
-                        style="padding: 32; width=600px;"
-                        justify-content="center"
-                        ref="form2"
-                        v-model="valid"
-                        lazy-validation
-                      >
+                                <v-form ref="form2" v-model="valid2" style="padding: 32; width=600px;" justify-content="center"   lazy-validation>
+                                    <v-text-field placeholder="Type" v-model="type" outlined :rules="typeRules" label="Type" required ></v-text-field>
+                                    <v-text-field placeholder="Categorie" v-model="categorie" outlined :rules="categorieRules" label="Categorie" required ></v-text-field>
+                                    <v-text-field placeholder="Nombre de Kilos" v-model="nkilo" type="number" outlined :rules="nkiloRules" required ></v-text-field>
+                                    <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto" >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field v-model="date" label="Picker without buttons" prepend-icon="mdi-calendar"  readonly v-bind="attrs"  v-on="on"></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="date" @input="menu = false" ></v-date-picker>
+                                    </v-menu>          
+                              </v-form>                
+                    </v-col>
+                    <v-col cols="3">
+                        <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center" ref="form2" v-model="valid2" lazy-validation>
+                              <v-text-field placeholder="Depart" v-model="depart" outlined  :rules="departRules" label="Depart" required ></v-text-field>
+                              <v-text-field placeholder="Destination" v-model="destination" outlined  :rules="destinationRules"  label="Destitanation"  required ></v-text-field>                               
+                                <v-text-field placeholder="Prix" v-model="prix" outlined  type="number"  label="Prix"  required ></v-text-field>
+                              <v-divider></v-divider> 
+                              <v-btn depressed outlined color="#314f8d"  @click="dialog = true;">ENVOYER</v-btn>
+                             
+                        </v-form>         
+                    </v-col>
 
-                        <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
-                          ><span style="font-size: 10px">{{ notif }}</span>
-                        </v-alert>
+                            <v-col cols="4">
+                                          <!-- <v-row>
+                                            <v-subheader><b>Notifications :</b></v-subheader>
+                                          </v-row>
+                                          <v-container id="scroll-target" style="height: 3000px" class="overflow-y-auto">
+                                            <v-row style="height: 300px">
+                                              <v-list rounded>
+                                                      <v-list-item-group
+                                                        v-model="selectedItem"
+                                                        color="primary"
+                                                      >
+                                                        <v-list-item
+                                                          v-for="(item, i) in items"
+                                                          :key="i"
+                                                        >
+                                                          <v-list-item-icon>
+                                                            <v-icon v-text="item.icon"></v-icon>
+                                                          </v-list-item-icon>
+                                                          <v-list-item-content>
+                                                            <v-list-item-title v-text="item.text"></v-list-item-title>
+                                                          </v-list-item-content>
+                                                        </v-list-item>
+                                                      </v-list-item-group>
+                                                    </v-list>
+                                            </v-row>
+                                          </v-container> -->
+                              </v-col>     
+            </v-row>
+             
+                  <v-snackbar :value="snack" timeout="2000" absolute centered color="primary" text right></v-snackbar>
+                     {{notif}}
+                  </v-snackbar>  
 
-                                <v-text-field
-                                  placeholder="Billet"
-                                    v-model="billet"
-                                    outlined
-                                    :rules="billetRules"
-                                    label="billet"
-                                    required
-                                ></v-text-field>
-
-                              <v-text-field
-                                placeholder="Categorie"
-                                  v-model="categorie"
-                                  outlined
-                                  :rules="categorieRules"
-                                  label="categorie"
-                                  required
-                              ></v-text-field>
-
-                      
-                              <v-menu
-                                v-model="menu2"
-                                :close-on-content-click="false"
-                                :nudge-right="40"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="auto"
-                              >
+        </template>
+       <template v-if="selectedTab == 'J\'ai des Kilos'">
+          <v-row>
+                <v-col cols="2">                            
+                    <v-img style="display:inline-block;" class="centrer"  width="70" height="70" src="./assets/logo.png"></v-img>
+                </v-col>     
+                  <v-col cols="3">
+                   <h3 style="text-align: center; margin-top:10px;">J'AI DES KILOS <br/></h3>
+                      <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation></v-form>
+                    
+                                <v-text-field v-model="billet" placeholder="Billet" outlined :rules="billetRules" label="Billet" required></v-text-field>
+                                <v-text-field placeholder="Espace" type="number" v-model="espace" outlined :rules="espaceRules" label="Espace" required ></v-text-field>
+                                <v-text-field placeholder="Compagnie" v-model="compagnie" outlined :rules="compagnieRules" label="Compagnie" required></v-text-field>
+ 
+                              <v-menu v-model="menuk" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                 <template v-slot:activator="{ on, attrs }">
-                                  <v-text-field
-                                    v-model="date"
-                                    label="Picker without buttons"
-                                    prepend-icon="mdi-calendar"
-                                    readonly
-                                    v-bind="attrs"
-                                    v-on="on"
-                                  ></v-text-field>
+                                   <v-text-field v-model="datek" label="Picker without buttons" prepend-icon="mdi-calendar"
+                                                 readonly v-bind="attrs" v-on="on"
+                                     ></v-text-field>
                                 </template>
-                                <v-date-picker
-                                  v-model="date"
-                                  @input="menu2 = false"
-                                ></v-date-picker>
+                                <v-date-picker v-model="datek" @input="menuk = false" ></v-date-picker>
                               </v-menu>
                       </v-form>
-
-
-              </v-card>
-              </centrer>
-         
+                  </v-col>
+                  <v-col cols="3">
+                          <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center"
+                               ref="form" v-model="valid" lazy-validation>
+                           <v-text-field placeholder="" v-model="departk" outlined :rules="departkRules"
+                                   label="Depart"  required        
+                           ></v-text-field>                   
+                           <v-text-field placeholder="Destination" v-model="destinationk"  outlined         
+                                   :rules="destinationkRules"  label="Destitanation"  required         
+                           ></v-text-field> 
+                              <v-text-field placeholder="Categorie Accepted" v-model="categorie_accept"  outlined         
+                                   :rules="categorieacceptRules"  label="Categorie Accepted"  required         
+                           ></v-text-field>   
+                             <v-divider></v-divider>
+                           <v-btn depressed outlined color="#314f8d" @click="addAds()">
+                                   ENVOYER           
+                           </v-btn>                     
+                        </v-form>              
+                  </v-col>
+                  <v-col cols="4">
+                              <!-- <v-row>
+                               <v-subheader><b>Notifications :</b></v-subheader>
+                              </v-row>
+                              <v-container id="scroll-target" style="height: 300px" class="overflow-y-auto">
+                                <v-row style="height: 300px">
+                                  <v-list rounded>
+                                          <v-list-item-group
+                                            v-model="selectedItem"
+                                            color="primary"
+                                          >
+                                            <v-list-item
+                                             v-for="(item, i) in items"
+                                              :key="i"
+                                            >
+                                              <v-list-item-icon>
+                                                <v-icon v-text="item.icon"></v-icon>
+                                              </v-list-item-icon>
+                                              <v-list-item-content>
+                                                <v-list-item-title v-text="item.text"></v-list-item-title>
+                                              </v-list-item-content>
+                                            </v-list-item>
+                                          </v-list-item-group>
+                                        </v-list>
+                                </v-row> 
+                              </v-container> -->
+                  </v-col>
+                 <v-snackbar :value="snack" timeout="2000" absolute centered color="primary" text right></v-snackbar>
+                     {{notif}}
+                  </v-snackbar>  
           </v-row>
-      </v-tab-item>
-    </v-tabs>
-  </v-card>
         </template>
       </div>
     </div>
@@ -228,48 +279,97 @@
                </v-row>
                </v-form>
           </v-img>
+                 
+            <v-dialog v-model="dialog" width="500">
+               <v-card>
+                  <h3 style="text-align: center">MATCHS<br/></h3>
+                     
 
-
-
+                    <v-card-actions>                   
+                    </v-card-actions>
+              </v-card>
+          </v-dialog>
+            
   </v-container>
           
 </template>
 
 <script lang='ts'>
 import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component, Ref  } from 'vue-property-decorator'
 import { EventBus } from "@/event_bus";
+import { VForm } from "@/VForm";
+import axios from "axios";
 
 @Component
 export default class Dashboard extends Vue {
 
+  @Ref("form") readonly form!: VForm;
+  @Ref("form2") readonly form2!: VForm;
     valid = true
-  categorie = "";
-  billet = "";
-  emailRules = [
-    (v: any) => !!v || "E-mail is required",
-    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-  ];
-  passwordRules = [(v: string) => !!v || "Password is required"];
+    valid2 = true
+     categorie = "";
+     type = "";
+     nkilo = 0 ;
+     depart = "" ;
+     destination = "" ;
+     prix = "";
+     categorieRules  = [(v: string) => !!v || "Categorie is required"];
+     typeRules  = [(v: string) => !!v || "Billet is required"];
+     nkiloRules  = [(v: string) => !!v || "Nombre de Kilo is required"];
+     departRules  = [(v: string) => !!v || "Depart is required"];
+     destinationRules  = [(v: string) => !!v || "Destination is required"];
+     prixRules  = [(v: string) => !!v || "Prix is required"];
+
+     billet = "";
+     espace = 0;
+     compagnie = "" ;
+     destinationk = "" ;
+      departk = "" ;
+      categorie_accept = "";
+
+     billetRules  = [(v: string) => !!v || "Billet is required"];
+     espaceRules  = [(v: string) => !!v || "Espace is required"];
+     compagnieRules  = [(v: string) => !!v || "Compagnie is required"];
+     departkRules  = [(v: string) => !!v || "Depart is required"];
+     destinationkRules  = [(v: string) => !!v || "Destination is required"];
+    categorieacceptRules = [(v: string) => !!v || "Categorie Accepted is required"];
+     snack = false
+     firstName = ""
+     notif = ""
+     envoi = ["Notification 1"];
+      selectedItem = 1
+      items =  [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' },
+      ]
 
         date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
-      menu2 = false;
+        datek = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+        menuk = false;
+        menu = false;
   
 tabs= [
       {
-        title: "My Details",
+        title: "Mes Details",
       },
       {
-        title: "Shopping Cart",
+        title: "Mes Livraisons",
       },
       {
-        title: "My Tours",
+        title: "Mes Commandes",
       },
       {
-        title: "Poster une annonce",
+        title: "Je fais un envoi",
+      }
+      ,
+      {
+        title: "J'ai des Kilos",
       }
     ] ; 
-    selectedTab="My Details"
+    selectedTab="Mes Details"
+    dialog = false;
 
 
   mounted(){
@@ -280,6 +380,88 @@ tabs= [
    selectTab(x : any) {
       this.selectedTab = this.tabs[x].title;
     }
+
+    async addPackage(){
+      this.form2.validate();
+      const data = {
+                  "package":{
+                  "item": this.categorie,
+                  "category": this.categorie,
+                  "weight": this.nkilo,
+                  "departure": this.depart,
+                  "destination": this.destination,
+                  "departure_date": this.date,
+                  "price": this.prix,
+                  }
+                 };
+      
+            
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/package/store" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.message()
+          }
+        } catch (err) {
+          console.log(err);
+        }   
+   }
+
+  async addAds(){
+      this.form.validate();
+      const data = {
+                  "ad":{
+                  "ticket_number": this.billet,
+                  "travel_company ": this.compagnie,
+                  "departure": this.departk,
+                  "destination": this.destinationk,
+                  "departure_date": this.datek,
+                  "arrival_date": this.datek,
+                  "space": this.espace,
+                  "categories_accepted ": this.categorie_accept,
+                  }
+                 };
+      
+            
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/ad/store" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.message2()
+          }
+        } catch (err) {
+          console.log(err);
+        }   
+   }
+
+    message(){
+
+       this.categorie = ""
+       this.categorie = ""
+       this.nkilo = 0
+       this.depart = ""
+       this.destination = ""
+       this.date =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.notif = "Depart Enregisté Avec Succès" ;
+       this.snack = true;
+      // this.dialog = true;
+
+     }
+
+     message2(){
+
+       this.billet = ""
+       this.compagnie = ""
+       this.departk = ""
+       this.destinationk = ""
+       this.espace = 0
+       this.categorie_accept = ""
+       this.datek =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.notif = "Annonce Enregisté Avec Succès" ;
+       this.snack = true;
+     }
 
 }
 </script>

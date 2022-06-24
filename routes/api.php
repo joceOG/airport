@@ -42,14 +42,14 @@ Route::prefix('/package')->group(function() {
 Route::get('/orders', [OrderController::class, 'index']);
 Route::prefix('/order')->group(function() {
     Route::post('/store', [OrderController::class, 'store']);
-    Route::put('/{id}', [OrderController::class, 'update']);
+    Route::patch('/{id}', [OrderController::class, 'update']);
     Route::delete('/{id}', [OrderController::class, 'destroy']);
 });
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
 Route::prefix('/delivery')->group(function() {
     Route::post('/store', [DeliveryController::class, 'store']);
-    Route::put('/{id}', [DeliveryController::class, 'update']);
+    Route::patch('/{id}', [DeliveryController::class, 'update']);
     Route::delete('/{id}', [DeliveryController::class, 'destroy']);
 });
 
@@ -58,6 +58,7 @@ Route::prefix('/user')->group(function() {
     Route::post('/store', [UserController::class, 'store']);
     Route::post('/check', [UserController::class, 'check']);
     Route::put('/{id}', [UserController::class, 'update']);
+    Route::patch('/validate/{id}', [UserController::class, 'validation']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 

@@ -1,16 +1,16 @@
 <template>
 <v-container fluid class="fapp" style="padding:0px;"
-  >  
+  >
     <v-img
      style="width:100%;"
      height="1000"
       src="./assets/blank.jpg"
     >
- 
+
  <p style="margin-top:140px;">
 
    <div id="v-tabs">
- 
+
   <div class="container">
     <div class="row">
       <div class="col-md-3">
@@ -148,7 +148,7 @@
                 </v-col>     
                   <v-col cols="3">
                    <h3 style="text-align: center; margin-top:10px;">J'AI DES KILOS <br/></h3>
-                      <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation></v-form>
+                      <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
                     
                                 <v-text-field v-model="billet" placeholder="Billet" outlined :rules="billetRules" label="Billet" required></v-text-field>
                                 <v-text-field placeholder="Espace" type="number" v-model="espace" outlined :rules="espaceRules" label="Espace" required ></v-text-field>
@@ -175,7 +175,31 @@
                            ></v-text-field> 
                               <v-text-field placeholder="Categorie Accepted" v-model="categorie_accept"  outlined         
                                    :rules="categorieacceptRules"  label="Categorie Accepted"  required         
-                           ></v-text-field>   
+                           ></v-text-field> 
+                             
+                          <v-row>
+                            <v-col cols="11">
+                             <v-text-field placeholder="Categorie Accepted" v-model="categorie_accept"  outlined         
+                                   :rules="categorieacceptRules"  label="Categorie Accepted"  required         
+                             ></v-text-field>
+                            </v-col>  
+
+                              <v-col cols="1">
+                                    <v-btn class="mx-2" fab dark small color="primary"
+                                    >
+                                      <v-icon dark>
+                                        mdi-plus
+                                      </v-icon>
+                                    </v-btn>
+                              </v-col>   
+                          </v-row>
+                           
+
+                           
+                          
+
+                          
+
                              <v-divider></v-divider>
                            <v-btn depressed outlined color="#314f8d" @click="addAds()">
                                    ENVOYER           
@@ -222,20 +246,20 @@
     </v-img>
 
          <v-img
-                style="width:100%; 
-                        padding:0px; 
+                style="width:100%;
+                        padding:0px;
                       height:350;"
-                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"      
+                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
                  >
                  <v-form>
-                 
+
                  <v-row style="margin-left:100px;">
                     <v-col >
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg"
                       height="50"
                       width="50"
@@ -247,9 +271,9 @@
                       </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg"
                       height="50"
                       width="50"
@@ -261,9 +285,9 @@
                       </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
+                    <center>
                     <v-img
-                      style="margin-top:45px;" 
+                      style="margin-top:45px;"
                       src="https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg"
                       height="50"
                       width="50"
@@ -291,7 +315,7 @@
           </v-dialog>
             
   </v-container>
-          
+
 </template>
 
 <script lang='ts'>
@@ -325,9 +349,9 @@ export default class Dashboard extends Vue {
      espace = 0;
      compagnie = "" ;
      destinationk = "" ;
-      departk = "" ;
-      categorie_accept = "";
-
+     departk = "" ;
+     categorie_accept = "";
+ 
      billetRules  = [(v: string) => !!v || "Billet is required"];
      espaceRules  = [(v: string) => !!v || "Espace is required"];
      compagnieRules  = [(v: string) => !!v || "Compagnie is required"];
@@ -467,7 +491,7 @@ tabs= [
 </script>
 <style>
 
-.fapp{    
+.fapp{
     width: 100%;
     left: 0px;
     position: absolute;
@@ -476,15 +500,14 @@ tabs= [
     top: 35px;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 0px;   
+    border-radius: 0px;
 }
 
-.centrer{  
+.centrer{
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
-
 
 .pen-heading {
   font-weight: bold;
@@ -587,6 +610,4 @@ tabs= [
   font-weight: bold;
 }
 
-
 </style>
-

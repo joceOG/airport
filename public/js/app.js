@@ -3366,7 +3366,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{    \r\n    width: 100%;\r\n    left: 0px;\r\n    position: absolute;\r\n    box-sizing: border-box;\r\n    z-index: 3;\r\n    top: 35px;\r\n    background-repeat: no-repeat;\r\n    background-size: cover;\r\n    border-radius: 0px;\n}\n.centrer{  \r\n  position: relative;\r\n  left: 50%;\r\n  transform: translateX(-50%);\n}\n.pen-heading {\r\n  font-weight: bold;\r\n  font-size: 2em;\r\n  text-align: center;\r\n  margin-bottom: 40px;\r\n  color: ##333;\n}\n.tab-item {\r\n  background: white;\r\n  border: 1px #D5DADF solid;\r\n  border-left: 5px solid #D5DADF;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  padding: 10px;\r\n  border-radius: 3px;\r\n  cursor: pointer;\r\n  transition: all .2s ease;\r\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\r\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\r\n  color: #314f8d;\r\n  margin: 0px;\n}\n.tab-item__subheading {\r\n  font-size: 18px;\r\n  color: #333;\r\n  margin: 0px;\n}\n.tab-content__header {\r\n  color: #314f8d;\r\n  font-weight: bold;\r\n   margin: 0px 0px 30px;\r\n  font-size: 36px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.25em;\n}\n.tab-content__text2 {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.05em;\n}\n.tab-content__btn {\r\n  display: inline-block;\r\n  margin-bottom: 30px;\r\n  padding: 16px 50px;\r\n  cursor: pointer;\r\n  text-decoration: none;\r\n  font-size: 14px;\r\n  text-transform: uppercase;\r\n  font-weight: 900;\r\n  position: relative;\r\n  transition: all .3s ease;\r\n  text-align: center;\r\n  line-height: 1;\r\n  border: 2px solid;\r\n  border-radius: 3px;\r\n  background-color: transparent;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  color: #24a926;\r\n  fill: #24a926;\r\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\r\n  color: #24a926;\r\n  text-decoration: none;\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\r\n  margin-bottom: 15px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-style: italic;\n}\n.tab-content__testimonial-author {\r\n  margin-bottom: 5px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-weight: bold;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fapp{\r\n    width: 100%;\r\n    left: 0px;\r\n    position: absolute;\r\n    box-sizing: border-box;\r\n    z-index: 3;\r\n    top: 35px;\r\n    background-repeat: no-repeat;\r\n    background-size: cover;\r\n    border-radius: 0px;\n}\n.centrer{\r\n  position: relative;\r\n  left: 50%;\r\n  transform: translateX(-50%);\n}\n.pen-heading {\r\n  font-weight: bold;\r\n  font-size: 2em;\r\n  text-align: center;\r\n  margin-bottom: 40px;\r\n  color: ##333;\n}\n.tab-item {\r\n  background: white;\r\n  border: 1px #D5DADF solid;\r\n  border-left: 5px solid #D5DADF;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  padding: 10px;\r\n  border-radius: 3px;\r\n  cursor: pointer;\r\n  transition: all .2s ease;\r\n  margin-bottom: 15px;\n}\n.tab-item:hover, .tab-item.active {\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\r\n  border-left: 5px solid #28AB26;\n}\n.tab-item__heading {\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\r\n  color: #314f8d;\r\n  margin: 0px;\n}\n.tab-item__subheading {\r\n  font-size: 18px;\r\n  color: #333;\r\n  margin: 0px;\n}\n.tab-content__header {\r\n  color: #314f8d;\r\n  font-weight: bold;\r\n   margin: 0px 0px 30px;\r\n  font-size: 36px;\r\n  line-height: 1.3em;\r\n  letter-spacing: 0.02em;\n}\n.tab-content__text {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.25em;\n}\n.tab-content__text2 {\r\n  margin: 0px 0px 30px;\r\n  font-size: 1.05em;\n}\n.tab-content__btn {\r\n  display: inline-block;\r\n  margin-bottom: 30px;\r\n  padding: 16px 50px;\r\n  cursor: pointer;\r\n  text-decoration: none;\r\n  font-size: 14px;\r\n  text-transform: uppercase;\r\n  font-weight: 900;\r\n  position: relative;\r\n  transition: all .3s ease;\r\n  text-align: center;\r\n  line-height: 1;\r\n  border: 2px solid;\r\n  border-radius: 3px;\r\n  background-color: transparent;\r\n  box-shadow: 0 2px 3px rgba(213,218,223,0.35);\r\n  color: #24a926;\r\n  fill: #24a926;\r\n  border-color: #24a926;\n}\n.tab-content__btn:hover {\r\n  color: #24a926;\r\n  text-decoration: none;\r\n  box-shadow: 0px 3px 3px 2px rgba(213,218,223,0.35);\n}\n.tab-content__testimonial {\r\n  margin-bottom: 15px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-style: italic;\n}\n.tab-content__testimonial-author {\r\n  margin-bottom: 5px;\r\n  font-size: 1em;\r\n  color: rgba(0,0,0,.75);\r\n  font-weight: bold;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6396,153 +6396,159 @@ var render = function() {
                                     [_vm._v("J'AI DES KILOS "), _c("br")]
                                   ),
                                   _vm._v(" "),
-                                  _c("v-form", {
-                                    ref: "form",
-                                    staticStyle: { padding: "32" },
-                                    attrs: {
-                                      "justify-content": "center",
-                                      "lazy-validation": ""
-                                    },
-                                    model: {
-                                      value: _vm.valid,
-                                      callback: function($$v) {
-                                        _vm.valid = $$v
-                                      },
-                                      expression: "valid"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      placeholder: "Billet",
-                                      outlined: "",
-                                      rules: _vm.billetRules,
-                                      label: "Billet",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.billet,
-                                      callback: function($$v) {
-                                        _vm.billet = $$v
-                                      },
-                                      expression: "billet"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      placeholder: "Espace",
-                                      type: "number",
-                                      outlined: "",
-                                      rules: _vm.espaceRules,
-                                      label: "Espace",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.espace,
-                                      callback: function($$v) {
-                                        _vm.espace = $$v
-                                      },
-                                      expression: "espace"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      placeholder: "Compagnie",
-                                      outlined: "",
-                                      rules: _vm.compagnieRules,
-                                      label: "Compagnie",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.compagnie,
-                                      callback: function($$v) {
-                                        _vm.compagnie = $$v
-                                      },
-                                      expression: "compagnie"
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   _c(
-                                    "v-menu",
+                                    "v-form",
                                     {
+                                      ref: "form",
+                                      staticStyle: { padding: "32" },
                                       attrs: {
-                                        "close-on-content-click": false,
-                                        "nudge-right": 40,
-                                        transition: "scale-transition",
-                                        "offset-y": "",
-                                        "min-width": "auto"
+                                        "justify-content": "center",
+                                        "lazy-validation": ""
                                       },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "v-text-field",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        attrs: {
-                                                          label:
-                                                            "Picker without buttons",
-                                                          "prepend-icon":
-                                                            "mdi-calendar",
-                                                          readonly: ""
-                                                        },
-                                                        model: {
-                                                          value: _vm.datek,
-                                                          callback: function(
-                                                            $$v
-                                                          ) {
-                                                            _vm.datek = $$v
-                                                          },
-                                                          expression: "datek"
-                                                        }
-                                                      },
-                                                      "v-text-field",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  )
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        false,
-                                        888029446
-                                      ),
                                       model: {
-                                        value: _vm.menuk,
+                                        value: _vm.valid,
                                         callback: function($$v) {
-                                          _vm.menuk = $$v
+                                          _vm.valid = $$v
                                         },
-                                        expression: "menuk"
+                                        expression: "valid"
                                       }
                                     },
                                     [
-                                      _vm._v(" "),
-                                      _c("v-date-picker", {
-                                        on: {
-                                          input: function($event) {
-                                            _vm.menuk = false
-                                          }
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Billet",
+                                          outlined: "",
+                                          rules: _vm.billetRules,
+                                          label: "Billet",
+                                          required: ""
                                         },
                                         model: {
-                                          value: _vm.datek,
+                                          value: _vm.billet,
                                           callback: function($$v) {
-                                            _vm.datek = $$v
+                                            _vm.billet = $$v
                                           },
-                                          expression: "datek"
+                                          expression: "billet"
                                         }
-                                      })
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Espace",
+                                          type: "number",
+                                          outlined: "",
+                                          rules: _vm.espaceRules,
+                                          label: "Espace",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.espace,
+                                          callback: function($$v) {
+                                            _vm.espace = $$v
+                                          },
+                                          expression: "espace"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Compagnie",
+                                          outlined: "",
+                                          rules: _vm.compagnieRules,
+                                          label: "Compagnie",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.compagnie,
+                                          callback: function($$v) {
+                                            _vm.compagnie = $$v
+                                          },
+                                          expression: "compagnie"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-menu",
+                                        {
+                                          attrs: {
+                                            "close-on-content-click": false,
+                                            "nudge-right": 40,
+                                            transition: "scale-transition",
+                                            "offset-y": "",
+                                            "min-width": "auto"
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              label:
+                                                                "Picker without buttons",
+                                                              "prepend-icon":
+                                                                "mdi-calendar",
+                                                              readonly: ""
+                                                            },
+                                                            model: {
+                                                              value: _vm.datek,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.datek = $$v
+                                                              },
+                                                              expression:
+                                                                "datek"
+                                                            }
+                                                          },
+                                                          "v-text-field",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            888029446
+                                          ),
+                                          model: {
+                                            value: _vm.menuk,
+                                            callback: function($$v) {
+                                              _vm.menuk = $$v
+                                            },
+                                            expression: "menuk"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("v-date-picker", {
+                                            on: {
+                                              input: function($event) {
+                                                _vm.menuk = false
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.datek,
+                                              callback: function($$v) {
+                                                _vm.datek = $$v
+                                              },
+                                              expression: "datek"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
                                   )
@@ -6625,6 +6631,70 @@ var render = function() {
                                           expression: "categorie_accept"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-row",
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "11" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  placeholder:
+                                                    "Categorie Accepted",
+                                                  outlined: "",
+                                                  rules:
+                                                    _vm.categorieacceptRules,
+                                                  label: "Categorie Accepted",
+                                                  required: ""
+                                                },
+                                                model: {
+                                                  value: _vm.categorie_accept,
+                                                  callback: function($$v) {
+                                                    _vm.categorie_accept = $$v
+                                                  },
+                                                  expression: "categorie_accept"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "1" } },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass: "mx-2",
+                                                  attrs: {
+                                                    fab: "",
+                                                    dark: "",
+                                                    small: "",
+                                                    color: "primary"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { dark: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                        mdi-plus\r\n                                      "
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
                                       _vm._v(" "),
                                       _c("v-divider"),
                                       _vm._v(" "),

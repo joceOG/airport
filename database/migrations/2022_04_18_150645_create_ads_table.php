@@ -15,14 +15,16 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
-            $table->uuid('ad_id');
+            $table->uuid('ad_id')->unique();
+            $table->uuid('user_id');
+            $table->string('ticket_number')->unique();
+            $table->string('travel_company');
             $table->string('departure');
             $table->string('destination');
             $table->date('departure_date');
             $table->date('arrival_date');
-            $table->string('space');
-            $table->string('packages_accepted');
-            $table->integer('clicks');
+            $table->float('space');
+            $table->json('categories_accepted');
             $table->timestamps();
         });
     }

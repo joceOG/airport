@@ -15,13 +15,15 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->uuid('package_id');
+            $table->uuid('package_id')->unique();
             $table->string('item');
             $table->string('category');
-            $table->integer('length');
-            $table->integer('width');
-            $table->integer('weight');
-            $table->string('sender_id');
+            $table->float('weight');
+            $table->string('departure');
+            $table->string('destination');
+            $table->date('departure_date');
+            $table->float('price');
+            $table->uuid('sender_id');
             $table->timestamps();
         });
     }

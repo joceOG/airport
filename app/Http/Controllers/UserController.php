@@ -56,10 +56,10 @@ class UserController extends Controller
         $newUser->user_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'user.first_name' => 'required|string|alpha_dash|min:2|max:255',
-            'user.last_name' => 'required|string|alpha_dash|min:2|max:255',
-            'user.email' => 'required|string|email|unique:App\Models\User,email',
-            'user.password' => [
+            'first_name' => 'required|string|alpha_dash|min:2|max:255',
+            'last_name' => 'required|string|alpha_dash|min:2|max:255',
+            'email' => 'required|string|email|unique:App\Models\User,email',
+            'password' => [
                 'required',
                 Password::min(8)
                     ->letters()
@@ -67,54 +67,54 @@ class UserController extends Controller
                     ->symbols(),
                 'confirmed'
             ],
-            'user.phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
-            'user.whatsapp' => 'required|boolean',
-            'user.id_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            'user.id_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            'user.passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
+            'phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
+            'whatsapp' => 'boolean',
+            'id_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'id_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
+            'passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
         ], [
-            'user.first_name.required' => 'Prénom requis',
-            'user.last_name.required' => 'Nom de famille requis',
-            'user.email.required' => 'Adresse email requise',
-            'user.password.required' => 'Mot de passe requisrequis',
-            'user.phone.required' => 'Numero de téléphone requis',
-            'user.whatsapp.required' => 'Whatsapp requis',
-            'user.id_picture_front.required' => 'Avant de la pièce d\'identité requis',
-            'user.id_picture_back.required' => 'Arrière de la pièce d\'identité requis',
-            'user.*.mimes' => ':file doit être une image ou un pdf'
+            'first_name.required' => 'Prénom requis',
+            'last_name.required' => 'Nom de famille requis',
+            'email.required' => 'Adresse email requise',
+            'password.required' => 'Mot de passe requisrequis',
+            'phone.required' => 'Numero de téléphone requis',
+            'id_front.required' => 'Avant de la pièce d\'identité requis',
+            'id_back.required' => 'Arrière de la pièce d\'identité requis',
+            '*.mimes' => ':file doit être une image ou un pdf'
         ]);
 
         if(!$validator->fails()) {
-            $newUser->first_name = UserController::mysql_escape_mimic($request->user['first_name']);
-            $newUser->last_name = UserController::mysql_escape_mimic($request->user['last_name']);
-            $newUser->email = UserController::mysql_escape_mimic($request->user['email']);
-            $newUser->password = bcrypt($request->user['password']);
-            $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
-            $newUser->whatsapp = $request->user['whatsapp'];
-            $admin_key = $request->user['admin_key'] ?? null;
+            $newUser->first_name = UserController::mysql_escape_mimic($request->first_name);
+            $newUser->last_name = UserController::mysql_escape_mimic($request->last_name);
+            $newUser->email = UserController::mysql_escape_mimic($request->email);
+            $newUser->password = bcrypt($request->password);
+            $newUser->phone = UserController::mysql_escape_mimic($request->phone);
+            $newUser->whatsapp = boolval($request->whatsapp) ?? true;
+            $admin_key = $request->admin_key ?? null;
             $newUser->admin_key = $admin_key !== null ? bcrypt($admin_key) : '';
 
             $directory = Storage::makeDirectory($newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
-            $newUser->dir = $directory;
+            $newUser->dir = $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id;
 
             $id_front = $request->file('id_front');
             $id_front_extension = $id_front->extension();
-            $id_front_filename = time() . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
-            $id_front_path = $id_front->storeAs('users/' . $directory, $id_front_filename);
+            $id_front_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
+            $id_front_path = $id_front->storeAs('users/' . $newUser->dir, $id_front_filename);
             $newUser->id_front = $id_front_path;
 
             $id_back = $request->file('id_back');
             $id_back_extension = $id_back->extension();
-            $id_back_filename = time() . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
-            $id_back_path = $id_back->storeAs('users/' . $directory, $id_back_filename);
+            $id_back_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
+            $id_back_path = $id_back->storeAs('users/' . $newUser->dir, $id_back_filename);
             $newUser->id_back = $id_back_path;
 
-            $passport = $request->file('passport') ?? null;
-            $passport_extension = $passport->extension();
-            $passport_filename = time() . '_' . $newUser->user_id . '_passport.' . $passport_extension;
-            $passport_path = $passport !== null ? $passport->storeAs('users/' . $directory, $passport_filename) : null;
-            $newUser->passport = $passport_path;
-
+            $passport = $request->file('passport');
+            if($passport) {
+                $passport_extension = $passport->extension();
+                $passport_filename = time() . '_' . $newUser->user_id . '_passport.' . $passport_extension;
+                $passport_path = $passport->storeAs('users/' . $newUser->dir, $passport_filename);
+                $newUser->passport = $passport_path;
+            }
             $newUser->save();
 
             return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);

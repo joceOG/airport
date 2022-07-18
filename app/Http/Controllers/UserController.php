@@ -93,30 +93,34 @@ class UserController extends Controller
             $admin_key = $request->admin_key ?? null;
             $newUser->admin_key = $admin_key !== null ? bcrypt($admin_key) : '';
 
-            $directory = Storage::makeDirectory($newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
-            $newUser->dir = $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id;
+            $directory = Storage::makeDirectory('users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
 
-            $id_front = $request->file('id_front');
-            $id_front_extension = $id_front->extension();
-            $id_front_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
-            $id_front_path = $id_front->storeAs('users/' . $newUser->dir, $id_front_filename);
-            $newUser->id_front = $id_front_path;
+            if($directory) {
+                $newUser->dir = 'users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id;
 
-            $id_back = $request->file('id_back');
-            $id_back_extension = $id_back->extension();
-            $id_back_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
-            $id_back_path = $id_back->storeAs('users/' . $newUser->dir, $id_back_filename);
-            $newUser->id_back = $id_back_path;
+                $id_front = $request->file('id_front');
+                $id_front_extension = $id_front->extension();
+                $id_front_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
+                $id_front_path = $id_front->storeAs($newUser->dir, $id_front_filename);
+                $newUser->id_front = $id_front_path;
 
-            $passport = $request->file('passport');
-            if($passport) {
-                $passport_extension = $passport->extension();
-                $passport_filename = time() . '_' . $newUser->user_id . '_passport.' . $passport_extension;
-                $passport_path = $passport->storeAs('users/' . $newUser->dir, $passport_filename);
-                $newUser->passport = $passport_path;
+                $id_back = $request->file('id_back');
+                $id_back_extension = $id_back->extension();
+                $id_back_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
+                $id_back_path = $id_back->storeAs($newUser->dir, $id_back_filename);
+                $newUser->id_back = $id_back_path;
+
+                $passport = $request->file('passport');
+                if($passport) {
+                    $passport_extension = $passport->extension();
+                    $passport_filename = time() . '_' . $newUser->user_id . '_passport.' . $passport_extension;
+                    $passport_path = $passport->storeAs($newUser->dir, $passport_filename);
+                    $newUser->passport = $passport_path;
+                }
+                $newUser->save();
+            } else {
+                return response()->json(['data' => '', 'message' => 'Failed to create directory'], 400);
             }
-            $newUser->save();
-
             return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);

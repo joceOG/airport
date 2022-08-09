@@ -18,13 +18,15 @@ class PackageController extends Controller
      */
     public function index()
     {
-        $admin = User::firstWhere('user_id', session()->get('user_id'));
-        if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
-            $packages = Packages::all();
-            return response()->json($packages , 200);
-        } else {
-            return response()->json('Accès interdit' , 403);
-        }
+        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
+        //     $packages = Packages::all();
+        //     return response()->json($packages , 200);
+        // } else {
+        //     return response()->json('Accès interdit' , 403);
+        // }
+        $packages = Packages::all();
+        return response()->json($packages , 200);
     }
 
     /**

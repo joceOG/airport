@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->unique();
-            $table->boolean('whatsapp');
+            $table->boolean('whatsapp')->default(false);
             $table->string('admin_key')->nullable();
             $table->boolean('verified')->default(false);
             $table->string('id_front');

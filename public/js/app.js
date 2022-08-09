@@ -7396,7 +7396,7 @@ var render = function() {
             "v-card",
             [
               _c("h3", { staticStyle: { "text-align": "center" } }, [
-                _vm._v("LOGIN/REGISTER "),
+                _vm._v("CONNEXION "),
                 _c("br")
               ]),
               _vm._v(" "),
@@ -7407,7 +7407,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("h3", { staticStyle: { "text-align": "center" } }, [
-                _vm._v("Sign In "),
+                _vm._v("CONNEXION "),
                 _c("br")
               ]),
               _vm._v(" "),
@@ -7466,7 +7466,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
-                      placeholder: "Email",
+                      placeholder: "Mot de Passe",
                       type: "password",
                       outlined: "",
                       rules: _vm.passwordRules,
@@ -7501,8 +7501,8 @@ var render = function() {
               _vm._v(" "),
               _c("center", [
                 _c("p", {}, [
-                  _vm._v("  Don't have an account? "),
-                  _c("a", [_vm._v("Sign Up")])
+                  _vm._v("  Vous n'avez pas de compte? "),
+                  _c("a", [_vm._v("S'INSCRIRE")])
                 ])
               ]),
               _vm._v(" "),
@@ -7556,7 +7556,7 @@ var render = function() {
             "v-card",
             [
               _c("h3", { staticStyle: { "text-align": "center" } }, [
-                _vm._v("LOGIN/REGISTER "),
+                _vm._v("S'INSCRIRE "),
                 _c("br")
               ]),
               _vm._v(" "),
@@ -7567,7 +7567,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("h3", { staticStyle: { "text-align": "center" } }, [
-                _vm._v("Sign UP "),
+                _vm._v("S'INSCRIRE "),
                 _c("br")
               ]),
               _vm._v(" "),
@@ -7677,11 +7677,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
-                      placeholder: "Password",
+                      placeholder: "Mot de Passe",
                       type: "password",
                       outlined: "",
                       rules: _vm.passwordsuRules,
-                      label: "Password",
+                      label: "Mot de Passe",
                       required: ""
                     },
                     model: {
@@ -7695,11 +7695,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
-                      placeholder: "Confirm Password",
+                      placeholder: "Confirmer Mot de Passe",
                       type: "password",
                       outlined: "",
                       rules: _vm.confirmsuRules,
-                      label: "Confirm Password",
+                      label: "Confirmer Mot de Passe",
                       required: ""
                     },
                     model: {
@@ -7708,17 +7708,6 @@ var render = function() {
                         _vm.confirmsu = $$v
                       },
                       expression: "confirmsu"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-file-input", {
-                    attrs: { label: "Importer Piece" },
-                    model: {
-                      value: _vm.files,
-                      callback: function($$v) {
-                        _vm.files = $$v
-                      },
-                      expression: "files"
                     }
                   })
                 ],
@@ -7734,7 +7723,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                       Sign UP\n                       "
+                    "\n                       Mot de Passe\n                       "
                   )
                 ]
               )

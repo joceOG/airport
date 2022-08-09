@@ -56,7 +56,8 @@ Route::prefix('/delivery')->group(function() {
 Route::get('/users', [UserController::class, 'index']);
 Route::prefix('/user')->group(function() {
     Route::post('/store', [UserController::class, 'store']);
-    Route::post('/check', [UserController::class, 'check']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::patch('/validate/{id}', [UserController::class, 'validation']);
     Route::delete('/{id}', [UserController::class, 'destroy']);

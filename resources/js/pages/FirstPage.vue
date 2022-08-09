@@ -39,9 +39,9 @@
 
            <v-dialog v-model="dialog" width="500">
                <v-card>
-                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
+                  <h3 style="text-align: center">CONNEXION <br/></h3>
                      <v-img style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
-                       <h3 style="text-align: center">Sign In <br/></h3> 
+                       <h3 style="text-align: center">CONNEXION <br/></h3> 
                   <v-form style="padding: 32; width=300px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
                           <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense><span style="font-size: 10px">{{ notif }}</span>
                         </v-alert>
@@ -54,7 +54,7 @@
                               required
                           ></v-text-field>
                           <v-text-field
-                            placeholder="Email"
+                            placeholder="Mot de Passe"
                               type="password"
                               v-model="password"
                               outlined
@@ -72,7 +72,7 @@
                         Sign In
                         </v-btn>
 
-                    <center><p class="">  Don't have an account? <a>Sign Up</a></p></center>  <v-divider></v-divider>
+                    <center><p class="">  Vous n'avez pas de compte? <a>S'INSCRIRE</a></p></center>  <v-divider></v-divider>
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -89,9 +89,9 @@
 
                <v-dialog v-model="dialog2" width="500">
                <v-card>
-                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
+                  <h3 style="text-align: center">S'INSCRIRE <br/></h3>
                      <v-img style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
-                       <h3 style="text-align: center">Sign UP <br/></h3> 
+                       <h3 style="text-align: center">S'INSCRIRE <br/></h3> 
                   <v-form style="padding: 32; width=300px;" justify-content="center" ref="form2" v-model="valid" lazy-validation>
                           <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense><span style="font-size: 10px">{{ notif }}</span>
                         </v-alert>
@@ -128,27 +128,23 @@
                               required
                           ></v-text-field>
                           <v-text-field
-                            placeholder="Password"
+                            placeholder="Mot de Passe"
                               type="password"
                               v-model="passwordsu"
                               outlined
                               :rules="passwordsuRules"
-                              label="Password"
+                              label="Mot de Passe"
                               required
                           ></v-text-field>
                         <v-text-field
-                            placeholder="Confirm Password"
+                            placeholder="Confirmer Mot de Passe"
                               type="password"
                               v-model="confirmsu"
                               outlined
                               :rules="confirmsuRules"
-                              label="Confirm Password"
+                              label="Confirmer Mot de Passe"
                               required
                           ></v-text-field>
-                             <v-file-input
-                            v-model="files"
-                              label="Importer Piece"
-                            ></v-file-input>
                      </v-form>
 
                         <v-btn
@@ -156,7 +152,7 @@
                           color="primary"
                           @click="signup"
                         >
-                        Sign UP
+                        Mot de Passe
                         </v-btn>
 
               </v-card>

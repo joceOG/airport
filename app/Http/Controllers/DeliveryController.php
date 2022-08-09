@@ -60,11 +60,11 @@ class DeliveryController extends Controller
         $newDelivery->delivery_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'ad.ad_id' => 'required|uuid',
-            'ad.user_id' => 'required|uuid',
+            'delivery.ad_id' => 'required|uuid',
+            'delivery.package_id' => 'required|uuid',
         ], [
-            'ad.ad_id.required' => 'Ad ID requis',
-            'ad.user_id.required' => 'User ID requis'
+            'delivery.ad_id' => 'Delivery Ad ID requis',
+            'delivery.package_id' => 'Delivery Pzckage ID requis'
         ]);
 
         if(!$validator->fails()) {
@@ -90,7 +90,7 @@ class DeliveryController extends Controller
 
             // test
             $package = Packages::first();
-            Mail::to($newDelivery->courier_email)->send(new RequestSent($package));
+            //Mail::to($newDelivery->courier_email)->send(new RequestSent($package));
 
             return response()->json(['data' => $newDelivery, 'message' => 'Nouvelle livraison crée'], 201);
         } else {

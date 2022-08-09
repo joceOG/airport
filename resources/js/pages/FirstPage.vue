@@ -15,7 +15,6 @@
        </v-btn>
 
      </p>
-    </div>
     </v-img>
 
              <v-img
@@ -28,46 +27,10 @@
                     <v-col >
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
                     </v-col>
                     <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
                     </v-col>
                     <v-col >
                     </v-col>
@@ -124,6 +87,81 @@
               </v-card>
           </v-dialog>
 
+               <v-dialog v-model="dialog2" width="500">
+               <v-card>
+                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
+                     <v-img style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
+                       <h3 style="text-align: center">Sign UP <br/></h3> 
+                  <v-form style="padding: 32; width=300px;" justify-content="center" ref="form2" v-model="valid" lazy-validation>
+                          <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense><span style="font-size: 10px">{{ notif }}</span>
+                        </v-alert>
+                          <v-text-field
+                            placeholder="Nom"
+                              v-model="nom"
+                              outlined
+                              :rules="nomRules"
+                              label="Nom"
+                              required
+                          ></v-text-field>
+                          <v-text-field
+                            placeholder="Prenom"
+                              v-model="prenom"
+                              outlined
+                              :rules="prenomRules"
+                              label="Prenom"
+                              required
+                          ></v-text-field>
+                          <v-text-field
+                            placeholder="Telephone"
+                              v-model="telephone"
+                              outlined
+                              :rules="telephoneRules"
+                              label="Telephone"
+                              required
+                          ></v-text-field>
+                            <v-text-field
+                            placeholder="Email"
+                              v-model="emailsu"
+                              outlined
+                              :rules="emailsuRules"
+                              label="Email"
+                              required
+                          ></v-text-field>
+                          <v-text-field
+                            placeholder="Password"
+                              type="password"
+                              v-model="passwordsu"
+                              outlined
+                              :rules="passwordsuRules"
+                              label="Password"
+                              required
+                          ></v-text-field>
+                        <v-text-field
+                            placeholder="Confirm Password"
+                              type="password"
+                              v-model="confirmsu"
+                              outlined
+                              :rules="confirmsuRules"
+                              label="Confirm Password"
+                              required
+                          ></v-text-field>
+                             <v-file-input
+                            v-model="files"
+                              label="Importer Piece"
+                            ></v-file-input>
+                     </v-form>
+
+                        <v-btn
+                          class="ma-2 centrer"
+                          color="primary"
+                          @click="signup"
+                        >
+                        Sign UP
+                        </v-btn>
+
+              </v-card>
+          </v-dialog>
+
 
     </v-container>
 </template>
@@ -154,15 +192,23 @@ export default class FirstPage extends Vue {
   ];
   passwordRules = [(v: string) => !!v || "Password is required"];
   confirmRules = [(v: string) => !!v || "Confirmation is required"];
+
   emailsu = "";
+  nom = ""
+  prenom =""
+  telephone ="" 
   passwordsu = "";
   confirmsu = "";
+  files : any
   emailsuRules = [
     (v: any) => !!v || "E-mail is required",
     (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
   ];
   passwordsuRules = [(v: string) => !!v || "Password is required"];
   confirmsuRules = [(v: string) => !!v || "Confirmation is required"];
+  nomRules = [(v: string) => !!v || "Nom is required"];
+  prenomRules = [(v: string) => !!v || "Prenom is required"];
+  telephoneRules = [(v: string) => !!v || "Telephone is required"];
   showalert = false;
   typealert = "success";
   notif = ""
@@ -187,16 +233,38 @@ export default class FirstPage extends Vue {
 
    async signup(){
       this.form2.validate();
-      const data = {
+      
+        
+
+      if(this.files){
+            let formData = new FormData()
+          
+            formData.append("file", this.files);
+
+            console.log(formData.get("file"))
+            console.log(this.files)
+
+
+      const data = JSON.stringify({
                   "user":{
-                  "first_name": this.emailsu,
                   "email": this.emailsu,
                   "password": this.passwordsu,
+                  "first_name": this.prenom,
+                  "last_name": this.nom,
+                  "phone": this.telephone,
+                  "whatsapp": true,
+                  "id_front": formData,
+                  "id_back": formData,
                   }
-                 };
+                 });
+
+       const header =  { headers : {'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2) }}        
+
+    
 
        try {
-          const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data);
+          const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data , header
+                        );
           const res = result.data
           console.log('res', res)
           if (res) {
@@ -205,6 +273,7 @@ export default class FirstPage extends Vue {
         } catch (err) {
           console.log(err);
         }   
+      }
    }
 
   async signin(){

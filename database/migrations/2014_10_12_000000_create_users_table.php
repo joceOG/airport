@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->boolean('whatsapp')->default(false);
             $table->string('admin_key')->nullable();
             $table->boolean('verified')->default(false);
-            $table->string('id_front');
-            $table->string('id_back');
+            $table->string('id_front')->nullable();
+            $table->string('id_back')->nullable();
             $table->string('passport')->nullable();
             $table->string('dir');
             $table->rememberToken();

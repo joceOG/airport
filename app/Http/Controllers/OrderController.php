@@ -163,33 +163,9 @@ class OrderController extends Controller
                     $associatedDelivery->status = 'payée';
                     $associatedDelivery->save();
                 } elseif($existingOrder->status === 'non-livrée') {
-                    // ???
-
-
-                } else {
-                    // Send an email to the sender
-                    // to confirm cancellation and refund
-
-
-                    // Refund sender
-
-                }
-
-                return response()->json(['data' => $existingOrder, 'message' => 'Commande modifiée'], 200);
-            } else {
-                return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
-            }
-        } else {
-            return response()->json(['data' => '', 'message' => 'Cette commande n\'existe pas'], 404);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $existingOrder = Orders::find($id);

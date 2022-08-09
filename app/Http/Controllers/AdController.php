@@ -59,13 +59,11 @@ class AdController extends Controller
 
         $validator = Validator::make($request->all(), [
             'ad.ticket_number' => 'required|string|alphanum',
-            'ad.travel_company' => 'required|string|max:255',
             'ad.departure' => 'required|string|alpha_dash|min:2|max:255',
             'ad.destination' => 'required|string||alpha_dash|min:2|max:255',
             'ad.departure_date' => 'required|date|after:today',
             'ad.arrival_date' => 'required|date|after:departure_date',
             'ad.space' => 'required|numeric|min:0|max:100',
-            'ad.categories_accepted' => 'required|array'
         ], [
             'ad.ticket_number.required' => 'Numéro du billet requis',
             'ad.travel_company.required' => 'Nom de la compagnie de voyage requis',
@@ -200,13 +198,14 @@ class AdController extends Controller
             $upper_bound = strtotime('+3 day', strtotime($package['departure_date']));
             $lower_bound = strtotime('-3 day', strtotime($package['departure_date']));
             $matchingAds = Ads::get()->filter(function ($value, $key) use($package, $upper_bound, $lower_bound){
+               
                 $ad_departure_date = strtotime($value['departure_date']);
                 return $value['space'] >= $package['weight']
                 && $value['departure'] == $package['departure']
                 && $value['destination'] == $package['destination']
                 && ($ad_departure_date > $lower_bound && $ad_departure_date < $upper_bound);
             });
-
+        
             $matchingAds = $matchingAds->filter(function ($value, $key) use($package){
                 $categoriesAccepted = $value['categories_accepted'];
                 foreach($categoriesAccepted as $category) {
@@ -218,18 +217,27 @@ class AdController extends Controller
             });
 
             if(empty($matchingAds)) {
+
                 Packages::firstWhere('package_id', $package->package_id)->delete();
-
                 return response()->json(['data' => '', 'message' => 'Aucun résultat'], 200);
-            } else {
-                // Packages::create([$package]);
-
-                return response()->json(['data' => $matchingAds, 'message' => count($matchingAds) . " résultat(s)"], 200);
+            } else {               
+                $tab=[];
+                foreach($matchingAds as $item){
+                    array_push($tab,$item);
+                } 
+                return response()->json(['data' => $tab , 'message' => count($matchingAds) . " résultat(s)"], 200);
             }
         } else {
             return response()->json(['data' => '', 'message' => 'Envoi manquant'], 400);
         }
     }
+
+    /**
+     * Return ads matching some characteristics of the package
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
     /**
      * Remove the specified resource from storage.

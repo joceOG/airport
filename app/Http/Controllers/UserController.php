@@ -54,7 +54,7 @@ class UserController extends Controller
     {
         $newUser = new User();
         $newUser->user_id = UuidV4::uuid4();
-
+        echo $request;
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|alpha_dash|min:2|max:255',
             'last_name' => 'required|string|alpha_dash|min:2|max:255',

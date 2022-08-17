@@ -6784,8 +6784,1247 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {}
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    {
+      staticClass: "fapp",
+      staticStyle: { padding: "0px" },
+      attrs: { fluid: "" }
+    },
+    [
+      _c(
+        "v-img",
+        {
+          staticStyle: { width: "100%" },
+          attrs: { height: "1000", src: "./assets/blank.jpg" }
+        },
+        [
+          _c("p", { staticStyle: { "margin-top": "140px" } }),
+          _c("div", { attrs: { id: "v-tabs" } }, [
+            _c("div", { staticClass: "container" }, [
+              _c("div", { staticClass: "row" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-3" },
+                  [
+                    _c("h4", { staticClass: "pen-heading" }, [
+                      _vm._v("Mon Compte")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.tabs, function(tab) {
+                      return _c(
+                        "div",
+                        {
+                          staticClass: "tab-item",
+                          class: { active: _vm.selectedTab == tab.title },
+                          on: {
+                            click: function($event) {
+                              _vm.selectedTab = tab.title
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "h3",
+                            { staticClass: "tab-item__heading" },
+                            [
+                              _c("v-icon", { staticStyle: { padding: "10" } }, [
+                                _vm._v("mdi-school")
+                              ]),
+                              _vm._v(" " + _vm._s(tab.title))
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-md-9" },
+                  [
+                    _c(
+                      "v-alert",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.showalert == true,
+                            expression: "showalert == true"
+                          }
+                        ],
+                        staticClass: "ma-2",
+                        attrs: { type: _vm.typealert, dense: "" }
+                      },
+                      [
+                        _c("span", { staticStyle: { "font-size": "10px" } }, [
+                          _vm._v("Observation ")
+                        ]),
+                        _c("span", { staticStyle: { "font-size": "10px" } }, [
+                          _vm._v("Enregistrée")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.selectedTab == "Mes Details"
+                      ? [
+                          _c("h3", { staticClass: "tab-content__header" }, [
+                            _vm._v("Mes Détails")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tab-content__text" }),
+                          _c("h3", [
+                            _c("b", [_vm._v("Informations Personnelles")])
+                          ]),
+                          _vm._v(" "),
+                          _c("v-divider", {
+                            staticStyle: { border: "solid 5px" },
+                            attrs: { height: "5" }
+                          }),
+                          _c("p"),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "4" } }, [
+                                _c("p", { staticClass: "tab-content__text2" }, [
+                                  _vm._v(
+                                    "Enregistrer ou Modifier vos informations personnelles"
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "4" } },
+                                [
+                                  _c("p", { staticClass: "tab-content__text" }),
+                                  _c("h4", [_c("b", [_vm._v("Nom")])]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      rules: _vm.firstName,
+                                      required: "",
+                                      label: "Nom",
+                                      solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.firstName,
+                                      callback: function($$v) {
+                                        _vm.firstName = $$v
+                                      },
+                                      expression: "firstName"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p"),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "tab-content__text" }),
+                                  _c("h4", [
+                                    _c("b", [_vm._v("Numero de Telephone")])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      rules: _vm.firstName,
+                                      required: "",
+                                      label: "Numero de Telepone",
+                                      solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.firstName,
+                                      callback: function($$v) {
+                                        _vm.firstName = $$v
+                                      },
+                                      expression: "firstName"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "4" } },
+                                [
+                                  _c("p", { staticClass: "tab-content__text" }),
+                                  _c("h4", [_c("b", [_vm._v("Prenom")])]),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      rules: _vm.firstName,
+                                      required: "",
+                                      label: "Prenom",
+                                      solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.firstName,
+                                      callback: function($$v) {
+                                        _vm.firstName = $$v
+                                      },
+                                      expression: "firstName"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p"),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticStyle: { "text-align": "center" }
+                                  }),
+                                  _c("h4", [_c("b", [_vm._v("Photo")])]),
+                                  _vm._v(" "),
+                                  _c("v-avatar", { attrs: { size: "140" } }, [
+                                    _c("img", {
+                                      attrs: {
+                                        src:
+                                          "https://www.editionslibretto.fr/wp-content/themes/chapterone-child/assets/img/default_author_avatar.svg",
+                                        alt: "Photo"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p"),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-row",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            depressed: "",
+                                            outlined: "",
+                                            color: "#314f8d"
+                                          },
+                                          on: { click: function($event) {} }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                  MODIFIER\n                          "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.selectedTab == "Mes Livraisons"
+                      ? [
+                          _c("h3", { staticClass: "tab-content__header" }, [
+                            _vm._v("Mes Livraisons")
+                          ]),
+                          _vm._v(
+                            "\n\n            Liste des livraisons pour :\n\n\n            "
+                          ),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-tooltip",
+                            {
+                              attrs: { top: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-btn",
+                                          _vm._g(
+                                            _vm._b(
+                                              { attrs: { icon: "" } },
+                                              "v-btn",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              {
+                                                attrs: {
+                                                  color: "grey lighten-1"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                              mdi-reload\n                            "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3366412773
+                              )
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Recharger")])]
+                          )
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.selectedTab == "Mes Commandes"
+                      ? [
+                          _c("h3", { staticClass: "tab-content__header" }, [
+                            _vm._v("Mes Commandes")
+                          ])
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.selectedTab == "Je fais un envoi"
+                      ? [
+                          _c("h3", { staticClass: "tab-content__header" }, [
+                            _vm._v("JE FAIS UN ENVOI")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "2" } },
+                                [
+                                  _c("v-img", {
+                                    staticClass: "centrer",
+                                    staticStyle: { display: "inline-block" },
+                                    attrs: {
+                                      width: "100",
+                                      height: "100",
+                                      src: "./assets/logo.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "3" } },
+                                [
+                                  _c(
+                                    "h3",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "margin-top": "10px"
+                                      }
+                                    },
+                                    [_vm._v("JE FAIS UN ENVOI "), _c("br")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form2",
+                                      staticStyle: { padding: "32" },
+                                      attrs: {
+                                        "justify-content": "center",
+                                        "lazy-validation": ""
+                                      },
+                                      model: {
+                                        value: _vm.valid2,
+                                        callback: function($$v) {
+                                          _vm.valid2 = $$v
+                                        },
+                                        expression: "valid2"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Type",
+                                          outlined: "",
+                                          rules: _vm.typeRules,
+                                          label: "Type",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.type,
+                                          callback: function($$v) {
+                                            _vm.type = $$v
+                                          },
+                                          expression: "type"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-combobox", {
+                                        attrs: {
+                                          items: _vm.tabcategorie,
+                                          clearable: "",
+                                          dense: "",
+                                          "hide-selected": "",
+                                          "persistent-hint": ""
+                                        },
+                                        model: {
+                                          value: _vm.categorie,
+                                          callback: function($$v) {
+                                            _vm.categorie = $$v
+                                          },
+                                          expression: "categorie"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Nombre de Kilos",
+                                          type: "number",
+                                          outlined: "",
+                                          rules: _vm.nkiloRules,
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.nkilo,
+                                          callback: function($$v) {
+                                            _vm.nkilo = $$v
+                                          },
+                                          expression: "nkilo"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-menu",
+                                        {
+                                          attrs: {
+                                            "close-on-content-click": false,
+                                            "nudge-right": 40,
+                                            transition: "scale-transition",
+                                            "offset-y": "",
+                                            "min-width": "auto"
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              label:
+                                                                "Picker without buttons",
+                                                              "prepend-icon":
+                                                                "mdi-calendar",
+                                                              readonly: ""
+                                                            },
+                                                            model: {
+                                                              value: _vm.date,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.date = $$v
+                                                              },
+                                                              expression: "date"
+                                                            }
+                                                          },
+                                                          "v-text-field",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            1140973133
+                                          ),
+                                          model: {
+                                            value: _vm.menu,
+                                            callback: function($$v) {
+                                              _vm.menu = $$v
+                                            },
+                                            expression: "menu"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("v-date-picker", {
+                                            on: {
+                                              input: function($event) {
+                                                _vm.menu = false
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.date,
+                                              callback: function($$v) {
+                                                _vm.date = $$v
+                                              },
+                                              expression: "date"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "3" } },
+                                [
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form2",
+                                      staticStyle: {
+                                        padding: "32",
+                                        "margin-top": "30px"
+                                      },
+                                      attrs: {
+                                        "justify-content": "center",
+                                        "lazy-validation": ""
+                                      },
+                                      model: {
+                                        value: _vm.valid2,
+                                        callback: function($$v) {
+                                          _vm.valid2 = $$v
+                                        },
+                                        expression: "valid2"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Depart",
+                                          outlined: "",
+                                          rules: _vm.departRules,
+                                          label: "Depart",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.depart,
+                                          callback: function($$v) {
+                                            _vm.depart = $$v
+                                          },
+                                          expression: "depart"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Destination",
+                                          outlined: "",
+                                          rules: _vm.destinationRules,
+                                          label: "Destitanation",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.destination,
+                                          callback: function($$v) {
+                                            _vm.destination = $$v
+                                          },
+                                          expression: "destination"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Prix",
+                                          outlined: "",
+                                          type: "number",
+                                          label: "Prix",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.prix,
+                                          callback: function($$v) {
+                                            _vm.prix = $$v
+                                          },
+                                          expression: "prix"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-divider"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            depressed: "",
+                                            outlined: "",
+                                            color: "#314f8d"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addPackage()
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("ENVOYER")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } })
+                            ],
+                            1
+                          )
+                        ]
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.selectedTab == "J'ai des Kilos"
+                      ? [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "2" } },
+                                [
+                                  _c("v-img", {
+                                    staticClass: "centrer",
+                                    staticStyle: { display: "inline-block" },
+                                    attrs: {
+                                      width: "70",
+                                      height: "70",
+                                      src: "./assets/logo.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "4" } },
+                                [
+                                  _c(
+                                    "h3",
+                                    {
+                                      staticStyle: {
+                                        "text-align": "center",
+                                        "margin-top": "10px"
+                                      }
+                                    },
+                                    [_vm._v("J'AI DES KILOS "), _c("br")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form",
+                                      staticStyle: { padding: "32" },
+                                      attrs: {
+                                        "justify-content": "center",
+                                        "lazy-validation": ""
+                                      },
+                                      model: {
+                                        value: _vm.valid,
+                                        callback: function($$v) {
+                                          _vm.valid = $$v
+                                        },
+                                        expression: "valid"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Billet",
+                                          outlined: "",
+                                          rules: _vm.billetRules,
+                                          label: "Billet",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.billet,
+                                          callback: function($$v) {
+                                            _vm.billet = $$v
+                                          },
+                                          expression: "billet"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Espace",
+                                          type: "number",
+                                          outlined: "",
+                                          rules: _vm.espaceRules,
+                                          label: "Espace",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.espace,
+                                          callback: function($$v) {
+                                            _vm.espace = $$v
+                                          },
+                                          expression: "espace"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Compagnie",
+                                          outlined: "",
+                                          rules: _vm.compagnieRules,
+                                          label: "Compagnie",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.compagnie,
+                                          callback: function($$v) {
+                                            _vm.compagnie = $$v
+                                          },
+                                          expression: "compagnie"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-menu",
+                                        {
+                                          attrs: {
+                                            "close-on-content-click": false,
+                                            "nudge-right": 40,
+                                            transition: "scale-transition",
+                                            "offset-y": "",
+                                            "min-width": "auto"
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              label:
+                                                                "Date de Depart",
+                                                              "prepend-icon":
+                                                                "mdi-calendar",
+                                                              readonly: ""
+                                                            },
+                                                            model: {
+                                                              value: _vm.datedk,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.datedk = $$v
+                                                              },
+                                                              expression:
+                                                                "datedk"
+                                                            }
+                                                          },
+                                                          "v-text-field",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            2309689038
+                                          ),
+                                          model: {
+                                            value: _vm.menudk,
+                                            callback: function($$v) {
+                                              _vm.menudk = $$v
+                                            },
+                                            expression: "menudk"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("v-date-picker", {
+                                            on: {
+                                              input: function($event) {
+                                                _vm.menudk = false
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.datedk,
+                                              callback: function($$v) {
+                                                _vm.datedk = $$v
+                                              },
+                                              expression: "datedk"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-menu",
+                                        {
+                                          attrs: {
+                                            "close-on-content-click": false,
+                                            "nudge-right": 40,
+                                            transition: "scale-transition",
+                                            "offset-y": "",
+                                            "min-width": "auto"
+                                          },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              label:
+                                                                "Date d'arrivée",
+                                                              "prepend-icon":
+                                                                "mdi-calendar",
+                                                              readonly: ""
+                                                            },
+                                                            model: {
+                                                              value: _vm.dateak,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.dateak = $$v
+                                                              },
+                                                              expression:
+                                                                "dateak"
+                                                            }
+                                                          },
+                                                          "v-text-field",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            2554719853
+                                          ),
+                                          model: {
+                                            value: _vm.menuak,
+                                            callback: function($$v) {
+                                              _vm.menuak = $$v
+                                            },
+                                            expression: "menuak"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("v-date-picker", {
+                                            on: {
+                                              input: function($event) {
+                                                _vm.menuak = false
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.dateak,
+                                              callback: function($$v) {
+                                                _vm.dateak = $$v
+                                              },
+                                              expression: "dateak"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "5" } },
+                                [
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form",
+                                      staticStyle: {
+                                        padding: "32",
+                                        "margin-top": "30px"
+                                      },
+                                      attrs: {
+                                        "justify-content": "center",
+                                        "lazy-validation": ""
+                                      },
+                                      model: {
+                                        value: _vm.valid,
+                                        callback: function($$v) {
+                                          _vm.valid = $$v
+                                        },
+                                        expression: "valid"
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "",
+                                          outlined: "",
+                                          rules: _vm.departkRules,
+                                          label: "Depart",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.departk,
+                                          callback: function($$v) {
+                                            _vm.departk = $$v
+                                          },
+                                          expression: "departk"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          placeholder: "Destination",
+                                          outlined: "",
+                                          rules: _vm.destinationkRules,
+                                          label: "Destitanation",
+                                          required: ""
+                                        },
+                                        model: {
+                                          value: _vm.destinationk,
+                                          callback: function($$v) {
+                                            _vm.destinationk = $$v
+                                          },
+                                          expression: "destinationk"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c("v-combobox", {
+                                            attrs: {
+                                              items: _vm.tabcategorie,
+                                              label: "Choisir les categories",
+                                              multiple: "",
+                                              chips: ""
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "selection",
+                                                  fn: function(data) {
+                                                    return [
+                                                      _c(
+                                                        "v-chip",
+                                                        _vm._b(
+                                                          {
+                                                            key: JSON.stringify(
+                                                              data.item
+                                                            ),
+                                                            attrs: {
+                                                              "input-value":
+                                                                data.selected,
+                                                              disabled:
+                                                                data.disabled
+                                                            },
+                                                            on: {
+                                                              "click:close": function(
+                                                                $event
+                                                              ) {
+                                                                return data.parent.selectItem(
+                                                                  data.item
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          "v-chip",
+                                                          data.attrs,
+                                                          false
+                                                        ),
+                                                        [
+                                                          _c("v-avatar", {
+                                                            staticClass:
+                                                              "accent white--text",
+                                                            attrs: { left: "" },
+                                                            domProps: {
+                                                              textContent: _vm._s(
+                                                                data.item
+                                                                  .slice(0, 1)
+                                                                  .toUpperCase()
+                                                              )
+                                                            }
+                                                          }),
+                                                          _vm._v(
+                                                            "\n                                      " +
+                                                              _vm._s(
+                                                                data.item
+                                                              ) +
+                                                              "\n                                    "
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              false,
+                                              1718867006
+                                            ),
+                                            model: {
+                                              value: _vm.select,
+                                              callback: function($$v) {
+                                                _vm.select = $$v
+                                              },
+                                              expression: "select"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-divider"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            depressed: "",
+                                            outlined: "",
+                                            color: "#314f8d"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addAds()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                   ENVOYER\n                           "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "4" } })
+                            ],
+                            1
+                          )
+                        ]
+                      : _vm._e()
+                  ],
+                  2
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p")
+        ]
+      ),
+      _vm._v(" "),
+      _c("v-img", {
+        staticStyle: { width: "100%", padding: "0px", height: "350" },
+        attrs: {
+          src:
+            "https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("h3", { staticStyle: { "text-align": "center" } }, [
+                _vm._v("MATCHS"),
+                _c("br")
+              ]),
+              _vm._v(" "),
+              _c("h2", [_vm._v("Annonces Possibles")]),
+              _vm._v(" "),
+              _c(
+                "v-list",
+                { attrs: { shaped: "" } },
+                [
+                  _c("v-subheader", [_vm._v("Selectionner une annonce")]),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-group",
+                    {
+                      attrs: { color: "primary" },
+                      model: {
+                        value: _vm.selected,
+                        callback: function($$v) {
+                          _vm.selected = $$v
+                        },
+                        expression: "selected"
+                      }
+                    },
+                    _vm._l(_vm.matchs, function(item, i) {
+                      return _c(
+                        "v-list-item",
+                        { key: i },
+                        [
+                          _c(
+                            "v-list-item-icon",
+                            [_c("v-icon", [_vm._v(" mdi-folder")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-list-item-content", [
+                            _c("p", [
+                              _vm._v(
+                                "Compagnie : " + _vm._s(item.travel_company)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v("Billet : " + _vm._s(item.ticket_number))
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v("Espace : " + _vm._s(item.space) + " Kilo")
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v("Depart : " + _vm._s(item.departure))
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Destination : " + _vm._s(item.destination)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Date de départ : " +
+                                  _vm._s(item.departure_date)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Date d'arrivee : " + _vm._s(item.arrival_date)
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Categorie : " +
+                                  _vm._s(item.categories_accepted)
+                              )
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { depressed: "", outlined: "", color: "#314f8d" },
+                  on: {
+                    click: function($event) {
+                      return _vm.storePackage()
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                                   VALIDER\n                           "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("v-card-actions")
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 

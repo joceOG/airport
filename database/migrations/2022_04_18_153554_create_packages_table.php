@@ -23,7 +23,7 @@ class CreatePackagesTable extends Migration
             $table->string('destination');
             $table->date('departure_date');
             $table->float('price');
-            $table->uuid('sender_id');
+            $table->foreignUuid('sender_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

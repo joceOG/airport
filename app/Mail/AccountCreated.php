@@ -2,13 +2,14 @@
 
 namespace App\Mail;
 
-use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
-class DeliveryConfirmation extends Mailable
+class AccountCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,16 +18,16 @@ class DeliveryConfirmation extends Mailable
      *
      *
      */
-    protected $order;
+    protected $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Orders $order)
+    public function __construct(User $user)
     {
-        $this->order = $order;
+        $this->user = $user;
     }
 
     /**
@@ -37,12 +38,13 @@ class DeliveryConfirmation extends Mailable
     public function build()
     {
         return $this->from('koliandco@gmail.com', 'Koli&co')
-            ->subject('Confirmation de livraison')
-            ->tag('confirmation')
-            ->view('emails.delivery.confirmation')
-            ->with([
-                'status' => $this->order->status,
-                'order_id' => $this->order->order_id,
-            ]);
+        ->subject('Bienvenue chez Koli&co!')
+        ->tag('response')
+        ->view('emails.account.created')
+        ->with([
+            'user_id' => $this->user->user_id,
+            'first_name' => $this->user->first_name,
+            'last_name' => $this->user->last_name
+        ]);
     }
 }

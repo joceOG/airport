@@ -9,8 +9,7 @@ use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
-use Ramsey\Uuid\Rfc4122\UuidV4;
+use App\Models\Packages;
 
 class OrderController extends Controller
 {
@@ -21,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // $admin = User::where('user_id', session()->get('user_id'))->first();
         // if($admin && $admin->admin_key === bcrypt(env('ADMIN_KEY'))) {
         //     $orders = Orders::all();
         //     return response()->json($orders , 200);
@@ -50,68 +49,80 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
-        // if(!$user) {
-        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // $user = User::where('user_id', $request->session()->get('user_id'))->first();
+
+        // if(!($user && $user->verified)) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
         // }
 
-        $newOrder = new Orders();
-        $newOrder->order_id = UuidV4::uuid4();
+        // $newOrder = new Orders();
+        // $newOrder->order_id = UuidV4::uuid4();
 
-        $validator = Validator::make($request->all(), [
-            'delivery.sender_id' => 'required|uuid',
-            'delivery.package_id' => 'required|uuid',
-            'delivery.delivery_id' => 'required|uuid',
-            'delivery.status' => 'required|string|alpha|in:acceptée,rejetée'
-        ], [
-            'delivery.sender_id.required' => 'Sender ID requis',
-            'delivery.package_id.required' => 'Package ID requis',
-            'delivery.delivery_id.required' => 'Delivery ID requis',
-            'delivery.status.required' => 'Status de la livraison requis',
-            'delivery.status.in' => 'Cette livraison doit être acceptée ou rejetée'
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'order.sender_id' => 'required|uuid',
+        //     'order.package_id' => 'required|uuid',
+        //     'order.delivery_id' => 'required|uuid',
+        //     'order.status' => 'required|string|in:pending,acceptée,rejetée'
+        // ], [
+        //     'order.sender_id.required' => 'Sender ID requis',
+        //     'order.package_id.required' => 'Package ID requis',
+        //     'order.delivery_id.required' => 'Delivery ID requis',
+        //     'order.status.required' => 'Status de la livraison requis',
+        //     'order.status.in' => 'Cette livraison doit être pending, acceptée ou rejetée'
+        // ]);
 
-        if(!$validator->fails()) {
-            // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
-            // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
-            // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
-            // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
-            $newOrder->sender_email = 'cmguinan@yahoo.fr';
-            $newOrder->courier_email = 'lasourcebeats@gmail.com';
-            // $newOrder->sender_phone = OrderController::mysql_escape_mimic($sender->phone);
-            // $newOrder->courier_phone = OrderController::mysql_escape_mimic($courier->phone);
-            $newOrder->sender_phone = '0708778921';
-            $newOrder->courier_phone = '0896569104';
-            // $newOrder->sender_whatsapp = $sender->whatsapp;
-            // $newOrder->courier_whatsapp = $courier->whatsapp;
-            $newOrder->sender_whatsapp = true;
-            $newOrder->courier_whatsapp = true;
-            // $newOrder->package_id = $request->delivery['package_id'];
-            $newOrder->package_id = UuidV4::uuid4();
-            // $newOrder->delivery_id = $request->delivery['delivery_id'];
-            $newOrder->delivery_id = UuidV4::uuid4();
-            $newOrder->status = $request->delivery['status'];
-            // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
-            // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
-            $newOrder->sender_id = UuidV4::uuid4();
-            $newOrder->courier_id = UuidV4::uuid4();
-            $newOrder->save();
+        // if(!$validator->fails()) {
+        //     // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
+        //     // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
+        //     // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
+        //     // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
+        //     $newOrder->sender_email = OrderController::mysql_escape_mimic($request->order['sender_email']);
+        //     $newOrder->courier_email = OrderController::mysql_escape_mimic($request->order['courier_email']);
+        //     // $newOrder->sender_phone = OrderController::mysql_escape_mimic($sender->phone);
+        //     // $newOrder->courier_phone = OrderController::mysql_escape_mimic($courier->phone);
+        //     $newOrder->sender_phone = OrderController::mysql_escape_mimic($request->order['sender_phone']);
+        //     $newOrder->courier_phone = OrderController::mysql_escape_mimic($request->order['courier_phone']);
+        //     // $newOrder->sender_whatsapp = $sender->whatsapp;
+        //     // $newOrder->courier_whatsapp = $courier->whatsapp;
+        //     $newOrder->sender_whatsapp = OrderController::mysql_escape_mimic($request->order['sender_whatsapp']);
+        //     $newOrder->courier_whatsapp = OrderController::mysql_escape_mimic($request->order['courier_whatsapp']);
+        //     $newOrder->ad_id = OrderController::mysql_escape_mimic($request->order['ad_id']);
+        //     // $newOrder->package_id = $request->delivery['package_id'];
+        //     $newOrder->package_id = OrderController::mysql_escape_mimic($request->order['package_id']);
+        //     // $newOrder->delivery_id = $request->delivery['delivery_id'];
+        //     $newOrder->delivery_id = OrderController::mysql_escape_mimic($request->order['delivery_id']);
+        //     $newOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
+        //     // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
+        //     // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
+        //     $newOrder->sender_id = OrderController::mysql_escape_mimic($request->order['sender_id']);
+        //     $newOrder->courier_id = OrderController::mysql_escape_mimic($request->order['courier_id']);
+        //     $newOrder->save();
 
-            return response()->json(['data' => $newOrder, 'message' => 'Commande crée'], 201);
-        } else {
-            return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
-        }
+        //     return response()->json(['data' => $newOrder, 'message' => 'Commande crée'], 201);
+        // } else {
+        //     return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+        // }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = User::where('user_id', $request->session()->get('user_id'))->first();
+
+        if($user)
+            $existingOrders = Orders::where('user_id', $user->user_id);
+        else
+            return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+
+        if($existingOrders)
+            return response()->json(['data' => $existingOrders, 'message' => 'Annonce trouvées'], 200);
+        else
+            return response()->json(['data' => '', 'message' => 'Aucune annonce trouvée'], 200);
     }
 
     /**
@@ -137,13 +148,14 @@ class OrderController extends Controller
         $existingOrder = Orders::find($id);
 
         if ($existingOrder) {
-            // $user = User::firstWhere('user_id', session()->get('user_id'));
-            // if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // $user = User::where('user_id', $request->session()->get('user_id'))->first();
+
+            // if(!($user && ($existingOrder->sender_id === $user->user_id))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
             // }
 
             $validator = Validator::make($request->all(), [
-                'order.status' => 'required|string|alpha|in:annulée,livrée,non-livrée'
+                'order.status' => 'required|string|alpha|in:livrée,non-livrée'
             ], [
                 'order.status.required' => 'Nouveau status requis',
                 'order.status.in' => 'Cette commande doit être confirmée comme livrée ou non-livrée'
@@ -153,28 +165,51 @@ class OrderController extends Controller
                 $existingOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
                 $existingOrder->save();
 
-                Mail::to($existingOrder->courier_email)->send(new DeliveryConfirmation($existingOrder, $existingOrder->status));
+                $associatedPackage = Packages::where('package_id', $existingOrder->package_id)->first();
 
-                $associatedDelivery = Deliveries::firstWhere('delivery_id', $existingOrder->delivery_id);
+                Mail::to($existingOrder->courier_email)->send(new DeliveryConfirmation($existingOrder));
+
+                $associatedDelivery = Deliveries::where('delivery_id', $existingOrder->delivery_id)->first();
                 if($associatedDelivery && $existingOrder->status === 'livrée') {
                     // Release payment to the courier
 
-
+                    $existingOrder->delete();
                     $associatedDelivery->status = 'payée';
                     $associatedDelivery->save();
                 } elseif($existingOrder->status === 'non-livrée') {
-     *
+                    // Refund sender??
+
+
+
+                } else {
+                    // Refund sender??
+
+
+                    // $associatedPackage->delete();
+                }
+            }
+        }
+    }
+
+    /*
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $existingOrder = Orders::find($id);
 
             if($existingOrder) {
-                // $user = User::firstWhere('user_id', session()->get('user_id'));
-                // if(!($user && $existingOrder->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
-                //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
-                // }
+                // $user = User::where('user_id', $request->session()->get('user_id'))->first();
+
+            // if(!($user && ($existingOrder->courier_id === $user->user_id))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
+            // }
+
+            // $associatedDelivery = Deliveries::where('delivery_id', $existingOrder->delivery_id)->first();
+            // if($associatedDelivery && ($associatedDelivery->status != 'livrée')) {
+            //     return response()->json(['data' => '', 'message' => 'Cette commande ne peut pas être supprimée car elle est associé à une commande en cours'], 403);
+            // }
 
                 $existingOrder ->delete();
 

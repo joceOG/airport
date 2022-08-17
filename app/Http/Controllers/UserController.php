@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ads;
-use App\Models\Deliveries;
-use App\Models\Orders;
-use App\Models\Packages;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\AccountCreated;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Mail;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class UserController extends Controller
@@ -22,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // $admin = User::where('user_id', session()->get('user_id'))->first();
         // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
         //     $users = User::all() ;
         //     return response()->json($users , 200);
@@ -69,18 +67,20 @@ class UserController extends Controller
             ],
             'phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
             'whatsapp' => 'boolean',
-            'id_front' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            'id_back' => 'required|file|mimes:jpg,jpeg,svg,png,pdf',
-            'passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
+            'id_front' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+            'id_back' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+            'passport' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+            'terms' => 'required|boolean'
         ], [
             'first_name.required' => 'Prénom requis',
             'last_name.required' => 'Nom de famille requis',
             'email.required' => 'Adresse email requise',
-            'password.required' => 'Mot de passe requisrequis',
+            'password.required' => 'Mot de passe requis',
             'phone.required' => 'Numero de téléphone requis',
             'id_front.required' => 'Avant de la pièce d\'identité requis',
             'id_back.required' => 'Arrière de la pièce d\'identité requis',
-            '*.mimes' => ':file doit être une image ou un pdf'
+            '*.mimes' => ':file doit être une image ou un pdf',
+            'terms.required' => 'Signature des conditions d\'utilisation obligatoire. '
         ]);
 
         if(!$validator->fails()) {
@@ -89,9 +89,11 @@ class UserController extends Controller
             $newUser->email = UserController::mysql_escape_mimic($request->email);
             $newUser->password = bcrypt($request->password);
             $newUser->phone = UserController::mysql_escape_mimic($request->phone);
-            $newUser->whatsapp = boolval($request->whatsapp) ?? true;
-            $admin_key = $request->admin_key ?? null;
-            $newUser->admin_key = $admin_key !== null ? bcrypt($admin_key) : '';
+            if($request->whatsapp)
+                $newUser->whatsapp = boolval($request->whatsapp);
+            if($request->admin_key)
+                $newUser->admin_key = bcrypt($$request->admin_key);
+            $newUser->terms = boolval($request->whatsapp);
 
             $directory = Storage::makeDirectory('users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
 
@@ -99,16 +101,20 @@ class UserController extends Controller
                 $newUser->dir = 'users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id;
 
                 $id_front = $request->file('id_front');
-                $id_front_extension = $id_front->extension();
-                $id_front_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
-                $id_front_path = $id_front->storeAs($newUser->dir, $id_front_filename);
-                $newUser->id_front = $id_front_path;
+                if($id_front) {
+                    $id_front_extension = $id_front->extension();
+                    $id_front_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_front.' . $id_front_extension;
+                    $id_front_path = $id_front->storeAs($newUser->dir, $id_front_filename);
+                    $newUser->id_front = $id_front_path;
+                }
 
                 $id_back = $request->file('id_back');
-                $id_back_extension = $id_back->extension();
-                $id_back_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
-                $id_back_path = $id_back->storeAs($newUser->dir, $id_back_filename);
-                $newUser->id_back = $id_back_path;
+                if($id_back) {
+                    $id_back_extension = $id_back->extension();
+                    $id_back_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_id_back.' . $id_back_extension;
+                    $id_back_path = $id_back->storeAs($newUser->dir, $id_back_filename);
+                    $newUser->id_back = $id_back_path;
+                }
 
                 $passport = $request->file('passport');
                 if($passport) {
@@ -118,6 +124,9 @@ class UserController extends Controller
                     $newUser->passport = $passport_path;
                 }
                 $newUser->save();
+
+                // Send an email to ask the user to validate their email
+                // Mail::to($newUser->email)->send(new AccountCreated($newUser));
             } else {
                 return response()->json(['data' => '', 'message' => 'Failed to create directory'], 400);
             }
@@ -125,32 +134,63 @@ class UserController extends Controller
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);
         }
-
-        // Send an email to ask the user to validate their email
-
-
     }
 
     public function login(Request $request)
     {
-        $user = User::firstWhere('email', $request->user['email']);
+        $user = User::where('email', $request->user['email'])->first();
 
-        if($user && $user->verified) {
+        if($user && boolval($user->terms)) {
             if($user->password === bcrypt($request->user['password'])) {
                 $request->session()->regenerate();
                 $request->session()->put('user_id', $user->user_id);
-                return response()->json(['status'=>'true','message'=>'Authentification Reussie']);
+                $request->session()->put('id', $user->id);
+                return response()->json(['status'=>'true','message'=>'Authentification reussie'], 200);
             } else{
-                return response()->json(['status'=>'false','message'=>'Mot de Passe Incorrect']);
+                return response()->json(['status'=>'false','message'=>'Email ou mot de passe incorrect'], 401);
             }
         } else {
-            return response()->json(['status'=>'false', 'message'=>'Email Incorrect']);
+            return response()->json(['status'=>'false', 'message'=>'Email ou mot de passe incorrect ou termes d\'utilisation manquant.'], 400);
         }
     }
 
     public function logout(Request $request) {
         $request->session()->flush();
         return response()->json(['message' => 'Successfully logged out'], 200);
+    }
+
+    public function resetPassword(Request $request, $id) {
+        $existingUser = User::find($id);
+
+        if($existingUser) {
+            // if(!($existingUser->user_id === $request->session()->get('user_id'))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // }
+
+            $validator = Validator::make($request->all(), [
+                'password' => [
+                    'required',
+                    Password::min(8)
+                        ->letters()
+                        ->numbers()
+                        ->symbols(),
+                    'confirmed'
+                ],
+            ], [
+                'password.required' => 'Mot de passe requis'
+            ]);
+
+            if(!$validator->fails()) {
+                $existingUser->password = bcrypt($request->user['password']);
+                $existingUser->save();
+
+                return response()->json(['data' => '', 'message' => 'Mot de passe modifié avec success'], 200);
+            } else {
+                return response()->json(['data' => '', 'message' => $validator->errors()], 400);
+            }
+        } else {
+            return response()->json(['data' => '', 'message' => 'Cette utilisateur n\'existe pas'], 404);
+        }
     }
 
     /**
@@ -175,22 +215,12 @@ class UserController extends Controller
         //
     }
 
-    public function validation($request, $id)
+    public function validation(UuidV4 $user_id)
     {
-        $newUser = User::find($id);
-        $admin = User::firstWhere('user_id', $request->session()->get('user_id'));
-
-        if($newUser) {
-            if($admin->admin_key === bcrypt(config('app.admin_key'))) {
-                $newUser->verified = true;
-                $newUser->save();
-                return response()->json(['message' => 'Utilisateur validé'], 200);
-            } else {
-                return response()->json(['message' => 'Action interdite'], 403);
-            }
-        } else {
-            return response()->json(['message' => 'Cet utilisateur n\'existe pas'], 404);
-        }
+        $newUser = User::where('user_id', $user_id)->first();
+        $newUser->email_verified_at = gmdate('Y-m-d', time());
+        $newUser->save();
+        return response()->json(['message' => 'Email validé'], 200);
     }
 
     /**
@@ -210,36 +240,54 @@ class UserController extends Controller
             // }
 
             $validator = Validator::make($request->all(), [
-                'user.first_name' => 'required|string|alpha_dash|min:2|max:255',
-                'user.last_name' => 'required|string|alpha_dash|min:2|max:255',
-                'user.password' => [
-                    'required',
-                    Password::min(8)
-                        ->letters()
-                        ->numbers()
-                        ->symbols(),
-                    'confirmed'
-                ],
-                'user.phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
-                'user.whatsapp' => 'required|boolean',
+                'first_name' => 'string|alpha_dash|min:2|max:255',
+                'last_name' => 'string|alpha_dash|min:2|max:255',
+                'phone' => 'string|unique:App\Models\User,phone|min:10|max:15',
+                'whatsapp' => 'boolean',
+                'id_front' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+                'id_back' => 'file|mimes:jpg,jpeg,svg,png,pdf',
+                'passport' => 'file|mimes:jpg,jpeg,svg,png,pdf'
             ], [
-                'user.first_name.required' => 'Prénom requis',
-                'user.last_name.required' => 'Nom de famille requis',
-                'user.password.required' => 'Mot de passe requisrequis',
-                'user.phone.required' => 'Numero de téléphone requis',
-                'user.whatsapp.required' => 'Whatsapp requis',
+                '*.mimes' => ':file doit être une image ou un pdf'
             ]);
 
             if(!$validator->fails()) {
-                $existingUser->first_name = UserController::mysql_escape_mimic($request->user['first_name']);
-                $existingUser->last_name = UserController::mysql_escape_mimic($request->user['last_name']);
-                $existingUser->email = UserController::mysql_escape_mimic($request->user['email']);
-                $existingUser->password = bcrypt($request->user['password']);
-                $existingUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
-                $existingUser->whatsapp = UserController::mysql_escape_mimic($request->user['whatsapp']);
+                $existingUser->first_name = $request->first_name != '' ? UserController::mysql_escape_mimic($request->first_name) : $existingUser->first_name;
+                $existingUser->last_name = $request->last_name != '' ? UserController::mysql_escape_mimic($request->last_name) : $existingUser->last_name;
+                $existingUser->email = $request->email != '' ? UserController::mysql_escape_mimic($request->email) : $existingUser->email;
+                $existingUser->phone = $request->phone != '' ? UserController::mysql_escape_mimic($request->phone) : $existingUser->phone;
+                $existingUser->whatsapp = $request->firstwhatsapp_name != '' ? boolval($request->whatsapp) : $existingUser->whatsapp;
+
+                $id_front = $request->file('id_front');
+                if($id_front) {
+                    $id_front_extension = $id_front->extension();
+                    $id_front_filename = gmdate('Y-m-d', time()) . '_' . $existingUser->user_id . '_id_front.' . $id_front_extension;
+                    $id_front_path = $id_front->storeAs($existingUser->dir, $id_front_filename);
+                    $existingUser->id_front = $id_front_path;
+                }
+
+                $id_back = $request->file('id_back');
+                if($id_back) {
+                    $id_back_extension = $id_back->extension();
+                    $id_back_filename = gmdate('Y-m-d', time()) . '_' . $existingUser->user_id . '_id_back.' . $id_back_extension;
+                    $id_back_path = $id_back->storeAs($existingUser->dir, $id_back_filename);
+                    $existingUser->id_back = $id_back_path;
+                }
+
+                $passport = $request->file('passport');
+                if($passport) {
+                    $passport_extension = $passport->extension();
+                    $passport_filename = time() . '_' . $existingUser->user_id . '_passport.' . $passport_extension;
+                    $passport_path = $passport->storeAs($existingUser->dir, $passport_filename);
+                    $existingUser->passport = $passport_path;
+                }
+
+                if($id_front && $id_back && $existingUser->email_verified_at)
+                    $existingUser->verified = true;
+
                 $existingUser->save();
 
-                return response()->json(['data' => '', 'message' => 'Utilisateur modifié avec success'], 201);
+                return response()->json(['data' => '', 'message' => 'Utilisateur modifié avec success'], 200);
             } else {
                 return response()->json(['data' => '', 'message' => $validator->errors()], 400);
             }
@@ -257,7 +305,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $existingUser = User::find($id);
-        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // $admin = User::where('user_id', session()->get('user_id'))->first();
 
         if($existingUser) {
             // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {

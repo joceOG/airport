@@ -18,17 +18,15 @@ class ResponseSent extends Mailable
      *
      */
     protected $order;
-    protected $status;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Orders $order, String $status)
+    public function __construct(Orders $order)
     {
         $this->order = $order;
-        $this->status = $status;
     }
 
     /**
@@ -43,10 +41,11 @@ class ResponseSent extends Mailable
             ->tag('response')
             ->view('emails.response.sent')
             ->with([
-                'status' => $this->status,
+                'status' => $this->order->status,
                 'order_id' => $this->order->order_id,
                 'courier_email' => $this->order->courier_email,
-                'courier_phone' => $this->order->courier_phone
+                'courier_phone' => $this->order->courier_phone,
+                'courier_whatsapp' => $this->order->courier_whatsapp
             ]);
     }
 }

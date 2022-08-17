@@ -18,7 +18,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        // $admin = User::firstWhere('user_id', session()->get('user_id'));
+        // $admin = User::where('user_id', session()->get('user_id'));
         // if($admin && $admin->admin_key === bcrypt(config('app.admin_key'))) {
         //     $ads = Ads::all();
         //     return response()->json($ads , 200);
@@ -48,10 +48,10 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+        // $user = User::where('user_id', $request->session()->get('user_id'))->first();
 
-        // if(!$user) {
-        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+        // if(!($user && $user->verified)) {
+        //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
         // }
 
         $newAd = new Ads();
@@ -76,8 +76,8 @@ class AdController extends Controller
         ]);
 
         if(!$validator->fails()) {
-            // $newAd->user_id = AdController::mysql_escape_mimic($request->session()->get('user_id'));
-            $newAd->user_id = UuidV4::uuid4();
+            // $newAd->user_id = $user->user_id;
+            $newAd->user_id = AdController::mysql_escape_mimic($request->ad['user_id']);
             $newAd->ticket_number = AdController::mysql_escape_mimic($request->ad['ticket_number']);
             $newAd->travel_company = AdController::mysql_escape_mimic($request->ad['travel_company']);
             $newAd->departure = AdController::mysql_escape_mimic($request->ad['departure']);
@@ -95,14 +95,24 @@ class AdController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resources.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = User::where('user_id', $request->session()->get('user_id'))->first();
+
+        if($user)
+            $existingAds = Ads::where('user_id', $user->user_id);
+        else
+            return response()->json(['data' => '', 'message' => 'Vous devez être connecté pour accéder à cette resource.'], 401);
+
+        if($existingAds)
+            return response()->json(['data' => $existingAds, 'message' => 'Annonce(s) trouvée(s)'], 200);
+        else
+            return response()->json(['data' => '', 'message' => 'Aucune annonce trouvée'], 200);
     }
 
     /**
@@ -128,44 +138,38 @@ class AdController extends Controller
         $existingAd = Ads::find($id);
 
         if ($existingAd) {
-            // $user = User::firstWhere('user_id', $request->session()->get('user_id'));
+            // $user = User::where('user_id', $request->session()->get('user_id'))->first();
 
-            // if(!$user || ($existingAd->user_id !== $user->user_id || $user->admin_key !== bcrypt(config('app.admin_key')))) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // if(!($user && ($existingAd->user_id === $user->user_id))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
             // }
 
             // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
-            // if(!empty($associatedOrders) || ($user && $user->admin_key !== bcrypt(config('app.admin_key')))) {
+            // if(!empty($associatedOrders)) {
             //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être modifiée car elle est associé à une commande en cours'], 403);
             // }
 
             $validator = Validator::make($request->all(), [
-                'ad.ticket_number' => 'required|string|alphanum',
-                'ad.travel_company' => 'required|string|max:255',
-                'ad.departure' => 'required|string|alpha_dash|min:2|max:255',
-                'ad.destination' => 'required|string||alpha_dash|min:2|max:255',
-                'ad.departure_date' => 'required|date|after:today',
-                'ad.arrival_date' => 'required|date|after:departure_date',
+                'ad.ticket_number' => 'string|unique:App\Models\Ad,ticket_number|alpha_dash',
+                'ad.travel_company' => 'string|max:255',
+                'ad.departure' => 'string|alpha_dash|min:2|max:255',
+                'ad.destination' => 'string||alpha_dash|min:2|max:255',
+                'ad.departure_date' => 'date|after:today',
+                'ad.arrival_date' => 'date|after:departure_date',
                 'ad.space' => 'required|numeric|min:0|max:100',
                 'ad.categories_accepted' => 'required|array'
             ], [
-                'ticket_number.required' => 'Numéro du billet requis',
-                'travel_company.required' => 'Nom de la compagnie de voyage requis',
-                'departure.required' => 'Lieu de départ requis',
-                'destination.required' => 'Destination requise',
-                'departure_date.required' => 'Date de départ requise',
-                'arrival_date.required' => 'Date d\'arrivée requise',
                 'space.required' => 'Espace disponible requis',
-                'categories_accepted.required' => 'Catégories acceptées requises',
+                'categories_accepted.required' => 'Catégories acceptées requises'
             ]);
 
             if(!$validator->fails()) {
-                $existingAd->ticket_number = AdController::mysql_escape_mimic($request->ad['ticket_number']);
-                $existingAd->travel_company = AdController::mysql_escape_mimic($request->ad['travel_company']);
-                $existingAd->departure = AdController::mysql_escape_mimic($request->ad['departure']);
-                $existingAd->destination = AdController::mysql_escape_mimic($request->ad['destination']);
-                $existingAd->departure_date = AdController::mysql_escape_mimic($request->ad['departure_date']);
-                $existingAd->arrival_date = AdController::mysql_escape_mimic($request->ad['arrival_date']);
+                $existingAd->ticket_number = $request->ad['ticket_number'] ? AdController::mysql_escape_mimic($request->ad['ticket_number']) : $existingAd->ticket_number;
+                $existingAd->ticket_number = $request->ad['travel_company'] ? AdController::mysql_escape_mimic($request->ad['travel_company']) : $existingAd->travel_company;
+                $existingAd->ticket_number = $request->ad['departure'] ? AdController::mysql_escape_mimic($request->ad['departure']) : $existingAd->departure;
+                $existingAd->ticket_number = $request->ad['destination'] ? AdController::mysql_escape_mimic($request->ad['destination']) : $existingAd->destination;
+                $existingAd->ticket_number = $request->ad['departure_date'] ? AdController::mysql_escape_mimic($request->ad['departure_date']) : $existingAd->departure_date;
+                $existingAd->ticket_number = $request->ad['arrival_date'] ? AdController::mysql_escape_mimic($request->ad['arrival_date']) : $existingAd->arrival_date;
                 $existingAd->space = $request->ad['space'];
                 $existingAd->categories_accepted = $request->ad['categories_accepted'];
                 $existingAd->save();
@@ -189,23 +193,45 @@ class AdController extends Controller
     public function search(Request $request)
     {
         $package = $request->package;
+        $errors_size = 1;
+        $errors = [];
 
         if($package) {
             // if($package->user_id !== $request->session()->get('user_id')) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
             // }
 
             $upper_bound = strtotime('+3 day', strtotime($package['departure_date']));
-            $lower_bound = strtotime('-3 day', strtotime($package['departure_date']));
-            $matchingAds = Ads::get()->filter(function ($value, $key) use($package, $upper_bound, $lower_bound){
-               
+            // $lower_bound = strtotime('-3 day', strtotime($package['departure_date']));
+            $matchingAds = Ads::get()->filter(function ($value, $key) use($package, $upper_bound, $errors, $errors_size ){
+
                 $ad_departure_date = strtotime($value['departure_date']);
-                return $value['space'] >= $package['weight']
-                && $value['departure'] == $package['departure']
-                && $value['destination'] == $package['destination']
-                && ($ad_departure_date > $lower_bound && $ad_departure_date < $upper_bound);
+
+                $space_match = $value['space'] >= $package['weight'];
+                if(!$space_match)
+                    $errors[$errors_size]['space'] = 'Package too heavy';
+
+                $departure_match = $value['departure'] == $package['departure'];
+                if(!$departure_match)
+                    $errors[$errors_size]['departure'] = 'No courier leaving from $value["departure"]';
+
+                $destination_match = $value['destination'] == $package['destination'];
+                if(!$destination_match)
+                    $errors[$errors_size ]['destination'] = 'No courier going to $value["destination"]';
+
+                $date_match = $ad_departure_date < $upper_bound;
+                if(!$date_match)
+                    $errors[$errors_size]['date'] = 'No courier going to $value["destination"] from $value["departure"]';
+
+                if(!$space_match || !$departure_match || !$destination_match || $date_match)
+                    $errors_size++;
+
+                return $space_match
+                && $departure_match
+                && $destination_match
+                && $date_match;
             });
-        
+
             $matchingAds = $matchingAds->filter(function ($value, $key) use($package){
                 $categoriesAccepted = $value['categories_accepted'];
                 foreach($categoriesAccepted as $category) {
@@ -216,28 +242,24 @@ class AdController extends Controller
                 }
             });
 
-            if(empty($matchingAds)) {
+            $tab=[];
+            foreach($matchingAds as $item){
+                array_push($tab,$item);
+            }
 
-                Packages::firstWhere('package_id', $package->package_id)->delete();
-                return response()->json(['data' => '', 'message' => 'Aucun résultat'], 200);
-            } else {               
-                $tab=[];
-                foreach($matchingAds as $item){
-                    array_push($tab,$item);
-                } 
+            if(count($tab) == 0) {
+                $result = count($errors) == 0 ? [0 => '$package["category"] is not accepted by any courier'] : $errors;
+                $to_delete = Packages::find($package['id']);
+                if($to_delete)
+                    $to_delete->delete();
+                return response()->json(['data' => $result, 'message' => 'Aucun résultat'], 200);
+            } else {
                 return response()->json(['data' => $tab , 'message' => count($matchingAds) . " résultat(s)"], 200);
             }
         } else {
-            return response()->json(['data' => '', 'message' => 'Envoi manquant'], 400);
+            return response()->json(['data' => [], 'message' => 'Envoi manquant'], 400);
         }
     }
-
-    /**
-     * Return ads matching some characteristics of the package
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * Remove the specified resource from storage.
@@ -251,15 +273,15 @@ class AdController extends Controller
         $existingAd = Ads::find($id);
 
         if ($existingAd) {
-            // $user = User::firstWhere('user_id', session()->get('user_id'));
+            // $user = User::where('user_id', session()->get('user_id'));
 
-            // if(!($user && $existingAd->user_id === $user->user_id) || !($user && $user->admin_key === bcrypt(config('app.admin_key')))) {
-            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+            // if(!($user && ($existingAd->user_id === $user->user_id))) {
+            //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
             // }
 
             // $associatedOrders = Orders::where('ad_id', $existingAd->ad_id);
-            // if(!empty($associatedOrders) || ($user && $user->admin_key !== bcrypt(config('app.admin_key')))) {
-            //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être supprimée car elle est associé à une commande en cours'], 403);
+            // if(!empty($associatedOrders)) {
+            //     return response()->json(['data' => '', 'message' => 'Cette annonce ne peut pas être supprimée car elle est associée à une (ou plusieurs) commande(s) en cours'], 403);
             // }
 
             $existingAd ->delete();

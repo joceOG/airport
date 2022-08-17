@@ -15,8 +15,9 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Numéro de commande: #{{ $order_id }}</li>
-                <li class="list-group-item">Email du courier: {{ $courier_email }}</li>
-                <li class="list-group-item">Téléphone du courier: {{ $courier_phone }}</li>
+                <li class="list-group-item">Email du livreur: {{ $courier_email }}</li>
+                <li class="list-group-item">Téléphone du livreur: {{ $courier_phone }}</li>
+                <li class="list-group-item">Livreur utilise whatsapp?: {{ $courier_phone }}</li>
             </ul>
         </div>
     @elseif($status === 'rejetée')

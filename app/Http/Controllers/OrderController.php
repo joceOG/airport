@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Packages;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class OrderController extends Controller
 {
@@ -55,53 +56,53 @@ class OrderController extends Controller
         //     return response()->json(['data' => '', 'message' => 'Accès interdit'], 403);
         // }
 
-        // $newOrder = new Orders();
-        // $newOrder->order_id = UuidV4::uuid4();
+        $newOrder = new Orders();
+        $newOrder->order_id = UuidV4::uuid4();
 
-        // $validator = Validator::make($request->all(), [
-        //     'order.sender_id' => 'required|uuid',
-        //     'order.package_id' => 'required|uuid',
-        //     'order.delivery_id' => 'required|uuid',
-        //     'order.status' => 'required|string|in:pending,acceptée,rejetée'
-        // ], [
-        //     'order.sender_id.required' => 'Sender ID requis',
-        //     'order.package_id.required' => 'Package ID requis',
-        //     'order.delivery_id.required' => 'Delivery ID requis',
-        //     'order.status.required' => 'Status de la livraison requis',
-        //     'order.status.in' => 'Cette livraison doit être pending, acceptée ou rejetée'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'order.sender_id' => 'required|uuid',
+            'order.package_id' => 'required|uuid',
+            'order.delivery_id' => 'required|uuid',
+            'order.status' => 'required|string|in:en attente,acceptée,rejetée'
+        ], [
+            'order.sender_id.required' => 'Sender ID requis',
+            'order.package_id.required' => 'Package ID requis',
+            'order.delivery_id.required' => 'Delivery ID requis',
+            'order.status.required' => 'Status de la livraison requis',
+            'order.status.in' => 'Cette livraison doit être en attente, acceptée ou rejetée'
+        ]);
 
-        // if(!$validator->fails()) {
-        //     // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
-        //     // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
-        //     // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
-        //     // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
-        //     $newOrder->sender_email = OrderController::mysql_escape_mimic($request->order['sender_email']);
-        //     $newOrder->courier_email = OrderController::mysql_escape_mimic($request->order['courier_email']);
-        //     // $newOrder->sender_phone = OrderController::mysql_escape_mimic($sender->phone);
-        //     // $newOrder->courier_phone = OrderController::mysql_escape_mimic($courier->phone);
-        //     $newOrder->sender_phone = OrderController::mysql_escape_mimic($request->order['sender_phone']);
-        //     $newOrder->courier_phone = OrderController::mysql_escape_mimic($request->order['courier_phone']);
-        //     // $newOrder->sender_whatsapp = $sender->whatsapp;
-        //     // $newOrder->courier_whatsapp = $courier->whatsapp;
-        //     $newOrder->sender_whatsapp = OrderController::mysql_escape_mimic($request->order['sender_whatsapp']);
-        //     $newOrder->courier_whatsapp = OrderController::mysql_escape_mimic($request->order['courier_whatsapp']);
-        //     $newOrder->ad_id = OrderController::mysql_escape_mimic($request->order['ad_id']);
-        //     // $newOrder->package_id = $request->delivery['package_id'];
-        //     $newOrder->package_id = OrderController::mysql_escape_mimic($request->order['package_id']);
-        //     // $newOrder->delivery_id = $request->delivery['delivery_id'];
-        //     $newOrder->delivery_id = OrderController::mysql_escape_mimic($request->order['delivery_id']);
-        //     $newOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
-        //     // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
-        //     // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
-        //     $newOrder->sender_id = OrderController::mysql_escape_mimic($request->order['sender_id']);
-        //     $newOrder->courier_id = OrderController::mysql_escape_mimic($request->order['courier_id']);
-        //     $newOrder->save();
+        if(!$validator->fails()) {
+            // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
+            // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
+            // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
+            // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
+            $newOrder->sender_email = OrderController::mysql_escape_mimic($request->order['sender_email']);
+            $newOrder->courier_email = OrderController::mysql_escape_mimic($request->order['courier_email']);
+            // $newOrder->sender_phone = OrderController::mysql_escape_mimic($sender->phone);
+            // $newOrder->courier_phone = OrderController::mysql_escape_mimic($courier->phone);
+            $newOrder->sender_phone = OrderController::mysql_escape_mimic($request->order['sender_phone']);
+            $newOrder->courier_phone = OrderController::mysql_escape_mimic($request->order['courier_phone']);
+            // $newOrder->sender_whatsapp = $sender->whatsapp;
+            // $newOrder->courier_whatsapp = $courier->whatsapp;
+            $newOrder->sender_whatsapp = OrderController::mysql_escape_mimic($request->order['sender_whatsapp']);
+            $newOrder->courier_whatsapp = OrderController::mysql_escape_mimic($request->order['courier_whatsapp']);
+            $newOrder->ad_id = OrderController::mysql_escape_mimic($request->order['ad_id']);
+            // $newOrder->package_id = $request->delivery['package_id'];
+            $newOrder->package_id = OrderController::mysql_escape_mimic($request->order['package_id']);
+            // $newOrder->delivery_id = $request->delivery['delivery_id'];
+            $newOrder->delivery_id = OrderController::mysql_escape_mimic($request->order['delivery_id']);
+            $newOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
+            // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
+            // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);
+            $newOrder->sender_id = OrderController::mysql_escape_mimic($request->order['sender_id']);
+            $newOrder->courier_id = OrderController::mysql_escape_mimic($request->order['courier_id']);
+            $newOrder->save();
 
-        //     return response()->json(['data' => $newOrder, 'message' => 'Commande crée'], 201);
-        // } else {
-        //     return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
-        // }
+            return response()->json(['data' => $newOrder, 'message' => 'Commande crée'], 201);
+        } else {
+            return response()->json(['data' => $request->all(), 'message' => $validator->errors()], 400);
+        }
     }
 
     /**

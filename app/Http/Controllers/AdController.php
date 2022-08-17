@@ -208,23 +208,23 @@ class AdController extends Controller
                 $ad_departure_date = strtotime($value['departure_date']);
 
                 $space_match = $value['space'] >= $package['weight'];
-                if(!$space_match)
-                    $errors[$errors_size]['space'] = 'Package too heavy';
+                // if(!$space_match)
+                //     $errors[$errors_size]['space'] = 'Package too heavy';
 
                 $departure_match = $value['departure'] == $package['departure'];
-                if(!$departure_match)
-                    $errors[$errors_size]['departure'] = 'No courier leaving from $value["departure"]';
+                // if(!$departure_match)
+                //     $errors[$errors_size]['departure'] = 'No courier leaving from $value["departure"]';
 
                 $destination_match = $value['destination'] == $package['destination'];
-                if(!$destination_match)
-                    $errors[$errors_size ]['destination'] = 'No courier going to $value["destination"]';
+                // if(!$destination_match)
+                //     $errors[$errors_size ]['destination'] = 'No courier going to $value["destination"]';
 
                 $date_match = $ad_departure_date < $upper_bound;
-                if(!$date_match)
-                    $errors[$errors_size]['date'] = 'No courier going to $value["destination"] from $value["departure"]';
+                // if(!$date_match)
+                //     $errors[$errors_size]['date'] = 'No courier going to $value["destination"] from $value["departure"]';
 
-                if(!$space_match || !$departure_match || !$destination_match || $date_match)
-                    $errors_size++;
+                // if(!$space_match || !$departure_match || !$destination_match || $date_match)
+                //     $errors_size++;
 
                 return $space_match
                 && $departure_match
@@ -248,11 +248,12 @@ class AdController extends Controller
             }
 
             if(count($tab) == 0) {
-                $result = count($errors) == 0 ? [0 => '$package["category"] is not accepted by any courier'] : $errors;
-                $to_delete = Packages::find($package['id']);
-                if($to_delete)
-                    $to_delete->delete();
-                return response()->json(['data' => $result, 'message' => 'Aucun résultat'], 200);
+                $item = $package['item'];
+                // $result = count($errors) == 0 ? [0 => "$item is not accepted by any courier"] : $errors;
+                // $to_delete = Packages::find($package['id']);
+                // if($to_delete)
+                //     $to_delete->delete();
+                return response()->json(['data' => [], 'message' => 'Aucun résultat'], 200);
             } else {
                 return response()->json(['data' => $tab , 'message' => count($matchingAds) . " résultat(s)"], 200);
             }

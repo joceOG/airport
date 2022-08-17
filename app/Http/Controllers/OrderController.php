@@ -60,21 +60,18 @@ class OrderController extends Controller
         $newOrder->order_id = UuidV4::uuid4();
 
         $validator = Validator::make($request->all(), [
-            'order.sender_id' => 'required|uuid',
             'order.package_id' => 'required|uuid',
-            'order.delivery_id' => 'required|uuid',
-            'order.status' => 'required|string|in:en attente,acceptée,rejetée'
+            'order.ad_id' => 'required|uuid',
         ], [
-            'order.sender_id.required' => 'Sender ID requis',
             'order.package_id.required' => 'Package ID requis',
-            'order.delivery_id.required' => 'Delivery ID requis',
-            'order.status.required' => 'Status de la livraison requis',
-            'order.status.in' => 'Cette livraison doit être en attente, acceptée ou rejetée'
+            'order.ad_id' => 'Ad ID requis',
         ]);
 
         if(!$validator->fails()) {
-            // $sender = User::firstWhere('user_id', $request->delivery['sender_id']);
-            // $courier = User::firstWhere('user_id', $request->session()->get('user_id'));
+            // $package = Packages::where('package_id', $request['package_id'])->first();
+            // $sender = User::where('user_id', $request->session()->get('user_id'))->first();
+            // $ad = Deliveries::where('delivery_id', $request->order['delivery_id'])->first();
+            // $courier = User::where('user_id', $ad->user_id)->first();
             // $newOrder->sender_email = OrderController::mysql_escape_mimic($sender->email);
             // $newOrder->courier_email = OrderController::mysql_escape_mimic($courier->email);
             $newOrder->sender_email = OrderController::mysql_escape_mimic($request->order['sender_email']);
@@ -88,10 +85,11 @@ class OrderController extends Controller
             $newOrder->sender_whatsapp = OrderController::mysql_escape_mimic($request->order['sender_whatsapp']);
             $newOrder->courier_whatsapp = OrderController::mysql_escape_mimic($request->order['courier_whatsapp']);
             $newOrder->ad_id = OrderController::mysql_escape_mimic($request->order['ad_id']);
-            // $newOrder->package_id = $request->delivery['package_id'];
+            // $newOrder->package_id = $request->order['package_id'];
             $newOrder->package_id = OrderController::mysql_escape_mimic($request->order['package_id']);
-            // $newOrder->delivery_id = $request->delivery['delivery_id'];
+            // $newOrder->delivery_id = $request->order['delivery_id'];
             $newOrder->delivery_id = OrderController::mysql_escape_mimic($request->order['delivery_id']);
+            // $newOrder->status = 'en attente';
             $newOrder->status = OrderController::mysql_escape_mimic($request->order['status']);
             // $newOrder->sender_id = OrderController::mysql_escape_mimic($sender->user_id);
             // $newOrder->courier_id = OrderController::mysql_escape_mimic($courier->user_id);

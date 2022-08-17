@@ -89,10 +89,8 @@ class UserController extends Controller
             $newUser->email = UserController::mysql_escape_mimic($request->email);
             $newUser->password = bcrypt($request->password);
             $newUser->phone = UserController::mysql_escape_mimic($request->phone);
-            if($request->whatsapp)
-                $newUser->whatsapp = boolval($request->whatsapp);
-            if($request->admin_key)
-                $newUser->admin_key = bcrypt($$request->admin_key);
+            $newUser->whatsapp = $request->whatsapp ? boolval($request->whatsapp) : true;
+            $newUser->admin_key = $request->admin_key ? bcrypt($request->admin_key) : null;
             $newUser->terms = boolval($request->whatsapp);
 
             $directory = Storage::makeDirectory('users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
@@ -119,14 +117,18 @@ class UserController extends Controller
                 $passport = $request->file('passport');
                 if($passport) {
                     $passport_extension = $passport->extension();
-                    $passport_filename = time() . '_' . $newUser->user_id . '_passport.' . $passport_extension;
+                    $passport_filename = gmdate('Y-m-d', time()) . '_' . $newUser->user_id . '_passport.' . $passport_extension;
                     $passport_path = $passport->storeAs($newUser->dir, $passport_filename);
                     $newUser->passport = $passport_path;
                 }
+
+                if($id_front && $id_back && $newUser->email_verified_at)
+                    $newUser->verified = true;
+
                 $newUser->save();
 
                 // Send an email to ask the user to validate their email
-                // Mail::to($newUser->email)->send(new AccountCreated($newUser));
+                Mail::to($newUser->email)->send(new AccountCreated($newUser));
             } else {
                 return response()->json(['data' => '', 'message' => 'Failed to create directory'], 400);
             }
@@ -220,7 +222,7 @@ class UserController extends Controller
         $newUser = User::where('user_id', $user_id)->first();
         $newUser->email_verified_at = gmdate('Y-m-d', time());
         $newUser->save();
-        return response()->json(['message' => 'Email validé'], 200);
+        return view('validation', ['message' => 'Email validé']);
     }
 
     /**

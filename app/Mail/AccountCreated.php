@@ -37,14 +37,15 @@ class AccountCreated extends Mailable
      */
     public function build()
     {
-        return $this->from('koliandco@gmail.com', 'Koli&co')
-        ->subject('Bienvenue chez Koli&co!')
-        ->tag('response')
-        ->view('emails.account.created')
-        ->with([
+        $this->view('emails.account');
+        $this->from('koliandco@gmail.com', 'Koli&co');
+        $this->subject('Bienvenue chez Koli&co!');
+        $this->with([
             'user_id' => $this->user->user_id,
             'first_name' => $this->user->first_name,
             'last_name' => $this->user->last_name
         ]);
+
+        return $this;
     }
 }

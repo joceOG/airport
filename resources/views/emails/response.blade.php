@@ -1,4 +1,4 @@
-@extends('layout.mail')
+@extends('emails.layout.mail')
 @section('title')
     <title>Nouvelle Réponse</title>
 @endsection

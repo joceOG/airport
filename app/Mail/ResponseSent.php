@@ -38,8 +38,7 @@ class ResponseSent extends Mailable
     {
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Réponse du coursier')
-            ->tag('response')
-            ->view('emails.response.sent')
+            ->view('emails.response')
             ->with([
                 'status' => $this->order->status,
                 'order_id' => $this->order->order_id,

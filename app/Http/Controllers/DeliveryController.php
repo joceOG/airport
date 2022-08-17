@@ -63,7 +63,6 @@ class DeliveryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'delivery.ad_id' => 'required|uuid',
-            'delivery.ad_user_id' => 'required|uuid',
             'delivery.package_id' => 'required|uuid'
         ], [
             'delivery.ad_id' => 'Delivery Ad ID requis',

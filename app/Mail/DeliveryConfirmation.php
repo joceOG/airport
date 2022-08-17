@@ -39,7 +39,7 @@ class DeliveryConfirmation extends Mailable
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Confirmation de livraison')
             ->tag('confirmation')
-            ->view('emails.delivery.confirmation')
+            ->view('emails.confirmation')
             ->with([
                 'status' => $this->order->status,
                 'order_id' => $this->order->order_id,

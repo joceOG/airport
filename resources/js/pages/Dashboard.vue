@@ -24,8 +24,8 @@
           ><span style="font-size: 10px">Observation </span
           ><span style="font-size: 10px">Enregistrée</span></v-alert
         >
-        <template v-if="selectedTab == 'Mes Details'">
-          <h3 class="tab-content__header">Mes Détails</h3>
+        <template v-if="selectedTab == 'Mes Informations'">
+          <h3 class="tab-content__header">Mes Informations</h3>
           <p class="tab-content__text"> <h3><b>Informations Personnelles</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
           <v-row>
           <v-col cols="4">
@@ -87,10 +87,10 @@
           </v-col>
           </v-row>
         </template>
-        <template v-if="selectedTab == 'Mes Livraisons'">
-          <h3 class="tab-content__header">Mes Livraisons</h3>
+        <template v-if="selectedTab == 'Mes Colis'">
+          <h3 class="tab-content__header">Mes Colis</h3>
            
-            Liste des livraisons pour :
+            Liste des Colis pour :
 
 
             <v-divider></v-divider>
@@ -111,6 +111,33 @@
                         </template>
                         <span>Recharger</span>
                   </v-tooltip>
+
+                  <v-row>
+                     <v-col cols ="6">
+                                <p class="tab-content__text"> <h3><b>Livraisons</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+
+                                    <v-container id="scroll-target" style="height: 130px" class="overflow-y-auto">
+                                      <v-row style="height: 600px">
+                                        <v-list-item-group color="primary">
+                                          <v-list-item v-for="(item, i) in envois" :key="i">
+                                            <v-list-item-avatar size="10" color="#009ab1">
+                                              <v-icon color="white">mdi-clipboard-text-outline</v-icon>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                              <v-list-item-title v-text="item" style="font-size:12px;"></v-list-item-title>
+                                            </v-list-item-content>
+                                          </v-list-item>
+                                        </v-list-item-group>
+                                      </v-row>
+                                    </v-container>
+
+                     </v-col>
+
+                     <v-col cols ="6">
+                                <p class="tab-content__text"> <h3><b>Reçus</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+
+                     </v-col>
+                  </v-row>
 
 
         </template>
@@ -384,10 +411,10 @@ export default class Dashboard extends Vue {
   
       tabs= [
             {
-              title: "Mes Details",
+              title: "Mes Informations",
             },
             {
-              title: "Mes Livraisons",
+              title: "Mes Colis",
             },
             {
               title: "Mes Commandes",
@@ -400,12 +427,14 @@ export default class Dashboard extends Vue {
               title: "J'ai des Kilos",
             }
           ] ; 
-    selectedTab="Mes Details"
+    selectedTab="Mes Informations"
     dialog = false;
 
         selected = 1
         matchs = []
         id = [""]
+
+        envois = []
         
 
   mounted(){
@@ -522,6 +551,20 @@ export default class Dashboard extends Vue {
         }  
            }
 
+
+      async getEnvoi(){
+       try {
+          const result = await axios.get("http://127.0.0.1:8000/api/deliveries");
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.envois = res
+          }
+        } catch (err) {
+          console.log(err);
+        }  
+           }
+
     message(){
        this.type = ""
        this.categorie = ""
@@ -530,11 +573,13 @@ export default class Dashboard extends Vue {
        this.destination = ""
        this.prix = 0
        this.date =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
-       this.notif = "Envoi Enregisté Avec Succès" ;
+      this.dialog = false
+    this.notif = "Envoi Enregisté Avec Succès" ;
        this.showalert = true
        setTimeout(() => {
       this.showalert = false;
     }, 2000);
+        this.getEnvoi()
      }
 
      message2(){
@@ -547,10 +592,10 @@ export default class Dashboard extends Vue {
        this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.notif = "Annonce Enregisté Avec Succès" ;
-    this.showalert = true;
-    setTimeout(() => {
-      this.showalert = false;
-    }, 2000);
+       this.showalert = true;
+        setTimeout(() => {
+          this.showalert = false;
+        }, 2000);
      }
 
   @Watch("selectedTab")
@@ -571,6 +616,7 @@ export default class Dashboard extends Vue {
        this.categorie_accept = ""
        this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.getEnvoi();
     }   
   }
 

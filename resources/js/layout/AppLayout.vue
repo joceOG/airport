@@ -131,7 +131,7 @@
                                       rounded
                                       text
                                     >
-                                      Edit Account
+                                      PAREMETRES
                                     </v-btn>
                                     <v-divider class="my-3"></v-divider>
                                     <v-btn
@@ -139,7 +139,7 @@
                                       rounded
                                       text
                                     >
-                                      Disconnect
+                                      DECONNEXION
                                     </v-btn>
                                   </div>
                                 </v-list-item-content>
@@ -166,7 +166,7 @@
       <v-container class="pa-0" fluid>
         <v-row dense>
           <v-col class="pa-0">
-          <span class="white--text text-caption">&copy; Uniskip</span>
+          <span class="white--text text-caption">&copy; Koli Ko </span>
           </v-col>
           <v-col class="pa-0">
             <span class="white--text text-caption d-flex flex-row-reverse" stye="position:absolute; right:20px">v{{version}}</span>

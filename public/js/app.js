@@ -2628,9 +2628,9 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
     _defineProperty(_assertThisInitialized(_this), "menu", false);
 
     _defineProperty(_assertThisInitialized(_this), "tabs", [{
-      title: "Mes Details"
+      title: "Mes Informations"
     }, {
-      title: "Mes Livraisons"
+      title: "Mes Colis"
     }, {
       title: "Mes Commandes"
     }, {
@@ -2639,7 +2639,7 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       title: "J'ai des Kilos"
     }]);
 
-    _defineProperty(_assertThisInitialized(_this), "selectedTab", "Mes Details");
+    _defineProperty(_assertThisInitialized(_this), "selectedTab", "Mes Informations");
 
     _defineProperty(_assertThisInitialized(_this), "dialog", false);
 
@@ -2648,6 +2648,8 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
     _defineProperty(_assertThisInitialized(_this), "matchs", []);
 
     _defineProperty(_assertThisInitialized(_this), "id", [""]);
+
+    _defineProperty(_assertThisInitialized(_this), "envois", []);
 
     return _this;
   }
@@ -2890,6 +2892,50 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       return addDelivery;
     }()
   }, {
+    key: "getEnvoi",
+    value: function () {
+      var _getEnvoi = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var result, res;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.prev = 0;
+                _context5.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/api/deliveries");
+
+              case 3:
+                result = _context5.sent;
+                res = result.data;
+                console.log('res', res);
+
+                if (res) {
+                  this.envois = res;
+                }
+
+                _context5.next = 12;
+                break;
+
+              case 9:
+                _context5.prev = 9;
+                _context5.t0 = _context5["catch"](0);
+                console.log(_context5.t0);
+
+              case 12:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this, [[0, 9]]);
+      }));
+
+      function getEnvoi() {
+        return _getEnvoi.apply(this, arguments);
+      }
+
+      return getEnvoi;
+    }()
+  }, {
     key: "message",
     value: function message() {
       var _this2 = this;
@@ -2901,11 +2947,13 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       this.destination = "";
       this.prix = 0;
       this.date = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+      this.dialog = false;
       this.notif = "Envoi Enregisté Avec Succès";
       this.showalert = true;
       setTimeout(function () {
         _this2.showalert = false;
       }, 2000);
+      this.getEnvoi();
     }
   }, {
     key: "message2",
@@ -2945,6 +2993,7 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       this.categorie_accept = "";
       this.dateak = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
       this.datedk = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+      this.getEnvoi();
     }
   }]);
 
@@ -5847,7 +5896,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                    Edit Account\n                                  "
+                                            "\n                                    PAREMETRES\n                                  "
                                           )
                                         ]
                                       ),
@@ -5865,7 +5914,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                    Disconnect\n                                  "
+                                            "\n                                    DECONNEXION\n                                  "
                                           )
                                         ]
                                       )
@@ -5920,7 +5969,7 @@ var render = function() {
                 [
                   _c("v-col", { staticClass: "pa-0" }, [
                     _c("span", { staticClass: "white--text text-caption" }, [
-                      _vm._v("© Uniskip")
+                      _vm._v("© Koli Ko ")
                     ])
                   ]),
                   _vm._v(" "),
@@ -6103,10 +6152,10 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.selectedTab == "Mes Details"
+                    _vm.selectedTab == "Mes Informations"
                       ? [
                           _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Mes Détails")
+                            _vm._v("Mes Informations")
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "tab-content__text" }),
@@ -6257,13 +6306,13 @@ var render = function() {
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.selectedTab == "Mes Livraisons"
+                    _vm.selectedTab == "Mes Colis"
                       ? [
                           _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Mes Livraisons")
+                            _vm._v("Mes Colis")
                           ]),
                           _vm._v(
-                            "\r\n           \r\n            Liste des livraisons pour :\r\n\r\n\r\n            "
+                            "\r\n           \r\n            Liste des Colis pour :\r\n\r\n\r\n            "
                           ),
                           _c("v-divider"),
                           _vm._v(" "),
@@ -6317,6 +6366,122 @@ var render = function() {
                               )
                             },
                             [_vm._v(" "), _c("span", [_vm._v("Recharger")])]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "6" } },
+                                [
+                                  _c("p", { staticClass: "tab-content__text" }),
+                                  _c("h3", [_c("b", [_vm._v("Livraisons")])]),
+                                  _vm._v(" "),
+                                  _c("v-divider", {
+                                    staticStyle: { border: "solid 5px" },
+                                    attrs: { height: "5" }
+                                  }),
+                                  _c("p"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-container",
+                                    {
+                                      staticClass: "overflow-y-auto",
+                                      staticStyle: { height: "130px" },
+                                      attrs: { id: "scroll-target" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        { staticStyle: { height: "600px" } },
+                                        [
+                                          _c(
+                                            "v-list-item-group",
+                                            { attrs: { color: "primary" } },
+                                            _vm._l(_vm.envois, function(
+                                              item,
+                                              i
+                                            ) {
+                                              return _c(
+                                                "v-list-item",
+                                                { key: i },
+                                                [
+                                                  _c(
+                                                    "v-list-item-avatar",
+                                                    {
+                                                      attrs: {
+                                                        size: "10",
+                                                        color: "#009ab1"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: {
+                                                            color: "white"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-clipboard-text-outline"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item-content",
+                                                    [
+                                                      _c("v-list-item-title", {
+                                                        staticStyle: {
+                                                          "font-size": "12px"
+                                                        },
+                                                        domProps: {
+                                                          textContent: _vm._s(
+                                                            item
+                                                          )
+                                                        }
+                                                      })
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            }),
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "6" } },
+                                [
+                                  _c("p", { staticClass: "tab-content__text" }),
+                                  _c("h3", [_c("b", [_vm._v("Reçus")])]),
+                                  _vm._v(" "),
+                                  _c("v-divider", {
+                                    staticStyle: { border: "solid 5px" },
+                                    attrs: { height: "5" }
+                                  }),
+                                  _c("p")
+                                ],
+                                1
+                              )
+                            ],
+                            1
                           )
                         ]
                       : _vm._e(),

@@ -18,17 +18,15 @@ class DeliveryConfirmation extends Mailable
      *
      */
     protected $order;
-    protected $status;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Orders $order, String $status)
+    public function __construct(Orders $order)
     {
         $this->order = $order;
-        $this->status = $status;
     }
 
     /**
@@ -41,9 +39,9 @@ class DeliveryConfirmation extends Mailable
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Confirmation de livraison')
             ->tag('confirmation')
-            ->view('emails.delivery.confirmation')
+            ->view('emails.confirmation')
             ->with([
-                'status' => $this->status,
+                'status' => $this->order->status,
                 'order_id' => $this->order->order_id,
             ]);
     }

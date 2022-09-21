@@ -65,10 +65,10 @@
                           ></v-text-field>
                     </p>
                     <p class="" style="text-align: center">
-                       <h4><b>Photo</b> </h4>  
+                       <h4><b>Photo</b> </h4>
                             <v-avatar  size="140">
                                 <img
-                                 
+
                                   src="https://www.editionslibretto.fr/wp-content/themes/chapterone-child/assets/img/default_author_avatar.svg"
                                   alt="Photo"
                                 >
@@ -79,22 +79,29 @@
 
                         <v-row>
                            <v-btn depressed outlined color="#314f8d" @click="">
-                                  MODIFIER   
-                          </v-btn>                                            
+                                  MODIFIER
+                          </v-btn>
                       </v-row>
-                        
+
 
           </v-col>
           </v-row>
         </template>
+<<<<<<< HEAD
         <template v-if="selectedTab == 'Mes Colis'">
           <h3 class="tab-content__header">Mes Colis</h3>
            
             Liste des Colis pour :
+=======
+        <template v-if="selectedTab == 'Mes Livraisons'">
+          <h3 class="tab-content__header">Mes Livraisons</h3>
+
+            Liste des livraisons pour :
+>>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
 
 
             <v-divider></v-divider>
-            
+
                     <v-tooltip
                         top
                       >
@@ -148,7 +155,7 @@
         <template v-if="selectedTab == 'Je fais un envoi'">
           <h3 class="tab-content__header">JE FAIS UN ENVOI</h3>
           <v-row>
-                    <v-col cols="2">                            
+                    <v-col cols="2">
                           <v-img  style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
                     </v-col>
 
@@ -170,34 +177,34 @@
                                         <v-text-field v-model="date" label="Picker without buttons" prepend-icon="mdi-calendar"  readonly v-bind="attrs"  v-on="on"></v-text-field>
                                     </template>
                                     <v-date-picker v-model="date" @input="menu = false" ></v-date-picker>
-                                    </v-menu>          
-                              </v-form>                
+                                    </v-menu>
+                              </v-form>
                     </v-col>
                     <v-col cols="3">
                         <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center" ref="form2" v-model="valid2" lazy-validation>
                               <v-text-field placeholder="Depart" v-model="depart" outlined  :rules="departRules" label="Depart" required ></v-text-field>
-                              <v-text-field placeholder="Destination" v-model="destination" outlined  :rules="destinationRules"  label="Destitanation"  required ></v-text-field>                               
+                              <v-text-field placeholder="Destination" v-model="destination" outlined  :rules="destinationRules"  label="Destitanation"  required ></v-text-field>
                                 <v-text-field placeholder="Prix" v-model="prix" outlined type="number" label="Prix" required></v-text-field>
-                              <v-divider></v-divider> 
+                              <v-divider></v-divider>
                               <v-btn depressed outlined color="#314f8d"  @click="addPackage()">ENVOYER</v-btn>
-                        </v-form>         
+                        </v-form>
                     </v-col>
                     <v-col cols="4">
-                    </v-col>     
+                    </v-col>
             </v-row>
-             
+
 
 
         </template>
        <template v-if="selectedTab == 'J\'ai des Kilos'">
           <v-row>
-                <v-col cols="2">                            
+                <v-col cols="2">
                     <v-img style="display:inline-block;" class="centrer"  width="70" height="70" src="./assets/logo.png"></v-img>
-                </v-col>     
+                </v-col>
                   <v-col cols="4">
                    <h3 style="text-align: center; margin-top:10px;">J'AI DES KILOS <br/></h3>
                       <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
-                    
+
                                 <v-text-field v-model="billet" placeholder="Billet" outlined :rules="billetRules" label="Billet" required></v-text-field>
                                 <v-text-field  v-model="espace" placeholder="Espace" type="number" outlined :rules="espaceRules" label="Espace" required ></v-text-field>
                                 <v-text-field  v-model="compagnie" placeholder="Compagnie" outlined :rules="compagnieRules" label="Compagnie" required></v-text-field>
@@ -224,11 +231,11 @@
                           <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center"
                                ref="form" v-model="valid" lazy-validation>
                            <v-text-field placeholder="" v-model="departk" outlined :rules="departkRules"
-                                   label="Depart"  required        
-                           ></v-text-field>                   
-                           <v-text-field placeholder="Destination" v-model="destinationk"  outlined         
-                                   :rules="destinationkRules"  label="Destitanation"  required         
-                           ></v-text-field> 
+                                   label="Depart"  required
+                           ></v-text-field>
+                           <v-text-field placeholder="Destination" v-model="destinationk"  outlined
+                                   :rules="destinationkRules"  label="Destitanation"  required
+                           ></v-text-field>
 
                              <v-col cols="12">
                                 <v-combobox
@@ -256,12 +263,12 @@
                                   </template>
                                 </v-combobox>
                               </v-col>
-                             
+
                              <v-divider></v-divider>
                            <v-btn depressed outlined color="#314f8d" @click="addAds()">
-                                   ENVOYER           
-                           </v-btn>                     
-                        </v-form>              
+                                   ENVOYER
+                           </v-btn>
+                        </v-form>
                   </v-col>
                   <v-col cols="4">
 
@@ -282,11 +289,11 @@
                 src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
                  >
           </v-img>
-                 
+
             <v-dialog v-model="dialog" width="500">
                <v-card>
                   <h3 style="text-align: center">MATCHS<br/></h3>
-                     
+
                     <h2>Annonces Possibles</h2>
 
 
@@ -304,28 +311,28 @@
                               <v-icon> mdi-folder</v-icon>
                           </v-list-item-icon>
                                             <v-list-item-content>
-                                                <p>Compagnie : {{ item.travel_company}}</p> 
-                                                <p>Billet : {{ item.ticket_number}}</p> 
-                                                <p>Espace : {{ item.space}} Kilo</p> 
-                                                <p>Depart : {{ item.departure }}</p> 
-                                                <p>Destination : {{ item.destination}}</p> 
-                                                <p>Date de départ : {{ item.departure_date}}</p> 
-                                                <p>Date d'arrivee : {{ item.arrival_date}}</p> 
-                                                <p>Categorie : {{ item.categories_accepted }}</p> 
+                                                <p>Compagnie : {{ item.travel_company}}</p>
+                                                <p>Billet : {{ item.ticket_number}}</p>
+                                                <p>Espace : {{ item.space}} Kilo</p>
+                                                <p>Depart : {{ item.departure }}</p>
+                                                <p>Destination : {{ item.destination}}</p>
+                                                <p>Date de départ : {{ item.departure_date}}</p>
+                                                <p>Date d'arrivee : {{ item.arrival_date}}</p>
+                                                <p>Categorie : {{ item.categories_accepted }}</p>
 
                                             </v-list-item-content>
                         </v-list-item>
                       </v-list-item-group>
-                    </v-list>                        
+                    </v-list>
                             <v-btn depressed outlined color="#314f8d" @click="storePackage()">
-                                   VALIDER         
-                           </v-btn>    
+                                   VALIDER
+                           </v-btn>
 
-                    <v-card-actions>                   
+                    <v-card-actions>
                     </v-card-actions>
               </v-card>
           </v-dialog>
-            
+
   </v-container>
 
 </template>
@@ -370,7 +377,7 @@ export default class Dashboard extends Vue {
      destinationk = "" ;
      departk = "" ;
      categorie_accept = "";
- 
+
      billetRules  = [(v: string) => !!v || "Billet is required"];
      espaceRules  = [(v: string) => !!v || "Espace is required"];
      compagnieRules  = [(v: string) => !!v || "Compagnie is required"];
@@ -386,7 +393,7 @@ export default class Dashboard extends Vue {
           'Accesoires',
           'Autres',
         ]
-        
+
 
 
      showalert= false
@@ -404,11 +411,11 @@ export default class Dashboard extends Vue {
         date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
         dateak = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
         datedk = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
-       
+
         menuak = false;
         menudk = false;
         menu = false;
-  
+
       tabs= [
             {
               title: "Mes Informations",
@@ -426,16 +433,24 @@ export default class Dashboard extends Vue {
             {
               title: "J'ai des Kilos",
             }
+<<<<<<< HEAD
           ] ; 
     selectedTab="Mes Informations"
+=======
+          ] ;
+    selectedTab="Mes Details"
+>>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
     dialog = false;
 
         selected = 1
         matchs = []
         id = [""]
 
+<<<<<<< HEAD
         envois = []
         
+=======
+>>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
 
   mounted(){
     console.log("Mounted Dash");
@@ -458,23 +473,23 @@ export default class Dashboard extends Vue {
                   "departure_date": this.date,
                   "price": this.prix,
                   }
-                 };                 
+                 };
        try {
           const result = await axios.post("http://127.0.0.1:8000/api/ads/search" , data);
           const res = result.data.data
           console.log('res', res)
-          this.matchs = res   
-          let t = res      
+          this.matchs = res
+          let t = res
           if (res) {
             for(let i = 0 ; i<t.length ; i++ ){
-               this.id[i] = t[i].ad_id 
-            }     
-            console.log("match id" , this.id)          
+               this.id[i] = t[i].ad_id
+            }
+            console.log("match id" , this.id)
             this.dialog = true
           }
         } catch (err) {
           console.log(err);
-        }   
+        }
    }
 
   async addAds(){
@@ -500,7 +515,7 @@ export default class Dashboard extends Vue {
           }
         } catch (err) {
           console.log(err);
-        }   
+        }
    }
 
 
@@ -515,7 +530,7 @@ export default class Dashboard extends Vue {
                   "departure_date": this.date,
                   "price": this.prix,
                   }
-                 };                 
+                 };
        try {
           const result = await axios.post("http://127.0.0.1:8000/api/package/store" , data);
           const res = result.data.data
@@ -523,16 +538,16 @@ export default class Dashboard extends Vue {
           if (res) {
             this.addDelivery(res)
              this.message()
-             
+
           }
         } catch (err) {
           console.log(err);
-        }   
+        }
    }
 
 
      async addDelivery(payload : any){
-  
+
        const data = {
                   "delivery":{
                   "ad_id": this.id[this.selected] ,
@@ -548,7 +563,7 @@ export default class Dashboard extends Vue {
           }
         } catch (err) {
           console.log(err);
-        }  
+        }
            }
 
 
@@ -616,8 +631,12 @@ export default class Dashboard extends Vue {
        this.categorie_accept = ""
        this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+<<<<<<< HEAD
        this.getEnvoi();
     }   
+=======
+    }
+>>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
   }
 
 </script>

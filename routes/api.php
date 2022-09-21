@@ -60,6 +60,7 @@ Route::prefix('/user')->group(function() {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::patch('/validate/{id}', [UserController::class, 'validation']);
+    Route::patch('/reset/{id}', [UserController::class, 'resetPassword']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 

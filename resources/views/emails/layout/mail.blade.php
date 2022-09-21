@@ -8,10 +8,10 @@
 </head>
     <body>
         <main class="container">
-            <div>
+            <div class="row justify-content-center">
                 <img src="/assets/logo.png" alt="logo" class="img-fluid">
+                @yield('content')
             </div>
-            @yield('content')
         </main>
         <footer class="footer">Copyright &copy;Koli&co @php date('Y') @endphp</footer>
     </body>

@@ -21,13 +21,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->unique();
-            $table->boolean('whatsapp')->default(false);
+            $table->boolean('whatsapp')->default(true);
             $table->string('admin_key')->nullable();
             $table->boolean('verified')->default(false);
-            $table->string('id_front');
-            $table->string('id_back');
+            $table->string('id_front')->nullable();
+            $table->string('id_back')->nullable();
             $table->string('passport')->nullable();
             $table->string('dir');
+            $table->boolean('terms');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

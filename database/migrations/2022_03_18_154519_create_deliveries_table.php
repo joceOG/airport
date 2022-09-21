@@ -18,11 +18,15 @@ class CreateDeliveriesTable extends Migration
             $table->uuid('delivery_id')->unique();
             $table->string('sender_email');
             $table->string('courier_email');
-            $table->uuid('package_id');
-            $table->uuid('ad_id');
+            $table->string('sender_phone');
+            $table->string('courier_phone');
+            $table->boolean('sender_whatsapp');
+            $table->boolean('courier_whatsapp');
+            $table->foreignUuid('package_id')->references('package_id')->on('packages')->onDelete('cascade');
+            $table->foreignUuid('ad_id')->references('ad_id')->on('ads')->onDelete('cascade');
             $table->string('status');
-            $table->uuid('sender_id');
-            $table->uuid('courier_id');
+            $table->foreignUuid('courier_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('sender_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

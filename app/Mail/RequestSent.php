@@ -39,8 +39,7 @@ class RequestSent extends Mailable
     {
         return $this->from('koliandco@gmail.com', 'Koli&co')
             ->subject('Requête envoyée au coursier')
-            ->tag('request')
-            ->view('emails.request.sent')
+            ->view('emails.request')
             ->with([
                 'item' => $this->package->item,
                 'category' => $this->package->category,

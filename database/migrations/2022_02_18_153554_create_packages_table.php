@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdsTable extends Migration
+class CreatePackagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateAdsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ads', function (Blueprint $table) {
+        Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->uuid('ad_id')->unique();
-            $table->uuid('user_id');
-            $table->string('ticket_number')->unique();
-            $table->string('travel_company');
+            $table->uuid('package_id')->unique();
+            $table->string('item');
+            $table->string('category');
+            $table->float('weight');
             $table->string('departure');
             $table->string('destination');
             $table->date('departure_date');
-            $table->date('arrival_date');
-            $table->float('space');
-            $table->json('categories_accepted');
+            $table->float('price');
+            $table->foreignUuid('sender_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -36,6 +35,6 @@ class CreateAdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads');
+        Schema::dropIfExists('packages');
     }
 }

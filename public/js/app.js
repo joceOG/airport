@@ -2639,7 +2639,7 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       title: "J'ai des Kilos"
     }]);
 
-    _defineProperty(_assertThisInitialized(_this), "selectedTab", "Mes Details");
+    _defineProperty(_assertThisInitialized(_this), "selectedTab", "Mes Informations");
 
     _defineProperty(_assertThisInitialized(_this), "dialog", false);
 
@@ -2648,6 +2648,8 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
     _defineProperty(_assertThisInitialized(_this), "matchs", []);
 
     _defineProperty(_assertThisInitialized(_this), "id", [""]);
+
+    _defineProperty(_assertThisInitialized(_this), "envois", []);
 
     return _this;
   }
@@ -2908,7 +2910,7 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
                 console.log('res', res);
 
                 if (res) {
-                  this.envoi = res;
+                  this.envois = res;
                 }
 
                 _context5.next = 12;
@@ -2991,6 +2993,7 @@ var Dashboard = /*#__PURE__*/function (_Vue) {
       this.categorie_accept = "";
       this.dateak = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
       this.datedk = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10);
+      this.getEnvoi();
     }
   }]);
 
@@ -6141,13 +6144,13 @@ var render = function() {
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.selectedTab == "Mes Livraisons"
+                    _vm.selectedTab == "Mes Colis"
                       ? [
                           _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("Mes Livraisons")
+                            _vm._v("Mes Colis")
                           ]),
                           _vm._v(
-                            "\r\n\r\n            Liste des livraisons pour :\r\n\r\n\r\n            "
+                            "\r\n           \r\n            Liste des Colis pour :\r\n\r\n\r\n            "
                           ),
                           _c("v-divider"),
                           _vm._v(" "),
@@ -6234,10 +6237,13 @@ var render = function() {
                                           _c(
                                             "v-list-item-group",
                                             { attrs: { color: "primary" } },
-                                            [
-                                              _c(
+                                            _vm._l(_vm.envois, function(
+                                              item,
+                                              i
+                                            ) {
+                                              return _c(
                                                 "v-list-item",
-                                                { key: _vm.i },
+                                                { key: i },
                                                 [
                                                   _c(
                                                     "v-list-item-avatar",
@@ -6274,7 +6280,7 @@ var render = function() {
                                                         },
                                                         domProps: {
                                                           textContent: _vm._s(
-                                                            _vm.item
+                                                            item
                                                           )
                                                         }
                                                       })
@@ -6284,8 +6290,8 @@ var render = function() {
                                                 ],
                                                 1
                                               )
-                                            ],
-                                            2
+                                            }),
+                                            1
                                           )
                                         ],
                                         1
@@ -6329,44 +6335,44 @@ var render = function() {
                     _vm.selectedTab == "Je fais un envoi"
                       ? [
                           _c("h3", { staticClass: "tab-content__header" }, [
-                            _vm._v("JE FAIS UN ENVOI")
+                            _vm._v("Je fais un envoi")
                           ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tab-content__text" }),
+                          _c("h3", [_c("b", [_vm._v("Faire un envoi")])]),
+                          _vm._v(" "),
+                          _c("v-divider", {
+                            staticStyle: { border: "solid 5px" },
+                            attrs: { height: "5" }
+                          }),
+                          _c("p"),
                           _vm._v(" "),
                           _c(
                             "v-row",
                             [
                               _c(
                                 "v-col",
-                                { attrs: { cols: "2" } },
+                                { attrs: { cols: "4" } },
                                 [
-                                  _c("v-img", {
-                                    staticClass: "centrer",
-                                    staticStyle: { display: "inline-block" },
-                                    attrs: {
-                                      width: "100",
-                                      height: "100",
-                                      src: "./assets/logo.png"
-                                    }
-                                  })
+                                  _vm._v(
+                                    "\r\n                       Envoyez un colis :"
+                                  ),
+                                  _c("v-divider"),
+                                  _vm._v(
+                                    "\r\n                       Choisissez la destination"
+                                  ),
+                                  _c("v-divider"),
+                                  _vm._v(
+                                    "\r\n                       Indiquez le prix \r\n                    "
+                                  )
                                 ],
                                 1
                               ),
                               _vm._v(" "),
                               _c(
                                 "v-col",
-                                { attrs: { cols: "3" } },
+                                { attrs: { cols: "4" } },
                                 [
-                                  _c(
-                                    "h3",
-                                    {
-                                      staticStyle: {
-                                        "text-align": "center",
-                                        "margin-top": "10px"
-                                      }
-                                    },
-                                    [_vm._v("JE FAIS UN ENVOI "), _c("br")]
-                                  ),
-                                  _vm._v(" "),
                                   _c(
                                     "v-form",
                                     {
@@ -6385,12 +6391,17 @@ var render = function() {
                                       }
                                     },
                                     [
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Type")])]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Type",
-                                          outlined: "",
                                           rules: _vm.typeRules,
                                           label: "Type",
+                                          solo: "",
                                           required: ""
                                         },
                                         model: {
@@ -6401,6 +6412,15 @@ var render = function() {
                                           expression: "type"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Categorie")])
+                                      ]),
                                       _vm._v(" "),
                                       _c("v-combobox", {
                                         attrs: {
@@ -6419,12 +6439,21 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Nombre de Kilos")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Nombre de Kilos",
                                           type: "number",
-                                          outlined: "",
                                           rules: _vm.nkiloRules,
+                                          solo: "",
                                           required: ""
                                         },
                                         model: {
@@ -6435,6 +6464,13 @@ var render = function() {
                                           expression: "nkilo"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Date")])]),
                                       _vm._v(" "),
                                       _c(
                                         "v-menu",
@@ -6464,7 +6500,8 @@ var render = function() {
                                                                 "Picker without buttons",
                                                               "prepend-icon":
                                                                 "mdi-calendar",
-                                                              readonly: ""
+                                                              readonly: "",
+                                                              solo: ""
                                                             },
                                                             model: {
                                                               value: _vm.date,
@@ -6489,7 +6526,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            1140973133
+                                            2002269828
                                           ),
                                           model: {
                                             value: _vm.menu,
@@ -6517,7 +6554,9 @@ var render = function() {
                                           })
                                         ],
                                         1
-                                      )
+                                      ),
+                                      _vm._v(" "),
+                                      _c("p")
                                     ],
                                     1
                                   )
@@ -6527,16 +6566,13 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-col",
-                                { attrs: { cols: "3" } },
+                                { attrs: { cols: "4" } },
                                 [
                                   _c(
                                     "v-form",
                                     {
                                       ref: "form2",
-                                      staticStyle: {
-                                        padding: "32",
-                                        "margin-top": "30px"
-                                      },
+                                      staticStyle: { padding: "32" },
                                       attrs: {
                                         "justify-content": "center",
                                         "lazy-validation": ""
@@ -6550,12 +6586,17 @@ var render = function() {
                                       }
                                     },
                                     [
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Depart")])]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Depart",
-                                          outlined: "",
                                           rules: _vm.departRules,
                                           label: "Depart",
+                                          solo: "",
                                           required: ""
                                         },
                                         model: {
@@ -6567,12 +6608,21 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Destination")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Destination",
-                                          outlined: "",
                                           rules: _vm.destinationRules,
                                           label: "Destitanation",
+                                          solo: "",
                                           required: ""
                                         },
                                         model: {
@@ -6584,12 +6634,19 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Prix")])]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Prix",
-                                          outlined: "",
                                           type: "number",
                                           label: "Prix",
+                                          solo: "",
                                           required: ""
                                         },
                                         model: {
@@ -6600,6 +6657,8 @@ var render = function() {
                                           expression: "prix"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c("p"),
                                       _vm._v(" "),
                                       _c("v-divider"),
                                       _vm._v(" "),
@@ -6624,9 +6683,7 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c("v-col", { attrs: { cols: "4" } })
+                              )
                             ],
                             1
                           )
@@ -6635,22 +6692,33 @@ var render = function() {
                     _vm._v(" "),
                     _vm.selectedTab == "J'ai des Kilos"
                       ? [
+                          _c("h3", { staticClass: "tab-content__header" }, [
+                            _vm._v("J'ai des Kilos")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tab-content__text" }),
+                          _c("h3", [_c("b", [_vm._v("Publier une annonce")])]),
+                          _vm._v(" "),
+                          _c("v-divider", {
+                            staticStyle: { border: "solid 5px" },
+                            attrs: { height: "5" }
+                          }),
+                          _c("p"),
+                          _vm._v(" "),
                           _c(
                             "v-row",
                             [
                               _c(
                                 "v-col",
-                                { attrs: { cols: "2" } },
+                                { attrs: { cols: "4" } },
                                 [
-                                  _c("v-img", {
-                                    staticClass: "centrer",
-                                    staticStyle: { display: "inline-block" },
-                                    attrs: {
-                                      width: "70",
-                                      height: "70",
-                                      src: "./assets/logo.png"
-                                    }
-                                  })
+                                  _vm._v(
+                                    "\r\n                            Donner Quelques détails sur le vol :"
+                                  ),
+                                  _c("v-divider"),
+                                  _vm._v(
+                                    " Indiquez le prix \r\n                          "
+                                  )
                                 ],
                                 1
                               ),
@@ -6659,17 +6727,6 @@ var render = function() {
                                 "v-col",
                                 { attrs: { cols: "4" } },
                                 [
-                                  _c(
-                                    "h3",
-                                    {
-                                      staticStyle: {
-                                        "text-align": "center",
-                                        "margin-top": "10px"
-                                      }
-                                    },
-                                    [_vm._v("J'AI DES KILOS "), _c("br")]
-                                  ),
-                                  _vm._v(" "),
                                   _c(
                                     "v-form",
                                     {
@@ -6688,10 +6745,15 @@ var render = function() {
                                       }
                                     },
                                     [
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Billet")])]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Billet",
-                                          outlined: "",
+                                          solo: "",
                                           rules: _vm.billetRules,
                                           label: "Billet",
                                           required: ""
@@ -6705,11 +6767,18 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [_c("b", [_vm._v("Espace")])]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Espace",
                                           type: "number",
-                                          outlined: "",
+                                          solo: "",
                                           rules: _vm.espaceRules,
                                           label: "Espace",
                                           required: ""
@@ -6723,10 +6792,19 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Compagnie")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Compagnie",
-                                          outlined: "",
+                                          solo: "",
                                           rules: _vm.compagnieRules,
                                           label: "Compagnie",
                                           required: ""
@@ -6739,6 +6817,15 @@ var render = function() {
                                           expression: "compagnie"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Date d'arrivée")])
+                                      ]),
                                       _vm._v(" "),
                                       _c(
                                         "v-menu",
@@ -6824,6 +6911,15 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Date de départ")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c(
                                         "v-menu",
                                         {
@@ -6906,7 +7002,9 @@ var render = function() {
                                           })
                                         ],
                                         1
-                                      )
+                                      ),
+                                      _vm._v(" "),
+                                      _c("p")
                                     ],
                                     1
                                   )
@@ -6916,16 +7014,13 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-col",
-                                { attrs: { cols: "5" } },
+                                { attrs: { cols: "4" } },
                                 [
                                   _c(
                                     "v-form",
                                     {
                                       ref: "form",
-                                      staticStyle: {
-                                        padding: "32",
-                                        "margin-top": "30px"
-                                      },
+                                      staticStyle: { padding: "32" },
                                       attrs: {
                                         "justify-content": "center",
                                         "lazy-validation": ""
@@ -6939,10 +7034,17 @@ var render = function() {
                                       }
                                     },
                                     [
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Ville de Depart")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "",
-                                          outlined: "",
+                                          solo: "",
                                           rules: _vm.departkRules,
                                           label: "Depart",
                                           required: ""
@@ -6956,10 +7058,19 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Ville d'arrivée")])
+                                      ]),
+                                      _vm._v(" "),
                                       _c("v-text-field", {
                                         attrs: {
                                           placeholder: "Destination",
-                                          outlined: "",
+                                          solo: "",
                                           rules: _vm.destinationkRules,
                                           label: "Destitanation",
                                           required: ""
@@ -6972,6 +7083,15 @@ var render = function() {
                                           expression: "destinationk"
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        staticClass: "tab-content__text"
+                                      }),
+                                      _c("h4", [
+                                        _c("b", [_vm._v("Categorie")])
+                                      ]),
                                       _vm._v(" "),
                                       _c(
                                         "v-col",
@@ -7031,11 +7151,11 @@ var render = function() {
                                                             }
                                                           }),
                                                           _vm._v(
-                                                            "\r\n                                      " +
+                                                            "\r\n                                                " +
                                                               _vm._s(
                                                                 data.item
                                                               ) +
-                                                              "\r\n                                    "
+                                                              "\r\n                                              "
                                                           )
                                                         ],
                                                         1
@@ -7046,7 +7166,7 @@ var render = function() {
                                               ],
                                               null,
                                               false,
-                                              2214969470
+                                              2418139390
                                             ),
                                             model: {
                                               value: _vm.select,
@@ -7060,6 +7180,8 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
+                                      _c("p"),
+                                      _vm._v(" "),
                                       _c("v-divider"),
                                       _vm._v(" "),
                                       _c(
@@ -7067,7 +7189,7 @@ var render = function() {
                                         {
                                           attrs: {
                                             depressed: "",
-                                            outlined: "",
+                                            solo: "",
                                             color: "#314f8d"
                                           },
                                           on: {
@@ -7078,7 +7200,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\r\n                                   ENVOYER\r\n                           "
+                                            "\r\n                                            ENVOYER\r\n                                    "
                                           )
                                         ]
                                       )

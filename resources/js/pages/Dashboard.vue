@@ -87,10 +87,10 @@
           </v-col>
           </v-row>
         </template>
-        <template v-if="selectedTab == 'Mes Livraisons'">
-          <h3 class="tab-content__header">Mes Livraisons</h3>
-
-            Liste des livraisons pour :
+        <template v-if="selectedTab == 'Mes Colis'">
+          <h3 class="tab-content__header">Mes Colis</h3>
+           
+            Liste des Colis pour :
 
 
             <v-divider></v-divider>
@@ -119,7 +119,7 @@
                                     <v-container id="scroll-target" style="height: 130px" class="overflow-y-auto">
                                       <v-row style="height: 600px">
                                         <v-list-item-group color="primary">
-                                          <v-list-item v-for="(item, i) in " :key="i">
+                                          <v-list-item v-for="(item, i) in envois" :key="i">
                                             <v-list-item-avatar size="10" color="#009ab1">
                                               <v-icon color="white">mdi-clipboard-text-outline</v-icon>
                                             </v-list-item-avatar>
@@ -146,16 +146,26 @@
 
         </template>
         <template v-if="selectedTab == 'Je fais un envoi'">
-          <h3 class="tab-content__header">JE FAIS UN ENVOI</h3>
+          <h3 class="tab-content__header">Je fais un envoi</h3>
+          <p class="tab-content__text"> <h3><b>Faire un envoi</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
           <v-row>
-                    <v-col cols="2">
-                          <v-img  style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
+                    <v-col cols="4">
+                       Envoyez un colis :<v-divider></v-divider>
+                       Choisissez la destination<v-divider></v-divider>
+                       Indiquez le prix 
                     </v-col>
 
-                    <v-col cols="3">
-                              <h3 style="text-align: center; margin-top:10px;">JE FAIS UN ENVOI <br/></h3>
-                                <v-form ref="form2" v-model="valid2" style="padding: 32; width=600px;" justify-content="center" lazy-validation>
-                                    <v-text-field placeholder="Type" v-model="type" outlined :rules="typeRules" label="Type" required ></v-text-field>
+
+                    <v-col cols="4">
+                              
+                   <v-form ref="form2" v-model="valid2" style="padding: 32; width=600px;" justify-content="center" lazy-validation>
+                                   <p class="tab-content__text">
+                                  <h4><b>Type</b> </h4>
+                                    <v-text-field placeholder="Type" v-model="type" :rules="typeRules" label="Type" solo required ></v-text-field>
+                                    </p>
+
+                                    <p class="tab-content__text">
+                                        <h4><b>Categorie</b> </h4>
                                             <v-combobox
                                               v-model="categorie"
                                               :items="tabcategorie"
@@ -164,110 +174,155 @@
                                               hide-selected
                                               persistent-hint
                                             ></v-combobox>
-                                    <v-text-field placeholder="Nombre de Kilos" v-model="nkilo" type="number" outlined :rules="nkiloRules" required ></v-text-field>
+                                    </p>
+                                    <p class="tab-content__text">
+                                      <h4><b>Nombre de Kilos</b> </h4>
+                                      <v-text-field placeholder="Nombre de Kilos" v-model="nkilo" type="number" :rules="nkiloRules" solo required ></v-text-field>
+                                    </p>
+                                    <p class="tab-content__text">
+                                      <h4><b>Date</b> </h4>
                                     <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto" >
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field v-model="date" label="Picker without buttons" prepend-icon="mdi-calendar"  readonly v-bind="attrs"  v-on="on"></v-text-field>
+                                        <v-text-field v-model="date" label="Picker without buttons" prepend-icon="mdi-calendar"  readonly v-bind="attrs" solo  v-on="on"></v-text-field>
                                     </template>
                                     <v-date-picker v-model="date" @input="menu = false" ></v-date-picker>
                                     </v-menu>
+                                  </p>
                               </v-form>
                     </v-col>
-                    <v-col cols="3">
-                        <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center" ref="form2" v-model="valid2" lazy-validation>
-                              <v-text-field placeholder="Depart" v-model="depart" outlined  :rules="departRules" label="Depart" required ></v-text-field>
-                              <v-text-field placeholder="Destination" v-model="destination" outlined  :rules="destinationRules"  label="Destitanation"  required ></v-text-field>
-                                <v-text-field placeholder="Prix" v-model="prix" outlined type="number" label="Prix" required></v-text-field>
+                    <v-col cols="4">
+                        <v-form style="padding: 32; width=600px;" justify-content="center" ref="form2" v-model="valid2" lazy-validation>
+                             <p class="tab-content__text">
+                                      <h4><b>Depart</b> </h4>
+                              <v-text-field placeholder="Depart" v-model="depart" :rules="departRules" label="Depart" solo required ></v-text-field>
+                              </p>
+
+                              <p class="tab-content__text">
+                                      <h4><b>Destination</b> </h4>
+                              <v-text-field placeholder="Destination" v-model="destination" :rules="destinationRules"  label="Destitanation" solo required ></v-text-field>
+                              </p>
+
+                              <p class="tab-content__text">
+                                      <h4><b>Prix</b> </h4>
+                                <v-text-field placeholder="Prix" v-model="prix" type="number" label="Prix" solo required></v-text-field>
+                             </p>
+
                               <v-divider></v-divider>
                               <v-btn depressed outlined color="#314f8d"  @click="addPackage()">ENVOYER</v-btn>
                         </v-form>
-                    </v-col>
-                    <v-col cols="4">
                     </v-col>
             </v-row>
 
 
 
         </template>
-       <template v-if="selectedTab == 'J\'ai des Kilos'">
-          <v-row>
-                <v-col cols="2">
-                    <v-img style="display:inline-block;" class="centrer"  width="70" height="70" src="./assets/logo.png"></v-img>
-                </v-col>
-                  <v-col cols="4">
-                   <h3 style="text-align: center; margin-top:10px;">J'AI DES KILOS <br/></h3>
-                      <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
+        <template v-if="selectedTab == 'J\'ai des Kilos'">
+                  <h3 class="tab-content__header">J'ai des Kilos</h3>
+                               <p class="tab-content__text"> <h3><b>Publier une annonce</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+                    <v-row>
+                          <v-col cols="4">
+                            Donner Quelques détails sur le vol :<v-divider></v-divider> Indiquez le prix 
+                          </v-col>
+                            <v-col cols="4">
+                          
+                                <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
+                                  <p class="tab-content__text">
+                                      <h4><b>Billet</b> </h4>
+                                          <v-text-field v-model="billet" placeholder="Billet" solo :rules="billetRules" label="Billet" required></v-text-field>
+                                  </p>       
+                                  <p class="tab-content__text">
+                                      <h4><b>Espace</b> </h4>        
+                                          <v-text-field  v-model="espace" placeholder="Espace" type="number" solo :rules="espaceRules" label="Espace" required ></v-text-field>
+                                  </p>
+                                  <p class="tab-content__text">
+                                      <h4><b>Compagnie</b> </h4>    
+                                          <v-text-field  v-model="compagnie" placeholder="Compagnie" solo :rules="compagnieRules" label="Compagnie" required></v-text-field>
+                                  </p>
+                                  <p class="tab-content__text">
+                                      <h4><b>Date d'arrivée</b> </h4>   
+                                        <v-menu v-model="menudk" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                          <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="datedk" label="Date de Depart" prepend-icon="mdi-calendar"
+                                                          readonly v-bind="attrs" v-on="on"
+                                              ></v-text-field>
+                                          </template>
+                                          <v-date-picker v-model="datedk" @input="menudk = false" ></v-date-picker>
+                                        </v-menu>
+                                   </p>     
 
-                                <v-text-field v-model="billet" placeholder="Billet" outlined :rules="billetRules" label="Billet" required></v-text-field>
-                                <v-text-field  v-model="espace" placeholder="Espace" type="number" outlined :rules="espaceRules" label="Espace" required ></v-text-field>
-                                <v-text-field  v-model="compagnie" placeholder="Compagnie" outlined :rules="compagnieRules" label="Compagnie" required></v-text-field>
-                              <v-menu v-model="menudk" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                   <v-text-field v-model="datedk" label="Date de Depart" prepend-icon="mdi-calendar"
-                                                 readonly v-bind="attrs" v-on="on"
-                                     ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="datedk" @input="menudk = false" ></v-date-picker>
-                              </v-menu>
+                                   <p class="tab-content__text">
+                                      <h4><b>Date de départ</b> </h4>
+                                        <v-menu v-model="menuak" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                          <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="dateak" label="Date d'arrivée" prepend-icon="mdi-calendar"
+                                                          readonly v-bind="attrs" v-on="on"
+                                              ></v-text-field>
+                                          </template>
+                                          <v-date-picker v-model="dateak" @input="menuak = false" ></v-date-picker>
+                                        </v-menu>
+                                    </p>
+                                </v-form>
+                            </v-col>
+                            <v-col cols="4">
+                                    <v-form style="padding: 32; width=600px;" justify-content="center"
+                                        ref="form" v-model="valid" lazy-validation>
+                                   
+                                  <p class="tab-content__text">
+                                      <h4><b>Ville de Depart</b> </h4>
+                                    <v-text-field placeholder="" v-model="departk" solo :rules="departkRules"
+                                            label="Depart"  required
+                                    ></v-text-field>
+                                    </p>
 
-                              <v-menu v-model="menuak" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                   <v-text-field v-model="dateak" label="Date d'arrivée" prepend-icon="mdi-calendar"
-                                                 readonly v-bind="attrs" v-on="on"
-                                     ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="dateak" @input="menuak = false" ></v-date-picker>
-                              </v-menu>
-                      </v-form>
-                  </v-col>
-                  <v-col cols="5">
-                          <v-form style="padding: 32; width=600px;margin-top:30px;" justify-content="center"
-                               ref="form" v-model="valid" lazy-validation>
-                           <v-text-field placeholder="" v-model="departk" outlined :rules="departkRules"
-                                   label="Depart"  required
-                           ></v-text-field>
-                           <v-text-field placeholder="Destination" v-model="destinationk"  outlined
-                                   :rules="destinationkRules"  label="Destitanation"  required
-                           ></v-text-field>
+                                    <p class="tab-content__text">
+                                      <h4><b>Ville d'arrivée</b> </h4>
+                                    <v-text-field placeholder="Destination" v-model="destinationk"  solo
+                                            :rules="destinationkRules"  label="Destitanation"  required
+                                    ></v-text-field>
+                                    </p>
 
-                             <v-col cols="12">
-                                <v-combobox
-                                  v-model="select"
-                                  :items="tabcategorie"
-                                  label="Choisir les categories"
-                                  multiple
-                                  chips
-                                >
-                                  <template v-slot:selection="data">
-                                    <v-chip
-                                      :key="JSON.stringify(data.item)"
-                                      v-bind="data.attrs"
-                                      :input-value="data.selected"
-                                      :disabled="data.disabled"
-                                      @click:close="data.parent.selectItem(data.item)"
-                                    >
-                                      <v-avatar
-                                        class="accent white--text"
-                                        left
-                                        v-text="data.item.slice(0, 1).toUpperCase()"
-                                      ></v-avatar>
-                                      {{ data.item }}
-                                    </v-chip>
-                                  </template>
-                                </v-combobox>
-                              </v-col>
 
-                             <v-divider></v-divider>
-                           <v-btn depressed outlined color="#314f8d" @click="addAds()">
-                                   ENVOYER
-                           </v-btn>
-                        </v-form>
-                  </v-col>
-                  <v-col cols="4">
+                                    <p class="tab-content__text">
+                                      <h4><b>Categorie</b> </h4>
+                                      <v-col cols="12">
+                                          <v-combobox
+                                            v-model="select"
+                                            :items="tabcategorie"
+                                            label="Choisir les categories"
+                                            multiple
+                                            chips
+                                          >
+                                            <template v-slot:selection="data">
+                                              <v-chip
+                                                :key="JSON.stringify(data.item)"
+                                                v-bind="data.attrs"
+                                                :input-value="data.selected"
+                                                :disabled="data.disabled"
+                                                @click:close="data.parent.selectItem(data.item)"
+                                              >
+                                                <v-avatar
+                                                  class="accent white--text"
+                                                  left
+                                                  v-text="data.item.slice(0, 1).toUpperCase()"
+                                                ></v-avatar>
+                                                {{ data.item }}
+                                              </v-chip>
+                                            </template>
+                                          </v-combobox>
+                                        </v-col>
+                                    </p>
 
-                  </v-col>
-          </v-row>
-        </template>
+                                      <v-divider></v-divider>
+                                    <v-btn depressed solo color="#314f8d" @click="addAds()">
+                                            ENVOYER
+                                    </v-btn>
+                                  </v-form>
+                            </v-col>
+                            <v-col cols="4">
+
+                            </v-col>
+                    </v-row>
+                  </template>
       </div>
     </div>
   </div>
@@ -427,12 +482,13 @@ export default class Dashboard extends Vue {
               title: "J'ai des Kilos",
             }
           ] ;
-    selectedTab="Mes Details"
+    selectedTab="Mes Informations"
     dialog = false;
 
         selected = 1
         matchs = []
         id = [""]
+        envois = []
 
 
   mounted(){
@@ -550,13 +606,13 @@ export default class Dashboard extends Vue {
            }
 
 
-      async getEnvoi(){
+           async getEnvoi(){
        try {
           const result = await axios.get("http://127.0.0.1:8000/api/deliveries");
           const res = result.data
           console.log('res', res)
           if (res) {
-             this.envoi = res
+             this.envois = res
           }
         } catch (err) {
           console.log(err);
@@ -596,7 +652,7 @@ export default class Dashboard extends Vue {
         }, 2000);
      }
 
-  @Watch("selectedTab")
+     @Watch("selectedTab")
   whenSelectedTab() {
        this.type = ""
        this.categorie = ""
@@ -614,7 +670,8 @@ export default class Dashboard extends Vue {
        this.categorie_accept = ""
        this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
-    }
+       this.getEnvoi();
+    }   
   }
 
 </script>

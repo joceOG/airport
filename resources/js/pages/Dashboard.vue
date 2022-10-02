@@ -87,17 +87,10 @@
           </v-col>
           </v-row>
         </template>
-<<<<<<< HEAD
-        <template v-if="selectedTab == 'Mes Colis'">
-          <h3 class="tab-content__header">Mes Colis</h3>
-           
-            Liste des Colis pour :
-=======
         <template v-if="selectedTab == 'Mes Livraisons'">
           <h3 class="tab-content__header">Mes Livraisons</h3>
 
             Liste des livraisons pour :
->>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
 
 
             <v-divider></v-divider>
@@ -126,7 +119,7 @@
                                     <v-container id="scroll-target" style="height: 130px" class="overflow-y-auto">
                                       <v-row style="height: 600px">
                                         <v-list-item-group color="primary">
-                                          <v-list-item v-for="(item, i) in envois" :key="i">
+                                          <v-list-item v-for="(item, i) in " :key="i">
                                             <v-list-item-avatar size="10" color="#009ab1">
                                               <v-icon color="white">mdi-clipboard-text-outline</v-icon>
                                             </v-list-item-avatar>
@@ -433,24 +426,14 @@ export default class Dashboard extends Vue {
             {
               title: "J'ai des Kilos",
             }
-<<<<<<< HEAD
-          ] ; 
-    selectedTab="Mes Informations"
-=======
           ] ;
     selectedTab="Mes Details"
->>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
     dialog = false;
 
         selected = 1
         matchs = []
         id = [""]
 
-<<<<<<< HEAD
-        envois = []
-        
-=======
->>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
 
   mounted(){
     console.log("Mounted Dash");
@@ -573,7 +556,7 @@ export default class Dashboard extends Vue {
           const res = result.data
           console.log('res', res)
           if (res) {
-             this.envois = res
+             this.envoi = res
           }
         } catch (err) {
           console.log(err);
@@ -631,12 +614,7 @@ export default class Dashboard extends Vue {
        this.categorie_accept = ""
        this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
        this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
-<<<<<<< HEAD
-       this.getEnvoi();
-    }   
-=======
     }
->>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
   }
 
 </script>

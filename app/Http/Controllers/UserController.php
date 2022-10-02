@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Mail;
 use Ramsey\Uuid\Rfc4122\UuidV4;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -52,49 +54,40 @@ class UserController extends Controller
     {
         $newUser = new User();
         $newUser->user_id = UuidV4::uuid4();
-        echo $request;
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|alpha_dash|min:2|max:255',
-            'last_name' => 'required|string|alpha_dash|min:2|max:255',
-            'email' => 'required|string|email|unique:App\Models\User,email',
+            'first_name' => 'string|min:2|max:255',
+            'last_name' => 'string|alpha_dash|min:2|max:255',
+            'email' => 'string|email|unique:App\Models\User,email',
             'password' => [
-                'required',
                 Password::min(8)
                     ->letters()
                     ->numbers()
                     ->symbols(),
                 'confirmed'
             ],
-            'phone' => 'required|string|unique:App\Models\User,phone|min:10|max:15',
+            'phone' => 'string|unique:App\Models\User,phone|min:10|max:15',
             'whatsapp' => 'boolean',
-            'id_front' => 'file|mimes:jpg,jpeg,svg,png,pdf',
-            'id_back' => 'file|mimes:jpg,jpeg,svg,png,pdf',
-            'passport' => 'file|mimes:jpg,jpeg,svg,png,pdf',
-            'terms' => 'required|boolean'
+            'terms' => 'boolean'
         ], [
             'first_name.required' => 'Prénom requis',
             'last_name.required' => 'Nom de famille requis',
             'email.required' => 'Adresse email requise',
             'password.required' => 'Mot de passe requis',
             'phone.required' => 'Numero de téléphone requis',
-            'id_front.required' => 'Avant de la pièce d\'identité requis',
-            'id_back.required' => 'Arrière de la pièce d\'identité requis',
-            '*.mimes' => ':file doit être une image ou un pdf',
-            'terms.required' => 'Signature des conditions d\'utilisation obligatoire. '
         ]);
 
         if(!$validator->fails()) {
-            $newUser->first_name = UserController::mysql_escape_mimic($request->first_name);
-            $newUser->last_name = UserController::mysql_escape_mimic($request->last_name);
-            $newUser->email = UserController::mysql_escape_mimic($request->email);
-            $newUser->password = bcrypt($request->password);
-            $newUser->phone = UserController::mysql_escape_mimic($request->phone);
-            $newUser->whatsapp = $request->whatsapp ? boolval($request->whatsapp) : true;
-            $newUser->admin_key = $request->admin_key ? bcrypt($request->admin_key) : null;
-            $newUser->terms = boolval($request->whatsapp);
+            $newUser->first_name = UserController::mysql_escape_mimic($request->user['first_name']);
+            $newUser->last_name = UserController::mysql_escape_mimic($request->user['last_name']);
+            $newUser->email = UserController::mysql_escape_mimic($request->user['email']);
+            $newUser->password = bcrypt($request->user['password']);
+            $newUser->phone = UserController::mysql_escape_mimic($request->user['phone']);
+            $newUser->whatsapp = $request->whatsapp ? boolval($request->user['whatsapp']) : true;
+            $newUser->admin_key = $request->admin_key ? bcrypt($request->user['admin_key']) : null;
+            $newUser->terms = $request->terms ? boolval($request->user['terms']) : true;
 
-            $directory = Storage::makeDirectory('users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
-
+            //$directory = Storage::makeDirectory('users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id);
+            /*
             if($directory) {
                 $newUser->dir = 'users/' . $newUser->first_name . '_' . $newUser->last_name . '_' . $newUser->user_id;
 
@@ -123,15 +116,22 @@ class UserController extends Controller
                 }
 
                 if($id_front && $id_back && $newUser->email_verified_at)
-                    $newUser->verified = true;
+                    $newUser->verified = true; 
 
-                $newUser->save();
+                
 
                 // Send an email to ask the user to validate their email
-                Mail::to($newUser->email)->send(new AccountCreated($newUser));
+               // Mail::to($newUser->email)->send(new AccountCreated($newUser));
             } else {
                 return response()->json(['data' => '', 'message' => 'Failed to create directory'], 400);
-            }
+            } */
+            
+
+            $newUser->save();
+            $request->setLaravelSession(session());
+            $request->session()->put('user_id', $user->user_id);
+            $request->session()->put('id', $user->id);
+            
             return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);
@@ -143,8 +143,10 @@ class UserController extends Controller
         $user = User::where('email', $request->user['email'])->first();
 
         if($user && boolval($user->terms)) {
-            if($user->password === bcrypt($request->user['password'])) {
-                $request->session()->regenerate();
+            
+            if(Hash::check($request->user['password'],$user->password)){
+                $request->setLaravelSession(session());
+                // $request->session()->regenerate();
                 $request->session()->put('user_id', $user->user_id);
                 $request->session()->put('id', $user->id);
                 return response()->json(['status'=>'true','message'=>'Authentification reussie'], 200);

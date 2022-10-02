@@ -74,10 +74,10 @@ class AdController extends Controller
             'ad.space.required' => 'Espace disponible requis',
             'ad.categories_accepted.required' => 'Catégories acceptées requises',
         ]);
+        echo $request;
 
         if(!$validator->fails()) {
             // $newAd->user_id = $user->user_id;
-            $newAd->user_id = AdController::mysql_escape_mimic($request->ad['user_id']);
             $newAd->ticket_number = AdController::mysql_escape_mimic($request->ad['ticket_number']);
             $newAd->travel_company = AdController::mysql_escape_mimic($request->ad['travel_company']);
             $newAd->departure = AdController::mysql_escape_mimic($request->ad['departure']);

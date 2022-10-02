@@ -226,100 +226,82 @@ export default class FirstPage extends Vue {
    opsignup(){
       this.dialog2 = true
    }
-
    async signup(){
-      this.form2.validate();
-
-
-
-      if(this.files){
-            let formData = new FormData()
-
-            formData.append("file", this.files);
-
-            console.log(formData.get("file"))
-            console.log(this.files)
-
-
-      const data = JSON.stringify({
-                  "user":{
-                  "email": this.emailsu,
-                  "password": this.passwordsu,
-                  "first_name": this.prenom,
-                  "last_name": this.nom,
-                  "phone": this.telephone,
-                  "whatsapp": true,
-                  "id_front": formData,
-                  "id_back": formData,
-                  }
-                 });
-
-       const header =  { headers : {'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2) }}
-
-
-
-       try {
-          const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data , header
-                        );
-          const res = result.data
-          console.log('res', res)
-          if (res) {
-            this.message(res , 1)
-          }
-        } catch (err) {
-          console.log(err);
+           this.form2.validate();
+     
+           const data ={
+                       "user":{
+                       "email": this.emailsu,
+                       "password": this.passwordsu,
+                       "first_name": this.prenom,
+                       "last_name": this.nom,
+                       "phone": this.telephone,
+                       "whatsapp": true,
+                       "terms": 1
+                       }
+                      };
+     
+            try {
+               const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data );
+               const res = result.data
+               console.log('res', res)
+               if (res) {
+                 this.message(res , 1)
+               }
+             } catch (err) {
+               console.log(err);
+             }
+           
         }
-      }
-   }
-
-  async signin(){
-      this.form.validate();
-      const data = {
-                  "user":{
-                  "first_name": this.email,
-                  "email": this.email,
-                  "password": this.password,
-                  }
-                 };
-
-       try {
-          const result = await axios.post("http://127.0.0.1:8000/api/user/check" , data);
-          const res = result.data
-          console.log('res', res)
-          if (res) {
-             this.message(res , 2)
-          }
-        } catch (err) {
-          console.log(err);
+     
+       async signin(){
+           this.form.validate();
+           const data = {
+                       "user":{
+                       "first_name": this.email,
+                       "email": this.email,
+                       "password": this.password,
+                       }
+                      };
+     
+            try {
+               const result = await axios.post("http://127.0.0.1:8000/api/user/login" , data);
+               const res = result.data
+               console.log('res', res)
+               if (res) {
+                  this.message(res , 2)
+               }
+             } catch (err) {
+               console.log(err);
+             }
         }
-   }
     goTo (path: string) {
         this.$router.push(path)
     }
-   message(payload:any , x:any){
+    message(payload:any , x:any){
+     
+     if( x == 1 )
+     {      if (payload.status = true) {
+               this.notif = "Inscription Reussie"; this.typealert = "success" ; this.showalert = true;
+               setTimeout(() => { this.showalert = false; this.dialog = false;  this.goTo('/Dashboard'); }, 1500);
 
-      if( x = 1 )
-      {      if (payload.status = true) {
-                this.notif = "Inscription Reussie"; this.typealert = "success" ; this.showalert = true;
-                setTimeout(() => { this.showalert = false; this.dialog = false;  this.goTo('/Dashboard'); }, 1500);
-
-              }else{
-                this.notif = "Inscription Echouée"; this.typealert = "error"; this.showalert = true;
-                setTimeout(() => { this.showalert = false; this.dialog = false; }, 1500);
-              }
-      }
-
-      if( x = 2 )
-      {
-              if (payload.status = true) {
-                this.notif = "Connection Reussie"; this.typealert = "success";
-                this.showalert = true; setTimeout(() => { this.showalert = false; this.dialog2 = false;  this.goTo('/Dashboard');}, 1500);
-              }else{
-                this.notif = payload.message;  this.typealert = "error"; this.showalert = true;
-                setTimeout(() => { this.showalert = false; this.dialog2 = false; }, 1500);  }
-      }
-
+             }else{
+               this.notif = "Inscription Echouée"; this.typealert = "error"; this.showalert = true;
+               setTimeout(() => { this.showalert = false; this.dialog = false; }, 1500);
+             }
      }
+
+     if( x == 2 )
+     {
+             if (payload.status = true) {
+               this.notif = "Connection Reussie"; this.typealert = "success";
+               this.showalert = true; setTimeout(() => { this.showalert = false; this.dialog2 = false;  this.goTo('/Dashboard');}, 1500);
+             }else{
+               this.notif = payload.message;  this.typealert = "error"; this.showalert = true;
+               setTimeout(() => { this.showalert = false; this.dialog2 = false; }, 1500);  }
+     }
+
+    }
 }
 </script>
 

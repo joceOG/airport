@@ -3178,23 +3178,13 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
     key: "signup",
     value: function () {
       var _signup = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var formData, data, header, result, res;
+        var data, result, res;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 this.form2.validate();
-
-                if (!this.files) {
-                  _context.next = 20;
-                  break;
-                }
-
-                formData = new FormData();
-                formData.append("file", this.files);
-                console.log(formData.get("file"));
-                console.log(this.files);
-                data = JSON.stringify({
+                data = {
                   "user": {
                     "email": this.emailsu,
                     "password": this.passwordsu,
@@ -3202,20 +3192,14 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
                     "last_name": this.nom,
                     "phone": this.telephone,
                     "whatsapp": true,
-                    "id_front": formData,
-                    "id_back": formData
-                  }
-                });
-                header = {
-                  headers: {
-                    'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2)
+                    "terms": 1
                   }
                 };
-                _context.prev = 8;
-                _context.next = 11;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/user/store", data, header);
+                _context.prev = 2;
+                _context.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/user/store", data);
 
-              case 11:
+              case 5:
                 result = _context.sent;
                 res = result.data;
                 console.log('res', res);
@@ -3224,20 +3208,20 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
                   this.message(res, 1);
                 }
 
-                _context.next = 20;
+                _context.next = 14;
                 break;
 
-              case 17:
-                _context.prev = 17;
-                _context.t0 = _context["catch"](8);
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](2);
                 console.log(_context.t0);
 
-              case 20:
+              case 14:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[8, 17]]);
+        }, _callee, this, [[2, 11]]);
       }));
 
       function signup() {
@@ -3265,7 +3249,7 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
                 };
                 _context2.prev = 2;
                 _context2.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/user/check", data);
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/api/user/login", data);
 
               case 5:
                 result = _context2.sent;
@@ -3308,7 +3292,7 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
     value: function message(payload, x) {
       var _this2 = this;
 
-      if (x = 1) {
+      if (x == 1) {
         if (payload.status = true) {
           this.notif = "Inscription Reussie";
           this.typealert = "success";
@@ -3330,7 +3314,7 @@ var FirstPage = /*#__PURE__*/function (_Vue) {
         }
       }
 
-      if (x = 2) {
+      if (x == 2) {
         if (payload.status = true) {
           this.notif = "Connection Reussie";
           this.typealert = "success";

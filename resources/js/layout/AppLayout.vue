@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
+   
+   <!-- <v-navigation-drawer
       v-model="drawer"
       app
     >
@@ -23,25 +24,22 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer>-->
 
     <v-app-bar
       app
-      height="90"
+      height="110"
       color="white"
-    >
-           <v-app-bar-nav-icon @click="drawer = !drawer" color="black"></v-app-bar-nav-icon>
-      <v-container class="py-0 fill-height">
+    >  
+         <!--  <v-app-bar-nav-icon @click="drawer = !drawer" color="black"></v-app-bar-nav-icon> -->
+      
 
           <v-img
             max-height="78"
             max-width="78"
             src="./assets/logo.png"
           ></v-img>
-
-        <v-spacer></v-spacer>
-
-                  <v-responsive max-width="1000" >
+                           <v-spacer></v-spacer>
                           <v-row justify ="end" height="" style="margin-right:10px;">
                             <v-btn
                             v-show="e==0"
@@ -51,6 +49,7 @@
                             x-small
                             color=" rgb(0, 0, 51);"
                             @click="opensignin"
+                            style="height:60px"
                           >
                           <h5 class="hbt"> SE CONNECTER</h5>
                           </v-btn>
@@ -63,6 +62,8 @@
                             x-small
                             color=" rgb(0, 0, 51);"
                             @click="opensignup"
+                            
+                            style="height:60px"
                           >
                             <h5 class="hbt">S'INSCRIRE</h5>
                           </v-btn>
@@ -75,6 +76,7 @@
                             x-small
                             color=" rgb(0, 0, 51);"
                             @click="goTo('/DashBoard')"
+                            style="height:60px"
                           >
                             <h5 class="hbt">SE DECONNECTER</h5>
                           </v-btn>
@@ -82,12 +84,14 @@
 
 
                                 <v-btn
+                                style="margin-right:30px !important"
                                     icon
                                     class="ma-3"
-                                    color="green"
+                                    color="#314f8d"
                                     v-show="e == 1"
+                                    
                                   >
-                                    <v-icon  >mdi-cached</v-icon>
+                                    <v-icon  size="60">mdi-package-variant-closed</v-icon>
                                   </v-btn>
 
                             <v-menu
@@ -107,7 +111,7 @@
                                 >
                                   <v-avatar
                                     color="brown"
-                                    size="30"
+                                    size="85"
                                   >
                                     <span class="white--text text-h6">{{ user.initials }}</span>
                                   </v-avatar>
@@ -146,10 +150,6 @@
                               </v-card>
                             </v-menu>
                       </v-row>
-                      </v-responsive>
-      </v-container>
-
-      <v-spacer />
     </v-app-bar>
 
     <v-container
@@ -186,7 +186,7 @@ import { Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 @Component
 export default class layout extends Vue {
-  drawer = false ;
+    drawer = false ;
     version = Settings.version
     route:string|null|undefined = null
      e = 0

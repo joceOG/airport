@@ -5540,92 +5540,247 @@ var render = function() {
     { attrs: { id: "inspire" } },
     [
       _c(
-        "v-navigation-drawer",
-        {
-          attrs: { app: "" },
-          model: {
-            value: _vm.drawer,
-            callback: function($$v) {
-              _vm.drawer = $$v
-            },
-            expression: "drawer"
-          }
-        },
+        "v-app-bar",
+        { attrs: { app: "", height: "110", color: "white" } },
         [
+          _c("v-img", {
+            attrs: {
+              "max-height": "78",
+              "max-width": "78",
+              src: "./assets/logo.png"
+            }
+          }),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
           _c(
-            "v-list",
-            { attrs: { dense: "", width: "500" } },
+            "v-row",
+            {
+              staticStyle: { "margin-right": "10px" },
+              attrs: { justify: "end", height: "" }
+            },
             [
               _c(
-                "v-list-item",
+                "v-btn",
                 {
-                  attrs: { link: "" },
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.e == 0,
+                      expression: "e==0"
+                    }
+                  ],
+                  staticClass: "ma-3 bt1",
+                  staticStyle: { height: "60px" },
+                  attrs: {
+                    outlined: "",
+                    rounded: "",
+                    "x-small": "",
+                    color: " rgb(0, 0, 51);"
+                  },
+                  on: { click: _vm.opensignin }
+                },
+                [_c("h5", { staticClass: "hbt" }, [_vm._v(" SE CONNECTER")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.e == 0,
+                      expression: "e==0"
+                    }
+                  ],
+                  staticClass: "ma-3 bt1",
+                  staticStyle: { height: "60px" },
+                  attrs: {
+                    outlined: "",
+                    rounded: "",
+                    "x-small": "",
+                    color: " rgb(0, 0, 51);"
+                  },
+                  on: { click: _vm.opensignup }
+                },
+                [_c("h5", { staticClass: "hbt" }, [_vm._v("S'INSCRIRE")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.e == 0,
+                      expression: "e==0"
+                    }
+                  ],
+                  staticClass: "ma-3 bt1",
+                  staticStyle: { height: "60px" },
+                  attrs: {
+                    outlined: "",
+                    rounded: "",
+                    "x-small": "",
+                    color: " rgb(0, 0, 51);"
+                  },
                   on: {
                     click: function($event) {
-                      return _vm.goTo("/")
+                      return _vm.goTo("/DashBoard")
                     }
                   }
                 },
+                [_c("h5", { staticClass: "hbt" }, [_vm._v("SE DECONNECTER")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.e == 1,
+                      expression: "e == 1"
+                    }
+                  ],
+                  staticClass: "ma-3",
+                  staticStyle: { "margin-right": "30px !important" },
+                  attrs: { icon: "", color: "#314f8d" }
+                },
                 [
-                  _c(
-                    "v-list-item-action",
-                    [_c("v-icon", [_vm._v("mdi-view-list")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-item-content",
-                    [
-                      _c(
-                        "v-list-item-title",
-                        [
-                          _vm._v("Accueil "),
-                          _vm.route == "FirsPage"
-                            ? _c("v-icon", { attrs: { color: "primary" } }, [
-                                _vm._v("mdi-circle-small")
-                              ])
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _c("v-icon", { attrs: { size: "60" } }, [
+                    _vm._v("mdi-package-variant-closed")
+                  ])
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
-                "v-list-item",
+                "v-menu",
                 {
-                  attrs: { link: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.goTo("/AxiosTest")
+                  attrs: {
+                    bottom: "",
+                    "min-width": "200px",
+                    rounded: "",
+                    "offset-y": ""
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var on = ref.on
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.e == 1,
+                                    expression: "e == 1"
+                                  }
+                                ],
+                                staticClass: "ma-3",
+                                attrs: { icon: "", "x-large": "" }
+                              },
+                              on
+                            ),
+                            [
+                              _c(
+                                "v-avatar",
+                                { attrs: { color: "brown", size: "85" } },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "white--text text-h6" },
+                                    [_vm._v(_vm._s(_vm.user.initials))]
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      }
                     }
-                  }
+                  ])
                 },
                 [
-                  _c(
-                    "v-list-item-action",
-                    [_c("v-icon", [_vm._v("mdi-view-list")])],
-                    1
-                  ),
                   _vm._v(" "),
                   _c(
-                    "v-list-item-content",
+                    "v-card",
                     [
                       _c(
-                        "v-list-item-title",
+                        "v-list-item-content",
+                        { staticClass: "justify-center" },
                         [
-                          _vm._v("Test Axios "),
-                          _vm.route == "AxiosTest"
-                            ? _c("v-icon", { attrs: { color: "primary" } }, [
-                                _vm._v("mdi-circle-small")
-                              ])
-                            : _vm._e()
-                        ],
-                        1
+                          _c(
+                            "div",
+                            { staticClass: "mx-auto text-center" },
+                            [
+                              _c("v-avatar", { attrs: { color: "brown" } }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "white--text text-h5" },
+                                  [_vm._v(_vm._s(_vm.user.initials))]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("h3", [_vm._v(_vm._s(_vm.user.fullName))]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "text-caption mt-1" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(_vm.user.email) +
+                                    "\n                                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "my-3" }),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    depressed: "",
+                                    rounded: "",
+                                    text: ""
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    PAREMETRES\n                                  "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "my-3" }),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    depressed: "",
+                                    rounded: "",
+                                    text: ""
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    DECONNEXION\n                                  "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ]
                       )
                     ],
                     1
@@ -5636,307 +5791,6 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-app-bar",
-        { attrs: { app: "", height: "90", color: "white" } },
-        [
-          _c("v-app-bar-nav-icon", {
-            attrs: { color: "black" },
-            on: {
-              click: function($event) {
-                _vm.drawer = !_vm.drawer
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "v-container",
-            { staticClass: "py-0 fill-height" },
-            [
-              _c("v-img", {
-                attrs: {
-                  "max-height": "78",
-                  "max-width": "78",
-                  src: "./assets/logo.png"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-responsive",
-                { attrs: { "max-width": "1000" } },
-                [
-                  _c(
-                    "v-row",
-                    {
-                      staticStyle: { "margin-right": "10px" },
-                      attrs: { justify: "end", height: "" }
-                    },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.e == 0,
-                              expression: "e==0"
-                            }
-                          ],
-                          staticClass: "ma-3 bt1",
-                          attrs: {
-                            outlined: "",
-                            rounded: "",
-                            "x-small": "",
-                            color: " rgb(0, 0, 51);"
-                          },
-                          on: { click: _vm.opensignin }
-                        },
-                        [
-                          _c("h5", { staticClass: "hbt" }, [
-                            _vm._v(" SE CONNECTER")
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.e == 0,
-                              expression: "e==0"
-                            }
-                          ],
-                          staticClass: "ma-3 bt1",
-                          attrs: {
-                            outlined: "",
-                            rounded: "",
-                            "x-small": "",
-                            color: " rgb(0, 0, 51);"
-                          },
-                          on: { click: _vm.opensignup }
-                        },
-                        [
-                          _c("h5", { staticClass: "hbt" }, [
-                            _vm._v("S'INSCRIRE")
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.e == 0,
-                              expression: "e==0"
-                            }
-                          ],
-                          staticClass: "ma-3 bt1",
-                          attrs: {
-                            outlined: "",
-                            rounded: "",
-                            "x-small": "",
-                            color: " rgb(0, 0, 51);"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.goTo("/DashBoard")
-                            }
-                          }
-                        },
-                        [
-                          _c("h5", { staticClass: "hbt" }, [
-                            _vm._v("SE DECONNECTER")
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.e == 1,
-                              expression: "e == 1"
-                            }
-                          ],
-                          staticClass: "ma-3",
-                          attrs: { icon: "", color: "green" }
-                        },
-                        [_c("v-icon", [_vm._v("mdi-cached")])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-menu",
-                        {
-                          attrs: {
-                            bottom: "",
-                            "min-width": "200px",
-                            rounded: "",
-                            "offset-y": ""
-                          },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "activator",
-                              fn: function(ref) {
-                                var on = ref.on
-                                return [
-                                  _c(
-                                    "v-btn",
-                                    _vm._g(
-                                      {
-                                        directives: [
-                                          {
-                                            name: "show",
-                                            rawName: "v-show",
-                                            value: _vm.e == 1,
-                                            expression: "e == 1"
-                                          }
-                                        ],
-                                        staticClass: "ma-3",
-                                        attrs: { icon: "", "x-large": "" }
-                                      },
-                                      on
-                                    ),
-                                    [
-                                      _c(
-                                        "v-avatar",
-                                        {
-                                          attrs: { color: "brown", size: "30" }
-                                        },
-                                        [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "white--text text-h6"
-                                            },
-                                            [_vm._v(_vm._s(_vm.user.initials))]
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ]
-                              }
-                            }
-                          ])
-                        },
-                        [
-                          _vm._v(" "),
-                          _c(
-                            "v-card",
-                            [
-                              _c(
-                                "v-list-item-content",
-                                { staticClass: "justify-center" },
-                                [
-                                  _c(
-                                    "div",
-                                    { staticClass: "mx-auto text-center" },
-                                    [
-                                      _c(
-                                        "v-avatar",
-                                        { attrs: { color: "brown" } },
-                                        [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass: "white--text text-h5"
-                                            },
-                                            [_vm._v(_vm._s(_vm.user.initials))]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("h3", [
-                                        _vm._v(_vm._s(_vm.user.fullName))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "p",
-                                        { staticClass: "text-caption mt-1" },
-                                        [
-                                          _vm._v(
-                                            "\n                                    " +
-                                              _vm._s(_vm.user.email) +
-                                              "\n                                  "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-divider", { staticClass: "my-3" }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            depressed: "",
-                                            rounded: "",
-                                            text: ""
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    PAREMETRES\n                                  "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-divider", { staticClass: "my-3" }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            depressed: "",
-                                            rounded: "",
-                                            text: ""
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    DECONNEXION\n                                  "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-spacer")
         ],
         1
       ),

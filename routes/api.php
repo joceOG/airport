@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/ads', [AdController::class, 'index']);
+Route::post('/ads/search',[AdController::class, 'search']);
 Route::prefix('/ad')->group(function() {
     Route::post('/store', [AdController::class, 'store']);
     Route::put('/{id}', [AdController::class, 'update']);
@@ -41,22 +42,27 @@ Route::prefix('/package')->group(function() {
 Route::get('/orders', [OrderController::class, 'index']);
 Route::prefix('/order')->group(function() {
     Route::post('/store', [OrderController::class, 'store']);
-    Route::put('/{id}', [OrderController::class, 'update']);
+    Route::patch('/{id}', [OrderController::class, 'update']);
     Route::delete('/{id}', [OrderController::class, 'destroy']);
 });
 
 Route::get('/deliveries', [DeliveryController::class, 'index']);
 Route::prefix('/delivery')->group(function() {
     Route::post('/store', [DeliveryController::class, 'store']);
-    Route::put('/{id}', [DeliveryController::class, 'update']);
+    Route::post('/show', [DeliveryController::class, 'show']);
+    Route::patch('/{id}', [DeliveryController::class, 'update']);
     Route::delete('/{id}', [DeliveryController::class, 'destroy']);
 });
 
 Route::get('/users', [UserController::class, 'index']);
 Route::prefix('/user')->group(function() {
     Route::post('/store', [UserController::class, 'store']);
-    Route::post('/check', [UserController::class, 'check']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/oneuser', [UserController::class, 'oneuser']);
+    Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/{id}', [UserController::class, 'update']);
+    Route::patch('/validate/{id}', [UserController::class, 'validation']);
+    Route::patch('/reset/{id}', [UserController::class, 'resetPassword']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 

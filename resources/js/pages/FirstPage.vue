@@ -1,346 +1,760 @@
 <template>
- <v-container fluid class="fapp" style="padding:0px;"
-  >  
+  <D1 v-if="logged == false"/>
+
+<v-container v-else-if="logged == true" fluid class="fapp" style="padding:0px;"
+  >
     <v-img
      style="width:100%;"
-     height="480"
-      src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554118961164x887111650567160600%2Fmargo-brodowicz-183156-unsplash.jpg?w=2048&h=&auto=compress&dpr=1.25&fit=max"
+     height="1000"
+      src="./assets/blank.jpg"
     >
-     <p class="" style="text-align: center ; margin-top:140px;"> <b><h1 style="font-size:65; color: rgb(0, 0, 51);" >Koli&Co</h1></b></p>
-     <p class="" style="margin-top:-10px;text-align: center ; color: rgb(0, 0, 51);font-size:25;">Le service d'expédition Par Vous et Pour Vous</p>
-     <p class="" style="text-align: center">
 
-       <v-btn  width="550" color="white" dark>     
-         <h4 style="text-align: center ; color: rgb(0, 0, 51);"> AEROPORT</h4>      
-       </v-btn>
+ <p style="margin-top:140px;">
 
-     </p>
+   <div id="v-tabs">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+          <h4 class="pen-heading">Mon Compte</h4>
+          <div v-for="tab in tabs" @click="selectedTab = tab.title" :class="{ active : selectedTab == tab.title }" class="tab-item">
+            <h3 class="tab-item__heading"> <v-icon style="padding:10">mdi-school</v-icon> {{ tab.title }}</h3>
+          </div>
+      </div>
+      <div class="col-md-9">
+        <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
+          ><span style="font-size: 10px">Observation </span
+          ><span style="font-size: 10px">Enregistrée</span></v-alert
+        >
+        <template v-if="selectedTab == 'Mes Informations'">
+          <h3 class="tab-content__header">Mes Informations</h3>
+          <p class="tab-content__text"> <h3><b>Informations Personnelles</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+          <v-row>
+          <v-col cols="4">
+                    <p class="tab-content__text2">Enregistrer ou Modifier vos informations personnelles</p>
+          </v-col>
+          <v-col cols="4">
+                    <p class="tab-content__text">
+                       <h4><b>Nom</b> </h4>
+                      <v-text-field
+                             v-model="user.first_name"
+                             disabled
+                             label="Nom"
+                             solo
+                      ></v-text-field>
+                    </p>
+                    <p class="tab-content__text">
+                       <h4><b>Numero de Telephone</b> </h4>
+                        <v-text-field
+                             v-model="user.phone"
+                             disabled
+                             label="Numero de Telepone"
+                             solo
+                      ></v-text-field>
+                    </p>
+          </v-col>
+          <v-col cols="4">
+                    <p class="tab-content__text">
+                       <h4><b>Prenom</b> </h4>
+                          <v-text-field
+                                v-model="user.last_name"
+                                disabled
+                                label="Prenom"
+                                solo
+                          ></v-text-field>
+                    </p>
+                    <p class="" style="text-align: center">
+                       <h4><b>Photo</b> </h4>
+                            <v-avatar  size="140">
+                                <img
+
+                                  src="https://www.editionslibretto.fr/wp-content/themes/chapterone-child/assets/img/default_author_avatar.svg"
+                                  alt="Photo"
+                                >
+                              </v-avatar>
+                    </p>
+                    <br/>
+                        <v-row>
+                           <v-btn depressed outlined color="#314f8d" @click="">
+                                  MODIFIER
+                          </v-btn>
+                      </v-row>
+          </v-col>
+          </v-row>
+        </template>
+        <template v-if="selectedTab == 'Mes Colis'">
+          <h3 class="tab-content__header">Mes Colis</h3>
+                       Liste des Colis pour :
+            <v-divider></v-divider>
+
+                    <v-tooltip
+                        top
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <v-icon color="grey lighten-1">
+                              mdi-reload
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Recharger</span>
+                  </v-tooltip>
+
+                  <v-row>
+                     <v-col cols ="6">
+                                <p class="tab-content__text"> <h3><b>Livraisons en cours</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+
+                                    <v-container id="scroll-target" style="height: 600px" class="overflow-y-auto">
+                                      <v-row style="height: 300px">
+                                        <v-list-item-group color="primary">
+                                          <v-list-item v-for="(item, i) in envois" :key="i">
+                                            <v-list-item-avatar size="10" color="#009ab1">
+                                              <v-icon color="white">mdi-clipboard-text-outline</v-icon>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <p>Livraison n : {{ item.id}}</p>
+                                                <p>Email: {{ item.courier_email}}</p>
+                                                <p>Telephone : {{ item.courier_phone}}</p>
+                                                <p v-if="item.courier_whatsapp==1">Whatsapp : Oui</p> <p v-else="item.whatsapp==0">Whatsapp : Non</p>
+                                                <p>Statut : {{ item.status}}</p>
+                                            </v-list-item-content>
+                                          </v-list-item>
+                                        </v-list-item-group>
+                                      </v-row>
+                                    </v-container>
+
+                     </v-col>
+
+                     <v-col cols ="6">
+                                <p class="tab-content__text"> <h3><b>Historique de Livraison</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+
+                     </v-col>
+                  </v-row>
+
+
+        </template>
+        <template v-if="selectedTab == 'Mes Commandes'">
+          <h3 class="tab-content__header">Mes Commandes</h3>
+
+        </template>
+        <template v-if="selectedTab == 'Je fais un envoi'">
+          <h3 class="tab-content__header">Je fais un envoi</h3>
+          <p class="tab-content__text"> <h3><b>Faire un envoi</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+          <v-row>
+                    <v-col cols="4">
+                       Envoyez un colis :<v-divider></v-divider>
+                       Choisissez la destination<v-divider></v-divider>
+                       Indiquez le prix 
+                    </v-col>
+
+
+                    <v-col cols="4">
+                              
+                   <v-form ref="form2" v-model="valid2" style="padding: 32; width=600px;" justify-content="center" lazy-validation>
+                                   <p class="tab-content__text">
+                                  <h4><b>Type</b> </h4>
+                                    <v-text-field placeholder="Type" v-model="type" :rules="typeRules" label="Type" solo required ></v-text-field>
+                                    </p>
+
+                                    <p class="tab-content__text">
+                                        <h4><b>Categorie</b> </h4>
+                                            <v-combobox
+                                              v-model="categorie"
+                                              :items="tabcategorie"
+                                              clearable
+                                              dense
+                                              hide-selected
+                                              persistent-hint
+                                            ></v-combobox>
+                                    </p>
+                                    <p class="tab-content__text">
+                                      <h4><b>Nombre de Kilos</b> </h4>
+                                      <v-text-field placeholder="Nombre de Kilos" v-model="nkilo" type="number" :rules="nkiloRules" solo required ></v-text-field>
+                                    </p>
+                                    <p class="tab-content__text">
+                                      <h4><b>Date</b> </h4>
+                                    <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto" >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field v-model="date" label="Picker without buttons" prepend-icon="mdi-calendar"  readonly v-bind="attrs" solo  v-on="on"></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="date" @input="menu = false" ></v-date-picker>
+                                    </v-menu>
+                                  </p>
+                              </v-form>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-form style="padding: 32; width=600px;" justify-content="center" ref="form2" v-model="valid2" lazy-validation>
+                             <p class="tab-content__text">
+                                      <h4><b>Depart</b> </h4>
+                              <v-text-field placeholder="Depart" v-model="depart" :rules="departRules" label="Depart" solo required ></v-text-field>
+                              </p>
+
+                              <p class="tab-content__text">
+                                      <h4><b>Destination</b> </h4>
+                              <v-text-field placeholder="Destination" v-model="destination" :rules="destinationRules"  label="Destitanation" solo required ></v-text-field>
+                              </p>
+
+                              <p class="tab-content__text">
+                                      <h4><b>Prix</b> </h4>
+                                <v-text-field placeholder="Prix" v-model="prix" type="number" label="Prix" solo required></v-text-field>
+                             </p>
+
+                              <v-divider></v-divider>
+                              <v-btn depressed outlined color="#314f8d"  @click="addPackage()">ENVOYER</v-btn>
+                        </v-form>
+                    </v-col>
+            </v-row>
+
+
+
+        </template>
+        <template v-if="selectedTab == 'J\'ai des Kilos'">
+                  <h3 class="tab-content__header">J'ai des Kilos</h3>
+                               <p class="tab-content__text"> <h3><b>Publier une annonce</b></h3> <v-divider height="5" style="border: solid 5px;"></v-divider></p>
+                    <v-row>
+                          <v-col cols="4">
+                            Donner Quelques détails sur le vol :<v-divider></v-divider> Indiquez le prix 
+                          </v-col>
+                            <v-col cols="4">
+                          
+                                <v-form style="padding: 32; width=600px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
+                                  <p class="tab-content__text">
+                                      <h4><b>Billet d'Avion</b> </h4>
+                                          <v-text-field v-model="billet" placeholder="Billet d'Avion" solo :rules="billetRules" label="Billet" required></v-text-field>
+                                  </p>       
+                                  <p class="tab-content__text">
+                                      <h4><b>Espace</b> </h4>        
+                                          <v-text-field  v-model="espace" placeholder="Espace" type="number" solo :rules="espaceRules" label="Espace" required ></v-text-field>
+                                  </p>
+                                  <p class="tab-content__text">
+                                      <h4><b>Compagnie Aérienne</b> </h4>    
+                                          <v-text-field  v-model="compagnie" placeholder="Compagnie Aérienne" solo :rules="compagnieRules" label="Compagnie" required></v-text-field>
+                                  </p>
+                                  <p class="tab-content__text">
+                                      <h4><b>Date d'arrivée</b> </h4>   
+                                        <v-menu v-model="menudk" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                          <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="datedk" label="Date de Depart" prepend-icon="mdi-calendar"
+                                                          readonly v-bind="attrs" v-on="on"
+                                              ></v-text-field>
+                                          </template>
+                                          <v-date-picker v-model="datedk" @input="menudk = false" ></v-date-picker>
+                                        </v-menu>
+                                   </p>     
+
+                                   <p class="tab-content__text">
+                                      <h4><b>Date de départ</b> </h4>
+                                        <v-menu v-model="menuak" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                          <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="dateak" label="Date d'arrivée" prepend-icon="mdi-calendar"
+                                                          readonly v-bind="attrs" v-on="on"
+                                              ></v-text-field>
+                                          </template>
+                                          <v-date-picker v-model="dateak" @input="menuak = false" ></v-date-picker>
+                                        </v-menu>
+                                    </p>
+                                </v-form>
+                            </v-col>
+                            <v-col cols="4">
+                                    <v-form style="padding: 32; width=600px;" justify-content="center"
+                                        ref="form" v-model="valid" lazy-validation>
+                                   
+                                  <p class="tab-content__text">
+                                      <h4><b>Ville de Depart</b> </h4>
+                                    <v-text-field placeholder="" v-model="departk" solo :rules="departkRules"
+                                            label="Depart"  required
+                                    ></v-text-field>
+                                    </p>
+
+                                    <p class="tab-content__text">
+                                      <h4><b>Ville d'arrivée</b> </h4>
+                                    <v-text-field placeholder="Destination" v-model="destinationk"  solo
+                                            :rules="destinationkRules"  label="Destitanation"  required
+                                    ></v-text-field>
+                                    </p>
+
+
+                                    <p class="tab-content__text">
+                                      <h4><b>Categorie</b> </h4>
+                                      <v-col cols="12">
+                                          <v-combobox
+                                            v-model="select"
+                                            :items="tabcategorie"
+                                            label="Choisir les categories"
+                                            multiple
+                                            chips
+                                          >
+                                            <template v-slot:selection="data">
+                                              <v-chip
+                                                :key="JSON.stringify(data.item)"
+                                                v-bind="data.attrs"
+                                                :input-value="data.selected"
+                                                :disabled="data.disabled"
+                                                @click:close="data.parent.selectItem(data.item)"
+                                              >
+                                                <v-avatar
+                                                  class="accent white--text"
+                                                  left
+                                                  v-text="data.item.slice(0, 1).toUpperCase()"
+                                                ></v-avatar>
+                                                {{ data.item }}
+                                              </v-chip>
+                                            </template>
+                                          </v-combobox>
+                                        </v-col>
+                                    </p>
+
+                                      <v-divider></v-divider>
+                                    <v-btn depressed solo color="#314f8d" @click="addAds()">
+                                            ENVOYER
+                                    </v-btn>
+                                  </v-form>
+                            </v-col>
+                            <v-col cols="4">
+
+                            </v-col>
+                    </v-row>
+                  </template>
+      </div>
     </div>
+  </div>
+</div>
+            </p>
     </v-img>
 
-             <v-img
-                style="width:100%; 
-                        padding:0px; 
+          <v-img
+                style="width:100%;
+                        padding:0px;
                       height:350;"
-                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"      
+                src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1554128302877x357628346214163840%2Fnasa-43563-unsplash%2520%25D0%25BA%25D0%25BE%25D0%25BF%25D0%25B8%25D1%258F.jpg?w=768&h=804&auto=compress&fit=crop&dpr=1.25"
                  >
-                 <v-row style="margin-left:100px;">
-                    <v-col >
-                    </v-col>
-                    <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127872904x712962974095812700/035-booking.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
-                    </v-col>
-                    <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127897952x720595305028315600/018-choice.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
-                    </v-col>
-                    <v-col style="color:white">
-                    <center>  
-                    <v-img
-                      style="margin-top:45px;" 
-                      src="https://dd7tel2830j4w.cloudfront.net/f1554127933334x826969413992893300/046-coffee.svg"
-                      height="50"
-                      width="50"
-                      ></v-img>
-
-                      <h4 style="margin-top:15px;">Easy Way To Seach Tickets</h4>
-                      <p style="margin-top:15px;">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      </p></center>
-                    </v-col>
-                    <v-col >
-                    </v-col>
-               </v-row>
           </v-img>
 
-           <v-dialog v-model="dialog" width="500">
+            <v-dialog v-model="dialog" width="500">
                <v-card>
-                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
-                     <v-img style="display:inline-block;" class="centrer" width="100" height="100" src="./assets/logo.png"></v-img>
-                       <h3 style="text-align: center">Sign In <br/></h3> 
-                  <v-form style="padding: 32; width=300px;" justify-content="center" ref="form" v-model="valid" lazy-validation>
-                          <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense><span style="font-size: 10px">{{ notif }}</span>
-                        </v-alert>
-                            <v-text-field
-                            placeholder="Email"
-                              v-model="email"
-                              outlined
-                              :rules="emailRules"
-                              label="Email"
-                              required
-                          ></v-text-field>
-                          <v-text-field
-                            placeholder="Email"
-                              type="password"
-                              v-model="password"
-                              outlined
-                              :rules="passwordRules"
-                              label="Password"
-                              required
-                          ></v-text-field>
-                     </v-form>
+                  <h3 style="text-align: center">MATCHS<br/></h3>
 
-                        <v-btn
-                          class="ma-2 centrer"
-                          color="primary"
-                          @click="signin"
+                    <h2>Annonces Possibles</h2>
+
+
+                    <v-list shaped>
+                      <v-subheader>Selectionner une annonce</v-subheader>
+                      <v-list-item-group
+                        v-model="selected"
+                        color="primary"
+                      >
+                        <v-list-item
+                          v-for="(item, i) in matchs"
+                          :key="i"
                         >
-                        Sign In
-                        </v-btn>
+                          <v-list-item-icon>
+                              <v-icon> mdi-folder</v-icon>
+                          </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <p>Compagnie : {{ item.travel_company}}</p>
+                                                <p>Billet : {{ item.ticket_number}}</p>
+                                                <p>Espace : {{ item.space}} Kilo</p>
+                                                <p>Depart : {{ item.departure }}</p>
+                                                <p>Destination : {{ item.destination}}</p>
+                                                <p>Date de départ : {{ item.departure_date}}</p>
+                                                <p>Date d'arrivee : {{ item.arrival_date}}</p>
+                                                <p>Categorie : {{ item.categories_accepted }}</p>
 
-                    <center><p class="">  Don't have an account? <a>Sign Up</a></p></center>  <v-divider></v-divider>
+                                            </v-list-item-content>
+                        </v-list-item>
+                      </v-list-item-group>
+                    </v-list>
+                            <v-btn depressed outlined color="#314f8d" @click="storePackage()">
+                                   VALIDER
+                           </v-btn>
 
                     <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="primary"
-                        text
-                        @click="dialog2 = false"
-                      >
-                        I accept
-                      </v-btn>
                     </v-card-actions>
               </v-card>
           </v-dialog>
 
-    
-           <v-dialog
-              v-model="dialog2"
-              width="500"
-            >
+  </v-container>  
+ 
 
-            <v-card>
-                  <h3 style="text-align: center">LOGIN/REGISTER <br/></h3>
-
-                    <v-img
-                                                        style="display:inline-block;"
-                                                        class="centrer"
-                                                        width="100"
-                                                        height="100"
-                                                        src="./assets/logo.png"
-                                                    ></v-img>
-                  <h3 style="text-align: center">Sign Up <br/></h3>
-
-                    <v-form
-                        style="padding: 32; width=300px;"
-                        justify-content="center"
-                        ref="form2"
-                        v-model="validsu"
-                        lazy-validation
-                      >
-
-                        <v-alert v-show="showalert == true" class="ma-2" :type="typealert" dense
-                          ><span style="font-size: 10px">{{ notif }}</span>
-                        </v-alert>
-
-                      <v-text-field
-                        placeholder="Email"
-                          v-model="emailsu"
-                          outlined
-                          :rules="emailsuRules"
-                          label="Email"
-                          required
-                      ></v-text-field>
-
-                      
-                      <v-text-field
-                        placeholder="Email"
-                          type="password"
-                          v-model="passwordsu"
-                          outlined
-                          :rules="passwordsuRules"
-                          label="Password"
-                          required
-                      ></v-text-field>
-                  
-                        <v-text-field
-                          v-model="confirmsu"
-                          outlined
-                          :rules="confirmsuRules"
-                          type="password"
-                          label="Confirm Password"
-                          required
-                        ></v-text-field>
-                      </v-form>
-
-                      <center>
-                  <span style="font-size:13px ;" >By signing up, I agree to the Privacy Policy
-            </span>
-            <span style="font-size:13px ;">and the Terms of Services .
-                  </span>
-                  </center>
-                        <v-btn class="ma-2 centrer" color="primary" @click="signup"></v-btn>
-                        Sign Up
-                        </v-btn>
-                        <center><p class="">  Already have an account? <a>Login</a></p></center> 
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="dialog2 = false">
-                        I accept
-                      </v-btn>
-                    </v-card-actions>
-              </v-card>
-    </v-dialog>
-
-
-
-    </v-container>
 </template>
 
 <script lang='ts'>
-import Vue from 'vue'
-import { Component, Ref } from 'vue-property-decorator'
-import { EventBus } from "@/event_bus";
+ import Vue from 'vue'
+ import { Component, Ref , Watch } from 'vue-property-decorator'
+import D1 from './D1.vue'
 import { VForm } from "@/VForm";
 import axios from "axios";
+import { EventBus } from '@/event_bus';
+
+@Component({
+    components: {
+        D1
+    }
+})
+     
+     export default class FirstPage extends Vue {
+     
+      logged = false
+
+      
+  @Ref("form") readonly form!: VForm;
+  @Ref("form2") readonly form2!: VForm;
+     valid = true
+     valid2 = true
+     categorie = "";
+     type = "";
+     nkilo = 0 ;
+     depart = "" ;
+     destination = "" ;
+     prix = 0;
+
+     $refs!: {
+      form: HTMLFormElement;
+      form2: HTMLFormElement;
+    };
+
+     typeRules  = [(v: string) => !!v || "Type is required"];
+     categorieRules  = [(v: string) => !!v || "Categorie is required"];
+     nkiloRules  = [(v: string) => !!v || "Nombre de Kilo is required"];
+     departRules  = [(v: string) => !!v || "Depart is required"];
+     destinationRules  = [(v: string) => !!v || "Destination is required"];
+     prixRules  = [(v: string) => !!v || "Prix is required"];
+
+     billet = "";
+     espace = 0;
+     compagnie = "" ;
+     destinationk = "" ;
+     departk = "" ;
+     categorie_accept = "";
+
+     billetRules  = [(v: string) => !!v || "Billet is required"];
+     espaceRules  = [(v: string) => !!v || "Espace is required"];
+     compagnieRules  = [(v: string) => !!v || "Compagnie is required"];
+     departkRules  = [(v: string) => !!v || "Depart is required"];
+     destinationkRules  = [(v: string) => !!v || "Destination is required"];
+     categorieacceptRules = [(v: string) => !!v || "Categorie Accepted is required"];
+     select = ['Nouriture', 'Vetements'];
+     tabcategorie =  [
+          'Nouriture',
+          'Vetements',
+          'Appareils',
+          'Bijoux',
+          'Accesoires',
+          'Autres',
+        ]
 
 
-@Component
-export default class FirstPage extends Vue {
 
-   @Ref("form") readonly form!: VForm;
-   @Ref("form2") readonly form2!: VForm;
+     showalert= false
+     typealert="success"
+     firstName = ""
+     notif = ""
+     envoi = ["Notification 1"];
+      selectedItem = 1
+      items =  [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' },
+      ]
 
-  dialog = false
-  dialog2 = false
-  valid = true
-  validsu = true
-  email = "";
-  password = "";
-  emailRules = [
-    (v: any) => !!v || "E-mail is required",
-    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-  ];
-  passwordRules = [(v: string) => !!v || "Password is required"];
-  confirmRules = [(v: string) => !!v || "Confirmation is required"];
-  emailsu = "";
-  passwordsu = "";
-  confirmsu = "";
-  emailsuRules = [
-    (v: any) => !!v || "E-mail is required",
-    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-  ];
-  passwordsuRules = [(v: string) => !!v || "Password is required"];
-  confirmsuRules = [(v: string) => !!v || "Confirmation is required"];
-  showalert = false;
-  typealert = "success";
-  notif = ""
+        date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+        dateak = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+        datedk = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
 
-    mounted(){
-    console.log("Mounted First Page");
-    EventBus.$emit("efirst") ;
-    EventBus.$on("signin" , this.opsignin) ;
-    EventBus.$on("signup" , this.opsignup) ;
+        menuak = false;
+        menudk = false;
+        menu = false;
+
+      tabs= [
+            {
+              title: "Mes Informations",
+            },
+            {
+              title: "Mes Colis",
+            },
+            {
+              title: "Mes Commandes",
+            },
+            {
+              title: "Je fais un envoi",
+            }
+            ,
+            {
+              title: "J'ai des Kilos",
+            }
+          ] ;
+    selectedTab="Mes Informations"
+    dialog = false;
+
+        selected = 1
+        matchs = []
+        id = [""]
+        envois = []
+        s_id = "";
+        user : any 
+        courrier : any
+
+  mounted(){
+    console.log("Mounted Dash");
+    EventBus.$on("logged", this.logt);
+    EventBus.$on("logout", this.setlogout);
+  }
+
+  logt ( payload : any) {
+     this.logged = true ;
+     this.setlogged(payload);
+  }
    
+  setlogged( payload : any) {
+    EventBus.$emit("edash");
+    this.user = payload.data ;
+    console.log( 'response' , this.user)
+
+  }
+
+  setlogout() {
+    EventBus.$emit("efirst");
+    this.user = {} ;
+    this.logged = false ;
+    console.log( 'response' , this.user)
+
   }
 
 
-  
-   opsignin(){
-      this.dialog = true
-   }
 
-   opsignup(){
-      this.dialog2 = true
-   }
+   selectTab(x : any) {
+      this.selectedTab = this.tabs[x].title;
+    }
 
-   async signup(){
+    async addPackage(){
       this.form2.validate();
       const data = {
-                  "user":{
-                  "first_name": this.emailsu,
-                  "email": this.emailsu,
-                  "password": this.passwordsu,
+                  "package":{
+                  "item": this.categorie,
+                  "category": this.categorie,
+                  "weight": this.nkilo,
+                  "departure": this.depart,
+                  "destination": this.destination,
+                  "departure_date": this.date,
+                  "price": this.prix,
+                  "sender_id": this.user.user_id,
                   }
                  };
-
        try {
-          const result = await axios.post("http://127.0.0.1:8000/api/user/store" , data);
-          const res = result.data
+          const result = await axios.post("http://127.0.0.1:8000/api/ads/search" , data);
+          const res = result.data.data
           console.log('res', res)
+          this.matchs = res
+         
+          let t = res
           if (res) {
-            this.message(res , 1)
+            for(let i = 0 ; i<t.length ; i++ ){
+               this.id[i] = t[i].ad_id
+            }
+            this.s_id = t[0].user_id
+            console.log("match id" , )
+            
+            this.dialog = true
+            this.getcourrier();
           }
         } catch (err) {
           console.log(err);
-        }   
+        }
    }
 
-  async signin(){
+   async getcourrier(){
+       console.log('id send' , this.s_id) ;
+    const data = {
+                  "user":{
+                  "user_id": this.s_id,
+                  }
+                 };
+
+    try {
+          const result = await axios.post("http://127.0.0.1:8000/api/user/oneuser", data);
+          console.log('resut one user', result.data)
+          this.courrier = result.data.data
+          console.log("Courrier" , this.courrier)
+        } catch (err) {
+          console.log(err);
+        }
+
+   }
+
+
+
+  async addAds(){
       this.form.validate();
       const data = {
-                  "user":{
-                  "first_name": this.email,
-                  "email": this.email,
-                  "password": this.password,
+                  "ad":{
+                  "ticket_number": this.billet,
+                  "travel_company": this.compagnie,
+                  "departure": this.departk,
+                  "destination": this.destinationk,
+                  "departure_date": this.datedk,
+                  "arrival_date": this.dateak,
+                  "space": this.espace,
+                  "categories_accepted": this.select,
+                  "user_id": this.user.user_id,
+                  }
+                 };
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/ad/store" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.message2()
+          }
+        } catch (err) {
+          console.log(err);
+        }
+   }
+
+
+       async storePackage(){
+
+       
+      const data = {
+                  "package":{
+                  "item": this.categorie,
+                  "category": this.categorie,
+                  "weight": this.nkilo,
+                  "departure": this.depart,
+                  "destination": this.destination,
+                  "departure_date": this.date,
+                  "price": this.prix,
+                  "sender_id": this.user.user_id,
+                  }
+                 };
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/package/store" , data);
+          const res = result.data.data
+          console.log('store res', res)
+          if (res) {
+            this.addDelivery(res)
+             this.message()
+
+          }
+        } catch (err) {
+          console.log(err);
+        }
+   }
+
+
+     async addDelivery(payload : any){
+
+      console.log("Courier ADD Delivery",this.courrier )
+
+       const data = {
+                  "delivery":{
+                  "ad_id": this.id[this.selected] ,
+                  "package_id": payload.package_id,
+                  "sender_email": this.user.email,
+                  "sender_phone": this.user.phone,
+                  "sender_whatsapp": this.user.phone,
+                  "courier_email": this.courrier.email,
+                  "courier_phone": this.courrier.phone,
+                  "courier_whatsapp": this.courrier.whatsapp,
+                  "courier_id": this.courrier.user_id,
+                  "sender_id": this.user.user_id,
+                  "status": 'accepté',
+                  }
+                 };
+       try {
+          const result = await axios.post("http://127.0.0.1:8000/api/delivery/store" , data);
+          const res = result.data
+          console.log('res', res)
+          if (res) {
+             this.message()
+          }
+        } catch (err) {
+          console.log(err);
+        }
+           }
+
+
+           async getDelivery(){
+            const data = {
+                  "delivery":{
+                  "user_id": this.user.user_id,
                   }
                  };
 
        try {
-          const result = await axios.post("http://127.0.0.1:8000/api/user/check" , data);
-          const res = result.data
+          const result = await axios.post("http://127.0.0.1:8000/api/delivery/show" , data);
+          const res = result.data.data
           console.log('res', res)
           if (res) {
-             this.message(res , 2)
+             this.envois = res
           }
         } catch (err) {
           console.log(err);
-        }   
-   }
-    goTo (path: string) {
-        this.$router.push(path)
-    }
-   message(payload:any , x:any){
- 
-      if( x = 1 )
-      {      if (payload.status = true) {
-                this.notif = "Inscription Reussie"; this.typealert = "success" ; this.showalert = true;                               
-                setTimeout(() => { this.showalert = false; this.dialog = false;  this.goTo('/Dashboard'); }, 1500);     
-                                                            
-              }else{
-                this.notif = "Inscription Echouée"; this.typealert = "error"; this.showalert = true;  
-                setTimeout(() => { this.showalert = false; this.dialog = false; }, 1500);
-              }
-      }
+        }  
+           }
 
-      if( x = 2 )
-      {         
-              if (payload.status = true) {
-                this.notif = "Connection Reussie"; this.typealert = "success";
-                this.showalert = true; setTimeout(() => { this.showalert = false; this.dialog2 = false;  this.goTo('/Dashboard');}, 1500);   
-              }else{
-                this.notif = payload.message;  this.typealert = "error"; this.showalert = true;  
-                setTimeout(() => { this.showalert = false; this.dialog2 = false; }, 1500);  }
-      }
-
+    message(){
+       this.type = ""
+       this.categorie = ""
+       this.nkilo = 0
+       this.depart = ""
+       this.destination = ""
+       this.prix = 0
+       this.date =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+      this.dialog = false
+    this.notif = "Envoi Enregisté Avec Succès" ;
+       this.showalert = true
+       setTimeout(() => {
+      this.showalert = false;
+    }, 2000);
+        this.getDelivery()
      }
-}
+
+     message2(){
+       this.billet = ""
+       this.compagnie = ""
+       this.departk = ""
+       this.destinationk = ""
+       this.espace = 0
+       this.categorie_accept = ""
+       this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.notif = "Annonce Enregisté Avec Succès" ;
+       this.showalert = true;
+        setTimeout(() => {
+          this.showalert = false;
+        }, 2000);
+     }
+
+     @Watch("selectedTab")
+  whenSelectedTab() {
+       this.type = ""
+       this.categorie = ""
+       this.nkilo = 0
+       this.depart = ""
+       this.destination = ""
+       this.prix = 0
+       this.date =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.notif = "Depart Enregisté Avec Succès" ;
+       this.billet = ""
+       this.compagnie = ""
+       this.departk = ""
+       this.destinationk = ""
+       this.espace = 0
+       this.categorie_accept = ""
+       this.dateak =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.datedk =  (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+       this.getDelivery();
+    }   
+     
+     }
 </script>
 
 <style>
-.centrer{  
+.centrer{
   position: relative;
   left: 50%;
   transform: translateX(-50%);

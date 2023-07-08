@@ -12,16 +12,21 @@ class CreateDeliveriesTable extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->uuid('delivery_id');
+            $table->uuid('delivery_id')->unique();
             $table->string('sender_email');
             $table->string('courier_email');
-            $table->json('package');
+            $table->string('sender_phone');
+            $table->string('courier_phone');
+            $table->boolean('sender_whatsapp');
+            $table->boolean('courier_whatsapp');
+            $table->foreignUuid('package_id')->references('package_id')->on('packages')->onDelete('cascade');
+            $table->foreignUuid('ad_id')->references('ad_id')->on('ads')->onDelete('cascade');
             $table->string('status');
-            $table->string('sender_id');
-            $table->string('courier_id');
+            $table->foreignUuid('courier_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('sender_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

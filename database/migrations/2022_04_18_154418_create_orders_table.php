@@ -15,13 +15,19 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->uuid('order_id');
+            $table->uuid('order_id')->unique();
             $table->string('courier_email');
             $table->string('sender_email');
-            $table->json('package');
+            $table->string('courier_phone');
+            $table->string('sender_phone');
+            $table->boolean('courier_whatsapp');
+            $table->boolean('sender_whatsapp');
+            $table->foreignUuid('package_id')->references('package_id')->on('packages')->onDelete('cascade');
+            $table->foreignUuid('ad_id')->references('ad_id')->on('ads')->onDelete('cascade');
+            $table->foreignUuid('delivery_id')->references('delivery_id')->on('deliveries')->onDelete('cascade');
             $table->string('status');
-            $table->string('courier_id');
-            $table->string('sender_id');
+            $table->foreignUuid('courier_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreignUuid('sender_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

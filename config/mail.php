@@ -59,7 +59,7 @@ return [
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => '/usr/sbin/sendmail -bs',
+            'path' => '/usr/sbin/sendmail -bs -i',
         ],
 
         'log' => [
@@ -75,6 +75,8 @@ return [
             'transport' => 'failover',
             'mailers' => [
                 'smtp',
+                // 'mailgun',
+                // 'postmark',
                 'log',
             ],
         ],

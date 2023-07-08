@@ -49,6 +49,7 @@ Route::prefix('/order')->group(function() {
 Route::get('/deliveries', [DeliveryController::class, 'index']);
 Route::prefix('/delivery')->group(function() {
     Route::post('/store', [DeliveryController::class, 'store']);
+    Route::post('/show', [DeliveryController::class, 'show']);
     Route::patch('/{id}', [DeliveryController::class, 'update']);
     Route::delete('/{id}', [DeliveryController::class, 'destroy']);
 });
@@ -57,6 +58,7 @@ Route::get('/users', [UserController::class, 'index']);
 Route::prefix('/user')->group(function() {
     Route::post('/store', [UserController::class, 'store']);
     Route::post('/login', [UserController::class, 'login']);
+    Route::post('/oneuser', [UserController::class, 'oneuser']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::patch('/validate/{id}', [UserController::class, 'validation']);

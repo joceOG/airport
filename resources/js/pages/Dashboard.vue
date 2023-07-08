@@ -493,7 +493,6 @@ export default class Dashboard extends Vue {
 
   mounted(){
     console.log("Mounted Dash");
-    EventBus.$emit("edash") ;
   }
 
    selectTab(x : any) {
@@ -608,7 +607,7 @@ export default class Dashboard extends Vue {
 
            async getEnvoi(){
        try {
-          const result = await axios.get("http://127.0.0.1:8000/api/deliveries");
+          const result = await axios.get("http://127.0.0.1:8000/api/delivery/show");
           const res = result.data
           console.log('res', res)
           if (res) {

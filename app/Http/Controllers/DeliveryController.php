@@ -118,22 +118,19 @@ class DeliveryController extends Controller
      */
     public function show(Request $request)
     {
-<<<<<<< HEAD
-        //
-        
-=======
-        $user = User::where('user_id', $request->session()->get('user_id'))->first();
-
+        $request->setLaravelSession(session());
+        $user = User::where('user_id', $request->delivery['user_id'])->first();
+         
         if($user)
-            $existingDeliveries = Deliveries::where('user_id', $user->user_id);
+            $existingDeliveries = Deliveries::where('sender_id', $user->user_id)->get();
         else
             return response()->json(['data' => '', 'message' => 'Accès interdit'], 401);
+
 
         if($existingDeliveries)
             return response()->json(['data' => $existingDeliveries, 'message' => 'Livraison(s) trouvée(s)'], 200);
         else
             return response()->json(['data' => '', 'message' => 'Aucune livraison trouvée'], 200);
->>>>>>> 2b7d1dbb7b446197c0cbc51e5ce472fad2cf6150
     }
 
     /**

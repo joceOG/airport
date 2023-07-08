@@ -34,6 +34,15 @@ class UserController extends Controller
         return response()->json($users , 200);
     }
 
+
+    public function oneuser( Request $request)
+    {
+        $existingUser = User::where('user_id', $request->user['user_id'])->get() ;
+        $oneuser = $existingUser[0] ;
+        return response()->json( ['data' => $oneuser] , 200 );
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -129,10 +138,10 @@ class UserController extends Controller
 
             $newUser->save();
             $request->setLaravelSession(session());
-            $request->session()->put('user_id', $user->user_id);
-            $request->session()->put('id', $user->id);
+            $request->session()->put('user_id', $newUser->user_id);
+            $request->session()->put('id', $newUser->id);
             
-            return response()->json(['data' => '', 'message' => 'Utilisateur crée avec success'], 201);
+            return response()->json(['data' => $newUser->user_id, 'message' => 'Utilisateur crée avec success' ,], 201);
         } else {
             return response()->json(['data' => '', 'message' => $validator->errors()], 400);
         }
@@ -149,7 +158,7 @@ class UserController extends Controller
                 // $request->session()->regenerate();
                 $request->session()->put('user_id', $user->user_id);
                 $request->session()->put('id', $user->id);
-                return response()->json(['status'=>'true','message'=>'Authentification reussie'], 200);
+                return response()->json(['status'=>'true','message'=>'Authentification reussie','data'=>$user], 200);
             } else{
                 return response()->json(['status'=>'false','message'=>'Email ou mot de passe incorrect'], 401);
             }
@@ -159,7 +168,7 @@ class UserController extends Controller
     }
 
     public function logout(Request $request) {
-        $request->session()->flush();
+        session()->flush();
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
@@ -203,10 +212,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
